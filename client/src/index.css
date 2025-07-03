@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kalam:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(47, 29%, 15%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(47, 29%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(47, 29%, 15%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 77%, 59%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(47, 29%, 15%);
+  --radius: 0.5rem;
+
+  /* Mystery Solvers Theme Colors */
+  --mystery-yellow: hsl(51, 100%, 50%);
+  --mystery-orange: hsl(39, 100%, 50%);
+  --mystery-blue: hsl(207, 77%, 59%);
+  --mystery-lightblue: hsl(213, 69%, 70%);
+  --mystery-green: hsl(120, 25%, 64%);
+  --mystery-lightgreen: hsl(120, 93%, 79%);
+  --mystery-purple: hsl(300, 47%, 75%);
+  --mystery-lightpurple: hsl(240, 67%, 94%);
+  --mystery-red: hsl(0, 79%, 70%);
+  --mystery-coral: hsl(0, 100%, 75%);
+  --mystery-cream: hsl(60, 56%, 95%);
+  --mystery-charcoal: hsl(0, 0%, 18%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 77%, 59%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--mystery-cream);
+    color: var(--mystery-charcoal);
+  }
+
+  .font-fredoka {
+    font-family: 'Fredoka One', cursive;
+  }
+
+  .font-kalam {
+    font-family: 'Kalam', cursive;
+  }
+
+  .font-opensans {
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+@layer components {
+  .mystery-yellow {
+    background-color: var(--mystery-yellow);
+  }
+
+  .mystery-orange {
+    background-color: var(--mystery-orange);
+  }
+
+  .mystery-blue {
+    background-color: var(--mystery-blue);
+  }
+
+  .mystery-lightblue {
+    background-color: var(--mystery-lightblue);
+  }
+
+  .mystery-green {
+    background-color: var(--mystery-green);
+  }
+
+  .mystery-lightgreen {
+    background-color: var(--mystery-lightgreen);
+  }
+
+  .mystery-purple {
+    background-color: var(--mystery-purple);
+  }
+
+  .mystery-lightpurple {
+    background-color: var(--mystery-lightpurple);
+  }
+
+  .mystery-red {
+    background-color: var(--mystery-red);
+  }
+
+  .mystery-coral {
+    background-color: var(--mystery-coral);
+  }
+
+  .mystery-cream {
+    background-color: var(--mystery-cream);
+  }
+
+  .mystery-charcoal {
+    background-color: var(--mystery-charcoal);
+  }
+
+  .text-mystery-yellow {
+    color: var(--mystery-yellow);
+  }
+
+  .text-mystery-orange {
+    color: var(--mystery-orange);
+  }
+
+  .text-mystery-blue {
+    color: var(--mystery-blue);
+  }
+
+  .text-mystery-lightblue {
+    color: var(--mystery-lightblue);
+  }
+
+  .text-mystery-green {
+    color: var(--mystery-green);
+  }
+
+  .text-mystery-lightgreen {
+    color: var(--mystery-lightgreen);
+  }
+
+  .text-mystery-purple {
+    color: var(--mystery-purple);
+  }
+
+  .text-mystery-lightpurple {
+    color: var(--mystery-lightpurple);
+  }
+
+  .text-mystery-red {
+    color: var(--mystery-red);
+  }
+
+  .text-mystery-coral {
+    color: var(--mystery-coral);
+  }
+
+  .text-mystery-cream {
+    color: var(--mystery-cream);
+  }
+
+  .text-mystery-charcoal {
+    color: var(--mystery-charcoal);
+  }
+
+  .hand-drawn {
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--mystery-cream) 0%, hsl(0, 0%, 96%) 100%);
+  }
+
+  .character-card {
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+  }
+
+  .character-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+
+  .mystery-card {
+    background: linear-gradient(135deg, var(--mystery-yellow) 0%, var(--mystery-orange) 100%);
+    border: 3px solid var(--mystery-red);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .mystery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--mystery-blue) 0%, var(--mystery-lightblue) 100%);
+    transition: all 0.3s ease;
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--mystery-lightblue) 0%, var(--mystery-blue) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+  }
+
+  .clue-indicator {
+    background: radial-gradient(circle, var(--mystery-red) 0%, var(--mystery-coral) 100%);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 7% { transform: rotateZ(0deg); }
+    15% { transform: rotateZ(-15deg); }
+    20% { transform: rotateZ(10deg); }
+    25% { transform: rotateZ(-10deg); }
+    30% { transform: rotateZ(6deg); }
+    35% { transform: rotateZ(-4deg); }
+    40%, 100% { transform: rotateZ(0deg); }
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s infinite;
+  }
+}
