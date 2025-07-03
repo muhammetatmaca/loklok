@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import Real3DDoner from "@/components/real-3d-doner";
+import WebGLDoner from "@/components/webgl-doner";
 import type { MenuItem, Testimonial } from "@shared/schema";
 
 export default function Home() {
@@ -21,8 +21,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zafer-surface text-zafer-text">
-      {/* Real 3D Döner with GSAP */}
-      <Real3DDoner />
+      {/* WebGL 3D Döner */}
+      <WebGLDoner />
       
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
