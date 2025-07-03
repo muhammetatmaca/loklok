@@ -202,7 +202,7 @@ export default function DonerSliceEffect() {
     knifeGroup.add(guard);
 
     knifeGroup.position.set(2, 6, 0); // Start above döner
-    knifeGroup.rotation.z = Math.PI / 2; // Vertical for top-down slicing
+    knifeGroup.rotation.x = Math.PI / 2; // Rotate to make blade vertical (dik)
     scene.add(knifeGroup);
 
     // Lighting
@@ -316,17 +316,18 @@ export default function DonerSliceEffect() {
         const sliceIndex = child.userData.sliceIndex;
         
         // Only slice some layers randomly
-        if (Math.random() > 0.3) {
+        if (Math.random() > 0.1) { // More layers will be sliced
           // Create small meat pieces that fall
-          for (let i = 0; i < 3; i++) {
+          for (let i = 0; i < 5; i++) { // More pieces per layer
             const pieceGeometry = new THREE.BoxGeometry(
-              0.1 + Math.random() * 0.1,
-              0.05 + Math.random() * 0.05,
-              0.1 + Math.random() * 0.1
+              0.15 + Math.random() * 0.15, // Bigger pieces
+              0.08 + Math.random() * 0.08,
+              0.15 + Math.random() * 0.15
             );
             const pieceMaterial = new THREE.MeshPhongMaterial({
-              color: child.material.color.clone().multiplyScalar(0.8 + Math.random() * 0.4),
-              shininess: 10,
+              color: new THREE.Color().setHSL(0.08, 0.9, 0.4 + Math.random() * 0.3), // Brighter meat color
+              shininess: 30,
+              specular: 0x444444,
             });
             
             const piece = new THREE.Mesh(pieceGeometry, pieceMaterial);
