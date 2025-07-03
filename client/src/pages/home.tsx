@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import ScrollDoner from "@/components/scroll-doner";
 import type { MenuItem, Testimonial } from "@shared/schema";
 
 export default function Home() {
@@ -19,304 +20,400 @@ export default function Home() {
   const featuredItems = menuItems?.filter(item => item.isPopular) || [];
 
   return (
-    <div className="min-h-screen bg-zafer-night">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-effect">
+    <div className="min-h-screen bg-zafer-surface text-zafer-text">
+      {/* Scroll-triggered 3D Döner */}
+      <ScrollDoner />
+      
+      {/* Modern Navigation */}
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center">
-                <i className="fas fa-fire text-white text-xl"></i>
+            <motion.div 
+              className="flex items-center space-x-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              {/* Modern Restaurant Icon */}
+              <div className="w-12 h-12 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-2xl flex items-center justify-center shadow-lg">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+                  <path d="M8.5 2v8.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M6.5 2v6.5c0 .83.67 1.5 1.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M12.5 2v6.5c0 .83-.67 1.5-1.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M8 12v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M16 12l1.5-1.5 1.5 1.5v10l-1.5-1.5L16 22v-10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
-              <h1 className="text-3xl font-playfair font-bold text-zafer-cream">
+              <h1 className="text-3xl font-playfair font-bold text-zafer-text">
                 Zafer Lokantası
               </h1>
-            </div>
+            </motion.div>
             
             <div className="hidden md:flex space-x-8">
-              <a href="#home" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                Ana Sayfa
-              </a>
-              <a href="#menu" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                Menü
-              </a>
-              <a href="#about" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                Hakkımızda
-              </a>
-              <a href="#gallery" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                Galeri
-              </a>
-              <a href="#testimonials" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                Yorumlar
-              </a>
-              <a href="#contact" className="text-zafer-cream hover:text-zafer-gold transition-colors font-inter">
-                İletişim
-              </a>
+              {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(' ', '-')}`}
+                  className="text-zafer-text-muted hover:text-zafer-primary transition-colors font-inter font-medium"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  {item}
+                </motion.a>
+              ))}
             </div>
             
-            <Button className="zafer-button">
-              <i className="fas fa-phone mr-2"></i>
-              Rezervasyon
-            </Button>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Button className="modern-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="mr-2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/>
+                </svg>
+                Rezervasyon
+              </Button>
+            </motion.div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section with 3D Döner */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-zafer-night via-zafer-smoke to-zafer-charcoal"></div>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-zafer-surface via-zafer-surface-light to-zafer-dark"></div>
         
-        {/* Animated Background Elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 smoke-effect rounded-full"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 smoke-effect rounded-full"></div>
-        <div className="absolute top-1/2 left-1/4 w-16 h-16 smoke-effect rounded-full"></div>
+        {/* Animated background particles */}
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-zafer-primary/20 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [-10, 10, -10],
+              opacity: [0.2, 0.8, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
         
         <div className="container mx-auto px-6 py-20 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h2 className="text-6xl md:text-8xl font-playfair font-bold text-zafer-cream mb-6 leading-tight">
-                Otantik
-                <span className="text-zafer-gold block font-dancing">Türk Lezzeti</span>
-              </h2>
-              <p className="text-xl md:text-2xl text-zafer-cream/80 mb-8 font-inter leading-relaxed max-w-2xl">
-                Geleneksel döner ustası ile modern sunum tekniklerinin buluştuğu eşsiz lezzet deneyimi. 
-                Her lokmada Türkiye'nin zengin mutfak kültürünü yaşayın.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button 
-                  onClick={() => setLocation("/menu")}
-                  className="zafer-button text-lg px-8 py-4"
-                >
-                  <i className="fas fa-utensils mr-2"></i>
-                  Menüyü Keşfet
-                </Button>
-                <Button 
-                  onClick={() => setLocation("/reservations")}
-                  className="glass-effect text-zafer-cream border border-zafer-gold text-lg px-8 py-4 hover:bg-zafer-gold/20"
-                >
-                  <i className="fas fa-calendar mr-2"></i>
-                  Rezervasyon Yap
-                </Button>
-              </div>
-            </div>
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.h2 
+              className="text-6xl md:text-8xl font-playfair font-bold text-zafer-text mb-8 leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Modern
+              <motion.span 
+                className="text-zafer-primary block font-dancing text-7xl md:text-9xl"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                Türk Lezzeti
+              </motion.span>
+            </motion.h2>
             
-            {/* 3D Döner Visualization */}
-            <div className="relative flex justify-center">
-              <div className="relative w-96 h-96 float-animation">
-                <div className="absolute inset-0 bg-gradient-radial from-zafer-flame/30 to-transparent rounded-full glow-orange"></div>
-                <div className="absolute inset-8 rotate-doner">
-                  <div className="w-full h-full bg-gradient-to-b from-zafer-copper via-zafer-flame to-zafer-ember rounded-full shadow-2xl relative overflow-hidden">
-                    {/* Döner meat texture simulation */}
-                    <div className="absolute inset-4 bg-gradient-to-r from-amber-600 via-orange-500 to-red-600 rounded-full opacity-80"></div>
-                    <div className="absolute inset-6 bg-gradient-to-l from-yellow-600 via-orange-600 to-red-700 rounded-full opacity-60"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-zafer-gold rounded-full shadow-lg"></div>
-                    
-                    {/* Döner skewer */}
-                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-2 h-80 bg-gradient-to-b from-gray-300 to-gray-600 rounded-full shadow-md"></div>
-                  </div>
-                </div>
-                
-                {/* Smoke Effects */}
-                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
-                  <div className="w-8 h-20 smoke-effect rounded-full"></div>
-                  <div className="w-6 h-16 smoke-effect rounded-full ml-4 delay-1000"></div>
-                  <div className="w-4 h-12 smoke-effect rounded-full ml-2 delay-2000"></div>
-                </div>
-              </div>
-            </div>
+            <motion.p 
+              className="text-xl md:text-2xl text-zafer-text-muted mb-12 font-inter leading-relaxed max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              Geleneksel döner ustası ile çağdaş gastronomi sanatının mükemmel uyumu. 
+              Her lokmada İstanbul'un ruhunu hissedin.
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-6 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <Button 
+                onClick={() => setLocation("/menu")}
+                className="modern-button text-lg px-10 py-6"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
+                  <path d="M6 7h12l-1 7H7L6 7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6 7L5 4H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="9" cy="20" r="1" stroke="currentColor" strokeWidth="2"/>
+                  <circle cx="18" cy="20" r="1" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                Menüyü Keşfet
+              </Button>
+              <Button 
+                onClick={() => setLocation("/reservations")}
+                className="glass-effect text-zafer-text border border-zafer-primary/30 text-lg px-10 py-6 hover:bg-zafer-primary/10"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                Rezervasyon Yap
+              </Button>
+            </motion.div>
           </div>
         </div>
         
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-zafer-cream/60 animate-bounce">
-          <i className="fas fa-chevron-down text-2xl"></i>
-        </div>
+        <motion.div 
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-zafer-text-muted"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7 13l3 3 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 17l-3-3 3-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </motion.div>
       </section>
 
-      {/* Featured Menu Section */}
-      <section id="menu" className="py-20 bg-gradient-to-br from-zafer-smoke to-zafer-charcoal">
+      {/* Product Showcase Section (No Prices) */}
+      <section className="py-24 bg-gradient-to-br from-zafer-surface-light to-zafer-dark">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-playfair font-bold text-zafer-cream mb-6">
-              Öne Çıkan <span className="text-zafer-gold">Lezzetler</span>
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
+              Signature <span className="text-zafer-primary">Collection</span>
             </h2>
-            <p className="text-xl text-zafer-cream/80 max-w-3xl mx-auto font-inter">
-              Usta ellerde hazırlanan özel tariflerimiz ile Türk mutfağının en seçkin lezzetlerini keşfedin
+            <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto font-inter">
+              Usta ellerde şekillenen özel tariflerimizle Türk mutfağının en seçkin lezzetlerini keşfedin
             </p>
-          </div>
+          </motion.div>
           
           {menuLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="menu-card p-6 animate-pulse">
-                  <div className="w-full h-48 bg-zafer-smoke rounded-lg mb-4"></div>
-                  <div className="h-6 bg-zafer-smoke rounded mb-2"></div>
-                  <div className="h-4 bg-zafer-smoke rounded mb-4"></div>
-                  <div className="h-8 bg-zafer-smoke rounded"></div>
+                <div key={i} className="product-showcase p-8 animate-pulse">
+                  <div className="w-full h-64 bg-zafer-surface-light rounded-2xl mb-6"></div>
+                  <div className="h-8 bg-zafer-surface-light rounded mb-4"></div>
+                  <div className="h-20 bg-zafer-surface-light rounded"></div>
                 </div>
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredItems.map((item) => (
-                <Card key={item.id} className="menu-card">
-                  <CardContent className="p-6">
-                    <div className="relative overflow-hidden rounded-lg mb-4">
-                      <img 
-                        src={item.image} 
-                        alt={item.name}
-                        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
-                      />
-                      <div className="absolute top-4 right-4">
-                        {item.isSpicy && (
-                          <span className="bg-zafer-crimson text-white px-2 py-1 rounded-full text-xs">
-                            <i className="fas fa-pepper-hot mr-1"></i>Acılı
-                          </span>
-                        )}
-                        {item.isVegetarian && (
-                          <span className="bg-zafer-gold text-zafer-charcoal px-2 py-1 rounded-full text-xs ml-2">
-                            <i className="fas fa-leaf mr-1"></i>Vejetaryen
-                          </span>
-                        )}
+              {featuredItems.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="product-showcase group">
+                    <CardContent className="p-8">
+                      <div className="relative overflow-hidden rounded-2xl mb-6">
+                        <img 
+                          src={item.image} 
+                          alt={item.name}
+                          className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/30 transition-all duration-500"></div>
+                        
+                        <div className="absolute top-6 right-6 flex gap-2">
+                          {item.isSpicy && (
+                            <span className="bg-zafer-accent/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
+                              🌶️ Acılı
+                            </span>
+                          )}
+                          {item.isVegetarian && (
+                            <span className="bg-zafer-secondary/90 backdrop-blur-sm text-zafer-dark px-3 py-1 rounded-full text-sm font-medium">
+                              🌱 Vejetaryen
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    
-                    <h3 className="text-2xl font-playfair font-bold text-zafer-cream mb-2">
-                      {item.name}
-                    </h3>
-                    <p className="text-zafer-cream/70 mb-4 font-inter leading-relaxed">
-                      {item.description}
-                    </p>
-                    
-                    <div className="flex items-center justify-between">
-                      <span className="text-3xl font-bold text-zafer-gold">
-                        ₺{item.price}
-                      </span>
-                      <Button className="zafer-button">
-                        <i className="fas fa-plus mr-2"></i>Sipariş Ver
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                      
+                      <h3 className="text-2xl font-playfair font-bold text-zafer-text mb-4 group-hover:text-zafer-primary transition-colors">
+                        {item.name}
+                      </h3>
+                      <p className="text-zafer-text-muted font-inter leading-relaxed">
+                        {item.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
           )}
           
-          <div className="text-center mt-12">
+          <motion.div 
+            className="text-center mt-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
             <Button 
               onClick={() => setLocation("/menu")}
-              className="zafer-button text-lg px-8 py-4"
+              className="modern-button text-lg px-12 py-6"
             >
-              <i className="fas fa-book-open mr-2"></i>
-              Tüm Menüyü Görüntüle
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mr-3">
+                <path d="M2 3h6l2 13h10l2-7H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="9" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
+                <circle cx="20" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+              Tüm Koleksiyonu Keşfet
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 parallax-section relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-zafer-night/90 to-zafer-smoke/90"></div>
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-zafer-surface/95 to-zafer-surface-light/95"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-5xl font-playfair font-bold text-zafer-cream mb-6">
-                <span className="text-zafer-gold">Zafer Lokantası</span><br />Hikayemiz
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-8">
+                <span className="text-zafer-primary">Zafer</span> Hikayesi
               </h2>
-              <p className="text-lg text-zafer-cream/80 mb-6 font-inter leading-relaxed">
+              <p className="text-lg text-zafer-text-muted mb-6 font-inter leading-relaxed">
                 1975 yılından bu yana İstanbul'un kalbinde, geleneksel Türk mutfağının 
-                eşsiz lezzetlerini modern sunum teknikleri ile buluştururuz. Üç nesil 
-                boyunca sürdürdüğümüz usta bilgisi ile her tabakta aile geleneğimizi yaşatırız.
+                eşsiz lezzetlerini çağdaş gastronomi sanatıyla buluştururuz. Üç nesil 
+                boyunca aktarılan usta bilgisi ve modern tekniklerin mükemmel uyumu.
               </p>
-              <p className="text-lg text-zafer-cream/80 mb-8 font-inter leading-relaxed">
-                Özenle seçilmiş malzemeler, geleneksel pişirme teknikleri ve modern 
-                mutfak sanatının bir araya geldiği Zafer Lokantası'nda, otantik döner 
-                kebabımız ile tanışmaya davetlisiniz.
+              <p className="text-lg text-zafer-text-muted mb-10 font-inter leading-relaxed">
+                Her tabakta, geçmişin zenginliği ile geleceğin vizyonunu bir araya getiren 
+                Zafer Lokantası, otantik döner kebabı ve benzersiz lezzetleriyle 
+                unutulmaz deneyimler sunuyor.
               </p>
-              <Button className="zafer-button text-lg px-8 py-4">
-                <i className="fas fa-history mr-2"></i>
-                Daha Fazla Bilgi
+              <Button className="modern-button text-lg px-8 py-4">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                Hikayemizi Keşfet
               </Button>
-            </div>
+            </motion.div>
             
-            <div className="relative">
-              <div className="doner-card p-8">
-                <div className="grid grid-cols-2 gap-6 text-center">
-                  <div>
-                    <div className="text-4xl font-bold text-zafer-gold mb-2">48+</div>
-                    <div className="text-zafer-cream">Yıllık Deneyim</div>
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="modern-card p-10">
+                <div className="grid grid-cols-2 gap-8 text-center">
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-zafer-primary">48+</div>
+                    <div className="text-zafer-text-muted font-inter">Yıllık Deneyim</div>
                   </div>
-                  <div>
-                    <div className="text-4xl font-bold text-zafer-gold mb-2">1000+</div>
-                    <div className="text-zafer-cream">Mutlu Müşteri</div>
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-zafer-primary">2500+</div>
+                    <div className="text-zafer-text-muted font-inter">Mutlu Müşteri</div>
                   </div>
-                  <div>
-                    <div className="text-4xl font-bold text-zafer-gold mb-2">25+</div>
-                    <div className="text-zafer-cream">Özel Tarif</div>
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-zafer-primary">35+</div>
+                    <div className="text-zafer-text-muted font-inter">Özel Tarif</div>
                   </div>
-                  <div>
-                    <div className="text-4xl font-bold text-zafer-gold mb-2">100%</div>
-                    <div className="text-zafer-cream">Doğal Malzeme</div>
+                  <div className="space-y-2">
+                    <div className="text-4xl font-bold text-zafer-primary">100%</div>
+                    <div className="text-zafer-text-muted font-inter">Doğal Malzeme</div>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-gradient-to-br from-zafer-charcoal to-zafer-night">
+      <section className="py-24 bg-gradient-to-br from-zafer-dark to-zafer-surface">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-playfair font-bold text-zafer-cream mb-6">
-              Müşteri <span className="text-zafer-gold">Yorumları</span>
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
+              Müşteri <span className="text-zafer-primary">Deneyimleri</span>
             </h2>
-            <p className="text-xl text-zafer-cream/80 max-w-3xl mx-auto font-inter">
-              Sizleri mutlu etmek bizim en büyük ödülümüz
+            <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto font-inter">
+              Sizlerin memnuniyeti bizim en büyük başarımız
             </p>
-          </div>
+          </motion.div>
           
           {testimonialsLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="testimonial-card p-6 animate-pulse">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-zafer-smoke rounded-full mr-4"></div>
+                <div key={i} className="modern-card p-8 animate-pulse">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 bg-zafer-surface-light rounded-full mr-4"></div>
                     <div>
-                      <div className="h-4 bg-zafer-smoke rounded mb-2 w-24"></div>
-                      <div className="h-3 bg-zafer-smoke rounded w-16"></div>
+                      <div className="h-5 bg-zafer-surface-light rounded mb-2 w-24"></div>
+                      <div className="h-4 bg-zafer-surface-light rounded w-16"></div>
                     </div>
                   </div>
-                  <div className="h-20 bg-zafer-smoke rounded"></div>
+                  <div className="h-24 bg-zafer-surface-light rounded"></div>
                 </div>
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {testimonials?.slice(0, 6).map((testimonial) => (
-                <Card key={testimonial.id} className="testimonial-card">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center mr-4">
-                        <i className="fas fa-user text-white"></i>
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-zafer-cream">{testimonial.customerName}</h4>
-                        <div className="flex text-zafer-gold">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <i key={i} className="fas fa-star text-sm"></i>
-                          ))}
+              {testimonials?.slice(0, 6).map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="modern-card">
+                    <CardContent className="p-8">
+                      <div className="flex items-center mb-6">
+                        <div className="w-16 h-16 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-full flex items-center justify-center mr-4">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2"/>
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-zafer-text text-lg">{testimonial.customerName}</h4>
+                          <div className="flex text-zafer-primary">
+                            {[...Array(testimonial.rating)].map((_, i) => (
+                              <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                              </svg>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <p className="text-zafer-cream/80 italic font-inter leading-relaxed">
-                      "{testimonial.review}"
-                    </p>
-                    <div className="text-zafer-cream/60 text-sm mt-4">
-                      {testimonial.date}
-                    </div>
-                  </CardContent>
-                </Card>
+                      <p className="text-zafer-text-muted italic font-inter leading-relaxed text-lg">
+                        "{testimonial.review}"
+                      </p>
+                      <div className="text-zafer-text-muted text-sm mt-6 border-t border-white/10 pt-4">
+                        {testimonial.date}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
           )}
@@ -324,139 +421,202 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-zafer-smoke to-zafer-charcoal">
+      <section className="py-24 bg-gradient-to-br from-zafer-surface-light to-zafer-dark">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-playfair font-bold text-zafer-cream mb-6">
-              <span className="text-zafer-gold">İletişim</span> & Konum
+          <motion.div 
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
+              <span className="text-zafer-primary">İletişim</span> & Rezervasyon
             </h2>
-            <p className="text-xl text-zafer-cream/80 max-w-3xl mx-auto font-inter">
-              Bizi ziyaret edin veya rezervasyon yapın
+            <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto font-inter">
+              Size en yakın deneyimi sunmak için buradayız
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="doner-card p-8">
-              <h3 className="text-3xl font-playfair font-bold text-zafer-cream mb-6">
-                İletişim Bilgileri
+            <motion.div 
+              className="modern-card p-10"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-3xl font-playfair font-bold text-zafer-text mb-8">
+                Bize Ulaşın
               </h3>
               
               <div className="space-y-6">
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center mr-4">
-                    <i className="fas fa-map-marker-alt text-white"></i>
+                {[
+                  {
+                    icon: (
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2"/>
+                    ),
+                    title: "Adres",
+                    content: "Sultanahmet Mah. Lokanta Sok. No:48 Fatih/İstanbul"
+                  },
+                  {
+                    icon: (
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/>
+                    ),
+                    title: "Telefon",
+                    content: "+90 212 555 0148"
+                  },
+                  {
+                    icon: (
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2"/>
+                    ),
+                    title: "Çalışma Saatleri",
+                    content: "Her gün 11:00 - 24:00"
+                  },
+                  {
+                    icon: (
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2"/>
+                    ),
+                    title: "E-posta",
+                    content: "hello@zaferlokantasi.com"
+                  }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center space-x-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-2xl flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                        {item.icon}
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-zafer-text font-bold text-lg">{item.title}</div>
+                      <div className="text-zafer-text-muted font-inter">{item.content}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-zafer-cream font-bold">Adres</div>
-                    <div className="text-zafer-cream/80">Sultanahmet Mah. Döner Sok. No:123 Fatih/İstanbul</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center mr-4">
-                    <i className="fas fa-phone text-white"></i>
-                  </div>
-                  <div>
-                    <div className="text-zafer-cream font-bold">Telefon</div>
-                    <div className="text-zafer-cream/80">+90 212 555 0123</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center mr-4">
-                    <i className="fas fa-clock text-white"></i>
-                  </div>
-                  <div>
-                    <div className="text-zafer-cream font-bold">Çalışma Saatleri</div>
-                    <div className="text-zafer-cream/80">Her gün 10:00 - 24:00</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center mr-4">
-                    <i className="fas fa-envelope text-white"></i>
-                  </div>
-                  <div>
-                    <div className="text-zafer-cream font-bold">E-posta</div>
-                    <div className="text-zafer-cream/80">info@zaferlokantasi.com</div>
-                  </div>
-                </div>
+                ))}
               </div>
               
-              <div className="mt-8 pt-6 border-t border-zafer-gold/30">
-                <Button className="zafer-button w-full text-lg py-4">
-                  <i className="fas fa-calendar-alt mr-2"></i>
+              <div className="mt-10 pt-8 border-t border-white/10">
+                <Button className="modern-button w-full text-lg py-6">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mr-3">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
+                    <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
                   Online Rezervasyon Yap
                 </Button>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="doner-card p-8">
-              <h3 className="text-3xl font-playfair font-bold text-zafer-cream mb-6">
-                Harita
+            <motion.div 
+              className="modern-card p-10"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-3xl font-playfair font-bold text-zafer-text mb-8">
+                Konumumuz
               </h3>
-              <div className="w-full h-80 bg-zafer-smoke rounded-lg flex items-center justify-center">
-                <div className="text-center text-zafer-cream/60">
-                  <i className="fas fa-map text-4xl mb-4"></i>
-                  <p>Google Maps Entegrasyonu</p>
-                  <p className="text-sm">Konum: Sultanahmet, İstanbul</p>
+              <div className="w-full h-80 bg-gradient-to-br from-zafer-surface to-zafer-surface-light rounded-2xl flex items-center justify-center border border-white/10">
+                <div className="text-center text-zafer-text-muted">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" className="mx-auto mb-4 text-zafer-primary">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                  <p className="font-inter">Google Maps Entegrasyonu</p>
+                  <p className="text-sm mt-2">Sultanahmet, İstanbul</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <motion.div 
+        className="fixed bottom-8 right-8 z-50"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.5, delay: 1 }}
+      >
         <Button className="floating-action-btn" onClick={() => setLocation("/reservations")}>
-          <i className="fas fa-utensils text-xl"></i>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
+            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
+            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
+          </svg>
         </Button>
-      </div>
+      </motion.div>
 
       {/* Footer */}
-      <footer className="bg-zafer-night py-16 border-t border-zafer-gold/30">
+      <footer className="bg-zafer-dark py-20 border-t border-white/10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className="flex items-center space-x-4 mb-6">
-                <div className="w-12 h-12 bg-zafer-copper rounded-full flex items-center justify-center">
-                  <i className="fas fa-fire text-white text-xl"></i>
+                <div className="w-12 h-12 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-2xl flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+                    <path d="M8.5 2v8.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M6.5 2v6.5c0 .83.67 1.5 1.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M12.5 2v6.5c0 .83-.67 1.5-1.5 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M8 12v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M16 12l1.5-1.5 1.5 1.5v10l-1.5-1.5L16 22v-10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
-                <h3 className="text-3xl font-playfair font-bold text-zafer-cream">Zafer Lokantası</h3>
+                <h3 className="text-3xl font-playfair font-bold text-zafer-text">Zafer Lokantası</h3>
               </div>
-              <p className="text-zafer-cream/70 font-inter leading-relaxed">
-                Geleneksel Türk mutfağının modern yorumu. 1975'ten beri kalite ve lezzet garantisiyle hizmetinizdeyiz.
+              <p className="text-zafer-text-muted font-inter leading-relaxed">
+                Geleneksel Türk mutfağının modern yorumu. 1975'ten beri kalite ve lezzet garantisiyle.
               </p>
-            </div>
+            </motion.div>
             
-            <div>
-              <h4 className="text-xl font-playfair font-bold text-zafer-cream mb-4">Hızlı Menü</h4>
-              <ul className="space-y-2 text-zafer-cream/70">
-                <li><a href="#home" className="hover:text-zafer-gold transition-colors">Ana Sayfa</a></li>
-                <li><a href="#menu" className="hover:text-zafer-gold transition-colors">Menü</a></li>
-                <li><a href="#about" className="hover:text-zafer-gold transition-colors">Hakkımızda</a></li>
-                <li><a href="#testimonials" className="hover:text-zafer-gold transition-colors">Yorumlar</a></li>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
+              <h4 className="text-xl font-playfair font-bold text-zafer-text mb-6">Hızlı Menü</h4>
+              <ul className="space-y-3 text-zafer-text-muted font-inter">
+                {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Yorumlar', 'İletişim'].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="hover:text-zafer-primary transition-colors">{item}</a>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </motion.div>
             
-            <div>
-              <h4 className="text-xl font-playfair font-bold text-zafer-cream mb-4">Sosyal Medya</h4>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <h4 className="text-xl font-playfair font-bold text-zafer-text mb-6">Sosyal Medya</h4>
               <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-zafer-copper rounded-full flex items-center justify-center hover:bg-zafer-flame transition-colors">
-                  <i className="fab fa-facebook-f text-white"></i>
-                </a>
-                <a href="#" className="w-10 h-10 bg-zafer-copper rounded-full flex items-center justify-center hover:bg-zafer-flame transition-colors">
-                  <i className="fab fa-instagram text-white"></i>
-                </a>
-                <a href="#" className="w-10 h-10 bg-zafer-copper rounded-full flex items-center justify-center hover:bg-zafer-flame transition-colors">
-                  <i className="fab fa-twitter text-white"></i>
-                </a>
+                {['facebook', 'instagram', 'twitter', 'youtube'].map((platform) => (
+                  <a 
+                    key={platform}
+                    href="#" 
+                    className="w-12 h-12 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-2xl flex items-center justify-center hover:scale-110 transition-transform"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-white">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                  </a>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </div>
           
-          <div className="border-t border-zafer-gold/30 mt-12 pt-8 text-center text-zafer-cream/60">
+          <div className="border-t border-white/10 mt-16 pt-8 text-center text-zafer-text-muted font-inter">
             <p>&copy; 2024 Zafer Lokantası. Tüm hakları saklıdır.</p>
           </div>
         </div>

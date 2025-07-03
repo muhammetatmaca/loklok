@@ -4,60 +4,60 @@
 
 :root {
   --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14%, 4%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --foreground: hsl(240, 10%, 3.9%);
+  --muted: hsl(210, 40%, 98%);
+  --muted-foreground: hsl(215, 16%, 47%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14%, 4%);
+  --popover-foreground: hsl(240, 10%, 3.9%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14%, 4%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(25, 95%, 53%);
-  --primary-foreground: hsl(60, 9.1%, 97.8%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14%, 4%);
-  --radius: 0.75rem;
+  --card-foreground: hsl(240, 10%, 3.9%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(22, 100%, 58%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(210, 40%, 96%);
+  --secondary-foreground: hsl(222, 84%, 5%);
+  --accent: hsl(210, 40%, 96%);
+  --accent-foreground: hsl(222, 84%, 5%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(22, 100%, 58%);
+  --radius: 1rem;
 
-  /* Zafer Restaurant Theme Colors */
-  --zafer-gold: hsl(45, 85%, 60%);
-  --zafer-copper: hsl(25, 85%, 55%);
-  --zafer-crimson: hsl(0, 70%, 50%);
-  --zafer-flame: hsl(15, 85%, 60%);
-  --zafer-charcoal: hsl(20, 14%, 4%);
-  --zafer-cream: hsl(40, 30%, 95%);
-  --zafer-smoke: hsl(210, 15%, 25%);
-  --zafer-ember: hsl(10, 80%, 65%);
-  --zafer-marble: hsl(40, 20%, 92%);
-  --zafer-night: hsl(220, 15%, 8%);
+  /* Modern Turkish Restaurant Theme */
+  --zafer-primary: hsl(22, 100%, 58%);
+  --zafer-secondary: hsl(28, 100%, 70%);
+  --zafer-accent: hsl(345, 82%, 60%);
+  --zafer-dark: hsl(240, 10%, 3.9%);
+  --zafer-light: hsl(0, 0%, 100%);
+  --zafer-muted: hsl(210, 40%, 98%);
+  --zafer-surface: hsl(218, 35%, 8%);
+  --zafer-surface-light: hsl(220, 13%, 13%);
+  --zafer-text: hsl(210, 40%, 98%);
+  --zafer-text-muted: hsl(215, 16%, 65%);
 }
 
 .dark {
-  --background: hsl(220, 15%, 8%);
-  --foreground: hsl(40, 30%, 95%);
-  --muted: hsl(210, 15%, 15%);
-  --muted-foreground: hsl(210, 10%, 60%);
-  --popover: hsl(220, 15%, 8%);
-  --popover-foreground: hsl(40, 30%, 95%);
-  --card: hsl(210, 15%, 12%);
-  --card-foreground: hsl(40, 30%, 95%);
-  --border: hsl(210, 15%, 20%);
-  --input: hsl(210, 15%, 20%);
-  --primary: hsl(25, 95%, 53%);
-  --primary-foreground: hsl(220, 15%, 8%);
-  --secondary: hsl(210, 15%, 15%);
-  --secondary-foreground: hsl(40, 30%, 95%);
-  --accent: hsl(210, 15%, 15%);
-  --accent-foreground: hsl(40, 30%, 95%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(40, 30%, 95%);
-  --ring: hsl(25, 95%, 53%);
-  --radius: 0.75rem;
+  --background: hsl(218, 35%, 8%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(220, 13%, 13%);
+  --muted-foreground: hsl(215, 16%, 65%);
+  --popover: hsl(218, 35%, 8%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --card: hsl(220, 13%, 13%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217, 32%, 17%);
+  --input: hsl(217, 32%, 17%);
+  --primary: hsl(22, 100%, 58%);
+  --primary-foreground: hsl(218, 35%, 8%);
+  --secondary: hsl(220, 13%, 13%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(220, 13%, 13%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(22, 100%, 58%);
+  --radius: 1rem;
 }
 
 @layer base {
@@ -68,8 +68,8 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, var(--zafer-night) 0%, var(--zafer-smoke) 100%);
-    color: var(--zafer-cream);
+    background: linear-gradient(135deg, var(--zafer-surface) 0%, var(--zafer-surface-light) 100%);
+    color: var(--zafer-text);
     overflow-x: hidden;
   }
 
@@ -101,90 +101,86 @@
 }
 
 @layer components {
-  /* Turkish Restaurant Theme Colors */
-  .bg-zafer-gold { background-color: var(--zafer-gold); }
-  .bg-zafer-copper { background-color: var(--zafer-copper); }
-  .bg-zafer-crimson { background-color: var(--zafer-crimson); }
-  .bg-zafer-flame { background-color: var(--zafer-flame); }
-  .bg-zafer-charcoal { background-color: var(--zafer-charcoal); }
-  .bg-zafer-cream { background-color: var(--zafer-cream); }
-  .bg-zafer-smoke { background-color: var(--zafer-smoke); }
-  .bg-zafer-ember { background-color: var(--zafer-ember); }
-  .bg-zafer-marble { background-color: var(--zafer-marble); }
-  .bg-zafer-night { background-color: var(--zafer-night); }
+  /* Modern Turkish Restaurant Theme Colors */
+  .bg-zafer-primary { background-color: var(--zafer-primary); }
+  .bg-zafer-secondary { background-color: var(--zafer-secondary); }
+  .bg-zafer-accent { background-color: var(--zafer-accent); }
+  .bg-zafer-dark { background-color: var(--zafer-dark); }
+  .bg-zafer-light { background-color: var(--zafer-light); }
+  .bg-zafer-surface { background-color: var(--zafer-surface); }
+  .bg-zafer-surface-light { background-color: var(--zafer-surface-light); }
 
-  .text-zafer-gold { color: var(--zafer-gold); }
-  .text-zafer-copper { color: var(--zafer-copper); }
-  .text-zafer-crimson { color: var(--zafer-crimson); }
-  .text-zafer-flame { color: var(--zafer-flame); }
-  .text-zafer-charcoal { color: var(--zafer-charcoal); }
-  .text-zafer-cream { color: var(--zafer-cream); }
-  .text-zafer-smoke { color: var(--zafer-smoke); }
-  .text-zafer-ember { color: var(--zafer-ember); }
-  .text-zafer-marble { color: var(--zafer-marble); }
-  .text-zafer-night { color: var(--zafer-night); }
+  .text-zafer-primary { color: var(--zafer-primary); }
+  .text-zafer-secondary { color: var(--zafer-secondary); }
+  .text-zafer-accent { color: var(--zafer-accent); }
+  .text-zafer-dark { color: var(--zafer-dark); }
+  .text-zafer-light { color: var(--zafer-light); }
+  .text-zafer-text { color: var(--zafer-text); }
+  .text-zafer-text-muted { color: var(--zafer-text-muted); }
 
   /* Modern Turkish Restaurant Components */
-  .doner-card {
-    background: linear-gradient(145deg, rgba(255, 138, 0, 0.1) 0%, rgba(255, 69, 0, 0.1) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 138, 0, 0.3);
-    border-radius: 1rem;
+  .modern-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.5rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
   }
 
-  .doner-card:hover {
-    transform: translateY(-8px) rotateX(5deg);
-    box-shadow: 0 25px 50px rgba(255, 138, 0, 0.3);
-    border-color: rgba(255, 138, 0, 0.6);
+  .modern-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 123, 89, 0.4);
   }
 
-  .menu-card {
-    background: rgba(20, 20, 20, 0.7);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 138, 0, 0.2);
-    border-radius: 1rem;
-    transition: all 0.3s ease;
+  .product-showcase {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    transition: all 0.4s ease;
     overflow: hidden;
     position: relative;
   }
 
-  .menu-card::before {
+  .product-showcase::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 138, 0, 0.2), transparent);
-    transition: left 0.5s;
+    background: linear-gradient(90deg, transparent, rgba(255, 123, 89, 0.1), transparent);
+    transition: left 0.6s;
   }
 
-  .menu-card:hover::before {
+  .product-showcase:hover::before {
     left: 100%;
   }
 
-  .menu-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 138, 0, 0.5);
-    box-shadow: 0 20px 40px rgba(255, 138, 0, 0.2);
+  .product-showcase:hover {
+    transform: translateY(-12px);
+    border-color: rgba(255, 123, 89, 0.3);
+    box-shadow: 0 24px 48px rgba(255, 123, 89, 0.15);
   }
 
-  .zafer-button {
-    background: linear-gradient(135deg, var(--zafer-copper) 0%, var(--zafer-flame) 100%);
+  .modern-button {
+    background: linear-gradient(135deg, var(--zafer-primary) 0%, var(--zafer-secondary) 100%);
     border: none;
     color: white;
     padding: 1rem 2rem;
     border-radius: 2rem;
     font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 8px 32px rgba(255, 123, 89, 0.3);
   }
 
-  .zafer-button::before {
+  .modern-button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -195,17 +191,17 @@
     transition: left 0.5s;
   }
 
-  .zafer-button:hover::before {
+  .modern-button:hover::before {
     left: 100%;
   }
 
-  .zafer-button:hover {
+  .modern-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 138, 0, 0.4);
+    box-shadow: 0 16px 48px rgba(255, 123, 89, 0.4);
   }
 
   .floating-action-btn {
-    background: linear-gradient(135deg, var(--zafer-crimson) 0%, var(--zafer-ember) 100%);
+    background: linear-gradient(135deg, var(--zafer-accent) 0%, var(--zafer-primary) 100%);
     border-radius: 50%;
     width: 4rem;
     height: 4rem;
@@ -213,14 +209,14 @@
     align-items: center;
     justify-content: center;
     color: white;
-    box-shadow: 0 8px 25px rgba(220, 20, 60, 0.4);
+    box-shadow: 0 8px 32px rgba(238, 75, 96, 0.4);
     transition: all 0.3s ease;
     animation: pulse-glow 2s infinite;
   }
 
   .floating-action-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 12px 35px rgba(220, 20, 60, 0.6);
+    box-shadow: 0 16px 48px rgba(238, 75, 96, 0.6);
   }
 
   @keyframes pulse-glow {
@@ -234,16 +230,83 @@
   }
 
   @keyframes rotate-doner {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
+    0% { transform: rotateY(0deg) rotateX(5deg); }
+    100% { transform: rotateY(360deg) rotateX(5deg); }
+  }
+
+  @keyframes scroll-rotate {
+    0% { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.1); }
+    100% { transform: rotateY(360deg) scale(1); }
+  }
+
+  .scroll-doner {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
   }
 
   .rotate-doner {
-    animation: rotate-doner 10s linear infinite;
+    animation: rotate-doner 8s linear infinite;
+    transform-style: preserve-3d;
   }
 
   .float-animation {
     animation: float 3s ease-in-out infinite;
+  }
+
+  .doner-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  .doner-meat {
+    background: linear-gradient(135deg, 
+      #8B4513 0%,   /* Saddle Brown */
+      #CD853F 15%,  /* Peru */
+      #D2691E 30%,  /* Chocolate */
+      #B8860B 45%,  /* Dark Goldenrod */
+      #CD853F 60%,  /* Peru */
+      #8B4513 75%,  /* Saddle Brown */
+      #654321 90%,  /* Dark Brown */
+      #8B4513 100%  /* Saddle Brown */
+    );
+    border-radius: 45% 55% 40% 60%;
+    position: relative;
+    box-shadow: 
+      inset -20px -20px 40px rgba(0, 0, 0, 0.3),
+      inset 20px 20px 40px rgba(255, 255, 255, 0.1),
+      0 0 60px rgba(255, 123, 89, 0.4);
+  }
+
+  .doner-meat::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    background: linear-gradient(45deg, 
+      transparent 20%, 
+      rgba(255, 200, 150, 0.3) 40%, 
+      transparent 60%,
+      rgba(200, 150, 100, 0.2) 80%,
+      transparent 100%
+    );
+    border-radius: inherit;
+  }
+
+  .doner-meat::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    bottom: 20%;
+    background: radial-gradient(circle, 
+      rgba(255, 180, 120, 0.4) 0%, 
+      transparent 70%
+    );
+    border-radius: inherit;
   }
 
   .parallax-section {
