@@ -48,20 +48,35 @@ export default function WebGLDoner() {
     const donerGroup = new THREE.Group();
     donerGroupRef.current = donerGroup;
 
-    // Create döner geometry - Main cylinder
-    const donerGeometry = new THREE.CylinderGeometry(1.2, 1.5, 5, 32, 8);
+    // Create döner geometry - Main cylinder (more döner-like shape)
+    const donerGeometry = new THREE.CylinderGeometry(1.0, 1.4, 6, 32, 12);
     
-    // Create realistic döner material
+    // Create realistic döner material with better colors
     const donerMaterial = new THREE.MeshPhongMaterial({
-      color: 0x8B4513,
-      shininess: 30,
-      specular: 0x222222,
+      color: 0xA0522D, // Darker brown for cooked meat
+      shininess: 20,
+      specular: 0x444444,
     });
 
     const donerMesh = new THREE.Mesh(donerGeometry, donerMaterial);
     donerMesh.castShadow = true;
     donerMesh.receiveShadow = true;
     donerGroup.add(donerMesh);
+
+    // Add char marks and texture variations
+    for (let i = 0; i < 16; i++) {
+      const charGeometry = new THREE.CylinderGeometry(1.05, 1.45, 0.1, 16);
+      const charMaterial = new THREE.MeshPhongMaterial({
+        color: new THREE.Color().setHSL(0.08, 0.8, 0.2 + Math.random() * 0.1), // Darker char marks
+        transparent: true,
+        opacity: 0.6,
+      });
+      
+      const charMesh = new THREE.Mesh(charGeometry, charMaterial);
+      charMesh.position.y = -2.5 + (i * 0.3);
+      charMesh.rotation.y = Math.random() * Math.PI * 2;
+      donerGroup.add(charMesh);
+    }
 
     // Add meat texture layers
     for (let i = 0; i < 8; i++) {
@@ -92,28 +107,45 @@ export default function WebGLDoner() {
     skewMesh.castShadow = true;
     donerGroup.add(skewMesh);
 
-    // Add hanging meat strips
-    for (let i = 0; i < 20; i++) {
-      const stripGeometry = new THREE.BoxGeometry(0.08, 0.3, 1.5);
+    // Add hanging meat strips (more realistic döner strips)
+    for (let i = 0; i < 32; i++) {
+      const stripGeometry = new THREE.BoxGeometry(0.05, 0.4, 2.0);
       const stripMaterial = new THREE.MeshPhongMaterial({
-        color: new THREE.Color().setHSL(0.08, 0.7, 0.35 + Math.random() * 0.25),
+        color: new THREE.Color().setHSL(0.08, 0.8, 0.3 + Math.random() * 0.3),
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.9,
       });
       
       const stripMesh = new THREE.Mesh(stripGeometry, stripMaterial);
-      const angle = (i / 20) * Math.PI * 2;
-      const radius = 1.5 + Math.random() * 0.3;
+      const angle = (i / 32) * Math.PI * 2;
+      const radius = 1.4 + Math.random() * 0.4;
       
       stripMesh.position.set(
         Math.cos(angle) * radius,
-        -1 + Math.random() * 2,
+        -2 + Math.random() * 4,
         Math.sin(angle) * radius
       );
-      stripMesh.rotation.y = angle;
+      stripMesh.rotation.y = angle + (Math.random() - 0.5) * 0.3;
+      stripMesh.rotation.z = (Math.random() - 0.5) * 0.2;
       stripMesh.castShadow = true;
       donerGroup.add(stripMesh);
     }
+
+    // Add döner top and bottom caps
+    const topCapGeometry = new THREE.SphereGeometry(0.3, 16, 8);
+    const capMaterial = new THREE.MeshPhongMaterial({
+      color: 0x666666,
+      shininess: 100,
+    });
+    
+    const topCap = new THREE.Mesh(topCapGeometry, capMaterial);
+    topCap.position.y = 3.2;
+    donerGroup.add(topCap);
+
+    const bottomCapGeometry = new THREE.ConeGeometry(0.4, 0.6, 16);
+    const bottomCap = new THREE.Mesh(bottomCapGeometry, capMaterial);
+    bottomCap.position.y = -3.5;
+    donerGroup.add(bottomCap);
 
     scene.add(donerGroup);
 
@@ -133,13 +165,13 @@ export default function WebGLDoner() {
     pointLight.castShadow = true;
     scene.add(pointLight);
 
-    // Animation loop
+    // Animation loop - faster rotation for better döner effect
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
       
       if (donerGroup) {
-        donerGroup.rotation.y += 0.005;
-        donerGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+        donerGroup.rotation.y += 0.015; // Faster rotation
+        donerGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.05; // Less wobble
       }
 
       renderer.render(scene, camera);
@@ -147,41 +179,8 @@ export default function WebGLDoner() {
 
     animate();
 
-    // GSAP ScrollTrigger animation
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.to(donerGroup.rotation, {
-      y: Math.PI * 4,
-      scrollTrigger: {
-        trigger: document.body,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1,
-      }
-    });
-
-    gsap.to(donerGroup.scale, {
-      x: 1.5,
-      y: 1.5,
-      z: 1.5,
-      scrollTrigger: {
-        trigger: document.body,
-        start: "top top",
-        end: "center center",
-        scrub: 1,
-      }
-    });
-
-    gsap.to(donerGroup.position, {
-      x: 2,
-      y: 1,
-      scrollTrigger: {
-        trigger: document.body,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1,
-      }
-    });
+    // Remove scroll triggers - keep döner static in top right
+    // Only continuous rotation remains
 
     // Handle resize
     const handleResize = () => {
@@ -232,9 +231,9 @@ export default function WebGLDoner() {
   return (
     <div 
       ref={containerRef}
-      className="fixed right-8 top-1/2 -translate-y-1/2 z-20 w-80 h-96 pointer-events-none"
+      className="fixed right-6 top-6 z-20 w-64 h-80 pointer-events-none"
       style={{
-        background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.1) 0%, transparent 70%)'
+        background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.08) 0%, transparent 80%)'
       }}
     />
   );
