@@ -253,6 +253,7 @@ export default function DonerSliceEffect() {
           
           // Start slicing effect
           if (!isSlicing && progress > 0.4) {
+            console.log("Starting slicing effect!"); // Debug log
             setIsSlicing(true);
             startSlicing();
           }
@@ -306,9 +307,14 @@ export default function DonerSliceEffect() {
   }, [isSlicing]);
 
   const startSlicing = () => {
-    if (!donerGroupRef.current || !plateRef.current) return;
+    console.log("startSlicing called!"); // Debug log
+    if (!donerGroupRef.current || !plateRef.current) {
+      console.log("Missing refs:", donerGroupRef.current, plateRef.current);
+      return;
+    }
 
     const platePosition = plateRef.current.position;
+    console.log("Plate position:", platePosition); // Debug log
 
     // Create falling meat slices (individual pieces, not layers)
     donerGroupRef.current.children.forEach((child, index) => {
@@ -317,6 +323,7 @@ export default function DonerSliceEffect() {
         
         // Only slice some layers randomly
         if (Math.random() > 0.1) { // More layers will be sliced
+          console.log(`Slicing layer ${sliceIndex}`); // Debug log
           // Create small meat pieces that fall
           for (let i = 0; i < 5; i++) { // More pieces per layer
             const pieceGeometry = new THREE.BoxGeometry(
@@ -336,6 +343,7 @@ export default function DonerSliceEffect() {
             piece.position.z += (Math.random() - 0.5) * 0.5;
             piece.castShadow = true;
             
+            console.log(`Creating piece ${i} at position:`, piece.position); // Debug log
             sceneRef.current?.add(piece);
             
             // Animate piece falling to plate
