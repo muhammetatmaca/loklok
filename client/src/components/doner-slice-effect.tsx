@@ -24,14 +24,15 @@ export default function DonerSliceEffect() {
     scene.background = null;
     sceneRef.current = scene;
 
-    // Camera
+    // Camera - better angle to see everything
     const camera = new THREE.PerspectiveCamera(
-      50,
+      60,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0, 10);
+    camera.position.set(3, 2, 8);
+    camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     // Renderer
@@ -131,49 +132,77 @@ export default function DonerSliceEffect() {
 
     scene.add(donerGroup);
 
-    // Create plate (initially below view)
-    const plateGeometry = new THREE.CylinderGeometry(2, 2, 0.2, 32);
+    // Create plate (larger and more visible)
+    const plateGeometry = new THREE.CylinderGeometry(2.5, 2.5, 0.3, 32);
     const plateMaterial = new THREE.MeshPhongMaterial({
-      color: 0xFFFFFF,
-      shininess: 80,
+      color: 0xF5F5F5,
+      shininess: 60,
+      specular: 0x444444,
     });
     
     const plate = new THREE.Mesh(plateGeometry, plateMaterial);
-    plate.position.y = -8;
+    plate.position.y = -6;
     plate.castShadow = true;
     plate.receiveShadow = true;
     plateRef.current = plate;
     scene.add(plate);
 
-    // Create knife
+    // Add plate rim for better visibility
+    const rimGeometry = new THREE.TorusGeometry(2.5, 0.1, 8, 32);
+    const rimMaterial = new THREE.MeshPhongMaterial({
+      color: 0xE0E0E0,
+      shininess: 80,
+    });
+    
+    const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+    rim.position.y = -5.8;
+    rim.rotation.x = Math.PI / 2;
+    scene.add(rim);
+
+    // Create knife (larger and more visible)
     const knifeGroup = new THREE.Group();
     knifeRef.current = knifeGroup;
 
-    // Knife blade
-    const bladeGeometry = new THREE.BoxGeometry(0.05, 0.8, 4);
+    // Knife blade (bigger)
+    const bladeGeometry = new THREE.BoxGeometry(0.08, 1.5, 6);
     const bladeMaterial = new THREE.MeshPhongMaterial({
-      color: 0xCCCCCC,
-      shininess: 100,
-      specular: 0x888888,
+      color: 0xE8E8E8,
+      shininess: 120,
+      specular: 0xAAAAAA,
+      reflectivity: 0.8,
     });
     
     const blade = new THREE.Mesh(bladeGeometry, bladeMaterial);
-    blade.position.set(2, 0, 0);
+    blade.position.set(0, 0, 0);
+    blade.castShadow = true;
     knifeGroup.add(blade);
 
-    // Knife handle
-    const handleGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 8);
+    // Knife handle (bigger)
+    const handleGeometry = new THREE.CylinderGeometry(0.2, 0.18, 1.5, 8);
     const handleMaterial = new THREE.MeshPhongMaterial({
-      color: 0x654321,
-      shininess: 30,
+      color: 0x4A2C17,
+      shininess: 40,
     });
     
     const handle = new THREE.Mesh(handleGeometry, handleMaterial);
-    handle.position.set(2.8, 0, 0);
-    handle.rotation.z = Math.PI / 2;
+    handle.position.set(0, 0, -4);
+    handle.rotation.x = Math.PI / 2;
+    handle.castShadow = true;
     knifeGroup.add(handle);
 
-    knifeGroup.position.set(4, 0, 0); // Start off-screen
+    // Knife guard
+    const guardGeometry = new THREE.BoxGeometry(0.1, 0.4, 0.3);
+    const guardMaterial = new THREE.MeshPhongMaterial({
+      color: 0x888888,
+      shininess: 80,
+    });
+    
+    const guard = new THREE.Mesh(guardGeometry, guardMaterial);
+    guard.position.set(0, 0, -2.5);
+    knifeGroup.add(guard);
+
+    knifeGroup.position.set(6, 1, 0); // Start further off-screen
+    knifeGroup.rotation.z = Math.PI / 4; // Angled like in the image
     scene.add(knifeGroup);
 
     // Lighting
@@ -214,11 +243,12 @@ export default function DonerSliceEffect() {
       onUpdate: (self) => {
         const progress = self.progress;
         
-        if (progress > 0.3 && progress < 0.7) {
-          // Knife animation
+        if (progress > 0.2 && progress < 0.8) {
+          // Knife animation - slice through döner
           if (knifeRef.current) {
-            knifeRef.current.position.x = 4 - (progress - 0.3) * 10;
-            knifeRef.current.rotation.z = (progress - 0.3) * Math.PI * 4;
+            const sliceProgress = (progress - 0.2) / 0.6; // 0 to 1
+            knifeRef.current.position.x = 6 - sliceProgress * 8;
+            knifeRef.current.position.y = 1 - sliceProgress * 0.5;
           }
           
           // Start slicing effect
@@ -228,9 +258,9 @@ export default function DonerSliceEffect() {
           }
         }
 
-        // Plate animation
+        // Plate animation - moves up as you scroll
         if (plateRef.current) {
-          plateRef.current.position.y = -8 + progress * 6;
+          plateRef.current.position.y = -6 + progress * 4;
         }
       }
     });
