@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import WebGLDoner from "@/components/webgl-doner";
+import DonerSliceEffect from "@/components/doner-slice-effect";
 import type { MenuItem, Testimonial } from "@shared/schema";
 
 export default function Home() {
@@ -70,8 +70,8 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-zafer-surface via-zafer-surface-light to-zafer-dark"></div>
         
-        {/* WebGL 3D Döner */}
-        <WebGLDoner />
+        {/* Döner Slice Effect */}
+        <DonerSliceEffect />
         
         {/* Animated background particles */}
         {[...Array(20)].map((_, i) => (
