@@ -179,8 +179,33 @@ export default function WebGLDoner() {
 
     animate();
 
-    // Remove scroll triggers - keep döner static in top right
-    // Only continuous rotation remains
+    // Add gentle scroll-based movement without hiding
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Gentle parallax movement
+    gsap.to(donerGroup.position, {
+      x: 1,
+      y: 0.5,
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 2,
+      }
+    });
+
+    // Slight scale change on scroll
+    gsap.to(donerGroup.scale, {
+      x: 1.1,
+      y: 1.1,
+      z: 1.1,
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "center center",
+        scrub: 1,
+      }
+    });
 
     // Handle resize
     const handleResize = () => {
@@ -231,7 +256,7 @@ export default function WebGLDoner() {
   return (
     <div 
       ref={containerRef}
-      className="fixed right-6 top-6 z-20 w-64 h-80 pointer-events-none"
+      className="fixed right-2 top-24 z-20 w-64 h-80 pointer-events-none"
       style={{
         background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.08) 0%, transparent 80%)'
       }}
