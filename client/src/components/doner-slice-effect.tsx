@@ -141,7 +141,7 @@ export default function DonerSliceEffect() {
     });
     
     const plate = new THREE.Mesh(plateGeometry, plateMaterial);
-    plate.position.y = -6;
+    plate.position.y = -4;
     plate.castShadow = true;
     plate.receiveShadow = true;
     plateRef.current = plate;
@@ -155,7 +155,7 @@ export default function DonerSliceEffect() {
     });
     
     const rim = new THREE.Mesh(rimGeometry, rimMaterial);
-    rim.position.y = -5.8;
+    rim.position.y = -3.8;
     rim.rotation.x = Math.PI / 2;
     scene.add(rim);
 
@@ -163,8 +163,8 @@ export default function DonerSliceEffect() {
     const knifeGroup = new THREE.Group();
     knifeRef.current = knifeGroup;
 
-    // Knife blade (bigger)
-    const bladeGeometry = new THREE.BoxGeometry(0.08, 1.5, 6);
+    // Knife blade (thinner)
+    const bladeGeometry = new THREE.BoxGeometry(0.02, 1.2, 4);
     const bladeMaterial = new THREE.MeshPhongMaterial({
       color: 0xE8E8E8,
       shininess: 120,
@@ -201,8 +201,8 @@ export default function DonerSliceEffect() {
     guard.position.set(0, 0, -2.5);
     knifeGroup.add(guard);
 
-    knifeGroup.position.set(6, 1, 0); // Start further off-screen
-    knifeGroup.rotation.z = Math.PI / 4; // Angled like in the image
+    knifeGroup.position.set(2, 6, 0); // Start above döner
+    knifeGroup.rotation.z = Math.PI / 2; // Vertical for top-down slicing
     scene.add(knifeGroup);
 
     // Lighting
@@ -244,11 +244,11 @@ export default function DonerSliceEffect() {
         const progress = self.progress;
         
         if (progress > 0.2 && progress < 0.8) {
-          // Knife animation - slice through döner
+          // Knife animation - top-down slicing
           if (knifeRef.current) {
             const sliceProgress = (progress - 0.2) / 0.6; // 0 to 1
-            knifeRef.current.position.x = 6 - sliceProgress * 8;
-            knifeRef.current.position.y = 1 - sliceProgress * 0.5;
+            knifeRef.current.position.y = 6 - sliceProgress * 8; // Move from top to bottom
+            knifeRef.current.position.x = 2; // Keep x position fixed
           }
           
           // Start slicing effect
@@ -258,9 +258,9 @@ export default function DonerSliceEffect() {
           }
         }
 
-        // Plate animation - moves up as you scroll
+        // Plate animation - stays below döner
         if (plateRef.current) {
-          plateRef.current.position.y = -6 + progress * 4;
+          plateRef.current.position.y = -4; // Fixed position below döner
         }
       }
     });
@@ -339,12 +339,12 @@ export default function DonerSliceEffect() {
             
             // Animate piece falling to plate
             gsap.to(piece.position, {
-              x: platePosition.x + (Math.random() - 0.5) * 3,
-              y: platePosition.y + 0.2,
-              z: platePosition.z + (Math.random() - 0.5) * 3,
-              duration: 1.5 + Math.random() * 0.5,
-              delay: sliceIndex * 0.05,
-              ease: "bounce.out"
+              x: (Math.random() - 0.5) * 2, // Random position on plate
+              y: -3.7, // Just above the plate
+              z: (Math.random() - 0.5) * 2,
+              duration: 1.0 + Math.random() * 0.5,
+              delay: sliceIndex * 0.02,
+              ease: "power2.out"
             });
 
             gsap.to(piece.rotation, {
