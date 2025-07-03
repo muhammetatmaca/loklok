@@ -256,7 +256,7 @@ export default function WebGLDoner() {
   return (
     <div 
       ref={containerRef}
-      className="fixed right-2 top-24 z-20 w-64 h-80 pointer-events-none"
+      className="absolute right-4 top-32 z-20 w-64 h-80 pointer-events-none"
       style={{
         background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.08) 0%, transparent 80%)'
       }}

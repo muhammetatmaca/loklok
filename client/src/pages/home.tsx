@@ -21,9 +21,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zafer-surface text-zafer-text">
-      {/* WebGL 3D Döner */}
-      <WebGLDoner />
-      
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">
@@ -72,6 +69,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-zafer-surface via-zafer-surface-light to-zafer-dark"></div>
+        
+        {/* WebGL 3D Döner */}
+        <WebGLDoner />
         
         {/* Animated background particles */}
         {[...Array(20)].map((_, i) => (
