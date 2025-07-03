@@ -1,239 +1,256 @@
 import { 
-  characters, 
-  mysteries, 
-  families, 
-  gameSession,
-  type Character, 
-  type Mystery, 
-  type Family, 
-  type GameSession,
-  type InsertCharacter, 
-  type InsertMystery, 
-  type InsertFamily, 
-  type InsertGameSession 
+  menuItems, 
+  reservations, 
+  testimonials, 
+  contactMessages,
+  type MenuItem, 
+  type Reservation, 
+  type Testimonial, 
+  type ContactMessage,
+  type InsertMenuItem, 
+  type InsertReservation, 
+  type InsertTestimonial, 
+  type InsertContactMessage 
 } from "@shared/schema";
 
 export interface IStorage {
-  // Characters
-  getAllCharacters(): Promise<Character[]>;
-  getCharacter(id: number): Promise<Character | undefined>;
-  createCharacter(character: InsertCharacter): Promise<Character>;
+  // Menu Items
+  getAllMenuItems(): Promise<MenuItem[]>;
+  getMenuItem(id: number): Promise<MenuItem | undefined>;
+  getMenuItemsByCategory(category: string): Promise<MenuItem[]>;
+  createMenuItem(item: InsertMenuItem): Promise<MenuItem>;
 
-  // Mysteries
-  getAllMysteries(): Promise<Mystery[]>;
-  getMystery(id: number): Promise<Mystery | undefined>;
-  createMystery(mystery: InsertMystery): Promise<Mystery>;
+  // Reservations
+  getAllReservations(): Promise<Reservation[]>;
+  getReservation(id: number): Promise<Reservation | undefined>;
+  createReservation(reservation: InsertReservation): Promise<Reservation>;
+  updateReservationStatus(id: number, status: string): Promise<Reservation>;
 
-  // Families
-  getAllFamilies(): Promise<Family[]>;
-  getFamily(id: number): Promise<Family | undefined>;
-  createFamily(family: InsertFamily): Promise<Family>;
-  updateFamilyScore(id: number, mysteriesSolved: number, points: number): Promise<Family>;
+  // Testimonials
+  getAllTestimonials(): Promise<Testimonial[]>;
+  getTestimonial(id: number): Promise<Testimonial | undefined>;
+  createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
 
-  // Game Sessions
-  createGameSession(session: InsertGameSession): Promise<GameSession>;
-  getGameSession(id: number): Promise<GameSession | undefined>;
-  updateGameSession(id: number, updates: Partial<GameSession>): Promise<GameSession>;
+  // Contact Messages
+  getAllContactMessages(): Promise<ContactMessage[]>;
+  getContactMessage(id: number): Promise<ContactMessage | undefined>;
+  createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
 }
 
 export class MemStorage implements IStorage {
-  private characters: Map<number, Character>;
-  private mysteries: Map<number, Mystery>;
-  private families: Map<number, Family>;
-  private gameSessions: Map<number, GameSession>;
-  private currentCharacterId: number;
-  private currentMysteryId: number;
-  private currentFamilyId: number;
-  private currentGameSessionId: number;
+  private menuItems: Map<number, MenuItem>;
+  private reservations: Map<number, Reservation>;
+  private testimonials: Map<number, Testimonial>;
+  private contactMessages: Map<number, ContactMessage>;
+  private currentMenuItemId: number;
+  private currentReservationId: number;
+  private currentTestimonialId: number;
+  private currentContactMessageId: number;
 
   constructor() {
-    this.characters = new Map();
-    this.mysteries = new Map();
-    this.families = new Map();
-    this.gameSessions = new Map();
-    this.currentCharacterId = 1;
-    this.currentMysteryId = 1;
-    this.currentFamilyId = 1;
-    this.currentGameSessionId = 1;
+    this.menuItems = new Map();
+    this.reservations = new Map();
+    this.testimonials = new Map();
+    this.contactMessages = new Map();
+    this.currentMenuItemId = 1;
+    this.currentReservationId = 1;
+    this.currentTestimonialId = 1;
+    this.currentContactMessageId = 1;
 
     // Initialize with default data
     this.initializeDefaultData();
   }
 
   private async initializeDefaultData() {
-    // Default characters
-    await this.createCharacter({
-      name: "Detective Sam",
-      title: "The Clue Finder",
-      ability: "Can find hidden clues that others miss",
-      description: "Sam has a keen eye for detail and can spot clues in the most unexpected places.",
-      icon: "fas fa-search",
-      color: "mystery-yellow"
+    // Default menu items
+    await this.createMenuItem({
+      name: "Döner Kebab",
+      description: "Tender lamb and chicken carved from our traditional vertical rotisserie, served with fresh vegetables and our signature sauce",
+      price: "24.99",
+      category: "Döner",
+      image: "/images/doner-kebab.jpg",
+      isSpicy: false,
+      isVegetarian: false,
+      isPopular: true
     });
 
-    await this.createCharacter({
-      name: "Professor Lily",
-      title: "The Puzzle Solver",
-      ability: "Excellent at solving riddles and puzzles",
-      description: "Lily's analytical mind makes her perfect for cracking codes and solving complex puzzles.",
-      icon: "fas fa-lightbulb",
-      color: "mystery-green"
+    await this.createMenuItem({
+      name: "Adana Kebab",
+      description: "Spicy hand-minced lamb grilled to perfection on skewers, served with grilled vegetables and rice",
+      price: "28.99",
+      category: "Grilled",
+      image: "/images/adana-kebab.jpg",
+      isSpicy: true,
+      isVegetarian: false,
+      isPopular: true
     });
 
-    await this.createCharacter({
-      name: "Captain Max",
-      title: "The Interviewer",
-      ability: "Gets more information from witnesses",
-      description: "Max's friendly personality helps him get important information from people.",
-      icon: "fas fa-comments",
-      color: "mystery-purple"
+    await this.createMenuItem({
+      name: "Iskender Kebab",
+      description: "Sliced döner served over toasted bread with tomato sauce, yogurt, and melted butter",
+      price: "32.99",
+      category: "Döner",
+      image: "/images/iskender-kebab.jpg",
+      isSpicy: false,
+      isVegetarian: false,
+      isPopular: true
     });
 
-    await this.createCharacter({
-      name: "Scout Emma",
-      title: "The Observer",
-      ability: "Notices details others overlook",
-      description: "Emma's sharp observation skills help her notice important details in any situation.",
-      icon: "fas fa-eye",
-      color: "mystery-coral"
+    await this.createMenuItem({
+      name: "Lahmacun",
+      description: "Turkish pizza topped with minced meat, vegetables, and herbs, baked in our stone oven",
+      price: "16.99",
+      category: "Appetizers",
+      image: "/images/lahmacun.jpg",
+      isSpicy: false,
+      isVegetarian: false,
+      isPopular: false
     });
 
-    // Default mysteries
-    await this.createMystery({
-      title: "The Missing Cookie Mystery",
-      description: "Someone took the last cookie from the jar. Can you find out who?",
-      difficulty: 2,
-      ageRange: "Ages 4-8",
-      maxPlayers: 4,
-      icon: "fas fa-home",
-      solved: false
+    await this.createMenuItem({
+      name: "Baklava",
+      description: "Traditional Turkish dessert made with layers of phyllo pastry, nuts, and honey syrup",
+      price: "8.99",
+      category: "Desserts",
+      image: "/images/baklava.jpg",
+      isSpicy: false,
+      isVegetarian: true,
+      isPopular: true
     });
 
-    await this.createMystery({
-      title: "The Playground Puzzle",
-      description: "The playground equipment is acting strange. Investigate the mystery!",
-      difficulty: 3,
-      ageRange: "Ages 6-12",
-      maxPlayers: 5,
-      icon: "fas fa-school",
-      solved: false
+    await this.createMenuItem({
+      name: "Turkish Tea",
+      description: "Authentic Turkish black tea served in traditional tulip-shaped glasses",
+      price: "4.99",
+      category: "Beverages",
+      image: "/images/turkish-tea.jpg",
+      isSpicy: false,
+      isVegetarian: true,
+      isPopular: false
     });
 
-    await this.createMystery({
-      title: "The Castle Secret",
-      description: "Explore the mysterious castle and uncover its hidden secrets!",
-      difficulty: 3,
-      ageRange: "Ages 8+",
-      maxPlayers: 6,
-      icon: "fas fa-castle",
-      solved: false
+    // Default testimonials
+    await this.createTestimonial({
+      customerName: "Sarah Johnson",
+      rating: 5,
+      review: "The best döner I've ever had! The meat is so tender and the flavors are incredible. The atmosphere is warm and welcoming.",
+      date: "2024-01-15",
+      avatar: "/images/avatars/sarah.jpg"
     });
 
-    // Default families for leaderboard
-    await this.createFamily({ name: "The Johnson Family" });
-    await this.updateFamilyScore(1, 15, 1250);
-    
-    await this.createFamily({ name: "The Garcia Squad" });
-    await this.updateFamilyScore(2, 12, 980);
-    
-    await this.createFamily({ name: "Team Rodriguez" });
-    await this.updateFamilyScore(3, 10, 750);
+    await this.createTestimonial({
+      customerName: "Michael Chen",
+      rating: 5,
+      review: "Authentic Turkish cuisine at its finest. The Iskender kebab is absolutely divine, and the service is exceptional.",
+      date: "2024-01-10",
+      avatar: "/images/avatars/michael.jpg"
+    });
+
+    await this.createTestimonial({
+      customerName: "Emily Rodriguez",
+      rating: 4,
+      review: "Great food and atmosphere! The döner is perfectly seasoned and the staff is very friendly. Will definitely be back!",
+      date: "2024-01-08",
+      avatar: "/images/avatars/emily.jpg"
+    });
   }
 
-  async getAllCharacters(): Promise<Character[]> {
-    return Array.from(this.characters.values());
+  // Menu Items
+  async getAllMenuItems(): Promise<MenuItem[]> {
+    return Array.from(this.menuItems.values());
   }
 
-  async getCharacter(id: number): Promise<Character | undefined> {
-    return this.characters.get(id);
+  async getMenuItem(id: number): Promise<MenuItem | undefined> {
+    return this.menuItems.get(id);
   }
 
-  async createCharacter(insertCharacter: InsertCharacter): Promise<Character> {
-    const id = this.currentCharacterId++;
-    const character: Character = { ...insertCharacter, id };
-    this.characters.set(id, character);
-    return character;
+  async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
+    return Array.from(this.menuItems.values()).filter(item => item.category === category);
   }
 
-  async getAllMysteries(): Promise<Mystery[]> {
-    return Array.from(this.mysteries.values());
+  async createMenuItem(insertItem: InsertMenuItem): Promise<MenuItem> {
+    const id = this.currentMenuItemId++;
+    const item: MenuItem = { ...insertItem, id };
+    this.menuItems.set(id, item);
+    return item;
   }
 
-  async getMystery(id: number): Promise<Mystery | undefined> {
-    return this.mysteries.get(id);
+  // Reservations
+  async getAllReservations(): Promise<Reservation[]> {
+    return Array.from(this.reservations.values()).sort((a, b) => 
+      new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+    );
   }
 
-  async createMystery(insertMystery: InsertMystery): Promise<Mystery> {
-    const id = this.currentMysteryId++;
-    const mystery: Mystery = { ...insertMystery, id };
-    this.mysteries.set(id, mystery);
-    return mystery;
+  async getReservation(id: number): Promise<Reservation | undefined> {
+    return this.reservations.get(id);
   }
 
-  async getAllFamilies(): Promise<Family[]> {
-    return Array.from(this.families.values()).sort((a, b) => b.totalPoints - a.totalPoints);
-  }
-
-  async getFamily(id: number): Promise<Family | undefined> {
-    return this.families.get(id);
-  }
-
-  async createFamily(insertFamily: InsertFamily): Promise<Family> {
-    const id = this.currentFamilyId++;
-    const family: Family = { 
-      ...insertFamily, 
-      id, 
-      mysteriesSolved: 0, 
-      totalPoints: 0,
-      createdAt: new Date()
-    };
-    this.families.set(id, family);
-    return family;
-  }
-
-  async updateFamilyScore(id: number, mysteriesSolved: number, points: number): Promise<Family> {
-    const family = this.families.get(id);
-    if (!family) {
-      throw new Error(`Family with id ${id} not found`);
-    }
-    
-    const updatedFamily: Family = {
-      ...family,
-      mysteriesSolved,
-      totalPoints: points
-    };
-    
-    this.families.set(id, updatedFamily);
-    return updatedFamily;
-  }
-
-  async createGameSession(insertSession: InsertGameSession): Promise<GameSession> {
-    const id = this.currentGameSessionId++;
-    const session: GameSession = {
-      ...insertSession,
+  async createReservation(insertReservation: InsertReservation): Promise<Reservation> {
+    const id = this.currentReservationId++;
+    const reservation: Reservation = { 
+      ...insertReservation, 
       id,
-      currentStep: 0,
-      cluesFound: [],
-      isCompleted: false,
+      status: "pending",
       createdAt: new Date()
     };
-    this.gameSessions.set(id, session);
-    return session;
+    this.reservations.set(id, reservation);
+    return reservation;
   }
 
-  async getGameSession(id: number): Promise<GameSession | undefined> {
-    return this.gameSessions.get(id);
-  }
-
-  async updateGameSession(id: number, updates: Partial<GameSession>): Promise<GameSession> {
-    const session = this.gameSessions.get(id);
-    if (!session) {
-      throw new Error(`Game session with id ${id} not found`);
+  async updateReservationStatus(id: number, status: string): Promise<Reservation> {
+    const reservation = this.reservations.get(id);
+    if (!reservation) {
+      throw new Error(`Reservation with id ${id} not found`);
     }
     
-    const updatedSession: GameSession = { ...session, ...updates };
-    this.gameSessions.set(id, updatedSession);
-    return updatedSession;
+    const updatedReservation: Reservation = {
+      ...reservation,
+      status
+    };
+    
+    this.reservations.set(id, updatedReservation);
+    return updatedReservation;
+  }
+
+  // Testimonials
+  async getAllTestimonials(): Promise<Testimonial[]> {
+    return Array.from(this.testimonials.values()).sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+  }
+
+  async getTestimonial(id: number): Promise<Testimonial | undefined> {
+    return this.testimonials.get(id);
+  }
+
+  async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
+    const id = this.currentTestimonialId++;
+    const testimonial: Testimonial = { ...insertTestimonial, id };
+    this.testimonials.set(id, testimonial);
+    return testimonial;
+  }
+
+  // Contact Messages
+  async getAllContactMessages(): Promise<ContactMessage[]> {
+    return Array.from(this.contactMessages.values()).sort((a, b) => 
+      new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+    );
+  }
+
+  async getContactMessage(id: number): Promise<ContactMessage | undefined> {
+    return this.contactMessages.get(id);
+  }
+
+  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
+    const id = this.currentContactMessageId++;
+    const message: ContactMessage = { 
+      ...insertMessage, 
+      id,
+      createdAt: new Date()
+    };
+    this.contactMessages.set(id, message);
+    return message;
   }
 }
 

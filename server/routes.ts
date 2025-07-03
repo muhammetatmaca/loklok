@@ -1,114 +1,105 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertFamilySchema, insertGameSessionSchema } from "@shared/schema";
+import { insertReservationSchema, insertContactMessageSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Characters routes
-  app.get("/api/characters", async (req, res) => {
+  // Menu Items routes
+  app.get("/api/menu", async (req, res) => {
     try {
-      const characters = await storage.getAllCharacters();
-      res.json(characters);
+      const { category } = req.query;
+      let menuItems;
+      
+      if (category && typeof category === 'string') {
+        menuItems = await storage.getMenuItemsByCategory(category);
+      } else {
+        menuItems = await storage.getAllMenuItems();
+      }
+      
+      res.json(menuItems);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch characters" });
+      res.status(500).json({ error: "Failed to fetch menu items" });
     }
   });
 
-  app.get("/api/characters/:id", async (req, res) => {
+  app.get("/api/menu/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const character = await storage.getCharacter(id);
-      if (!character) {
-        return res.status(404).json({ error: "Character not found" });
+      const menuItem = await storage.getMenuItem(id);
+      if (!menuItem) {
+        return res.status(404).json({ error: "Menu item not found" });
       }
-      res.json(character);
+      res.json(menuItem);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch character" });
+      res.status(500).json({ error: "Failed to fetch menu item" });
     }
   });
 
-  // Mysteries routes
-  app.get("/api/mysteries", async (req, res) => {
+  // Reservations routes
+  app.get("/api/reservations", async (req, res) => {
     try {
-      const mysteries = await storage.getAllMysteries();
-      res.json(mysteries);
+      const reservations = await storage.getAllReservations();
+      res.json(reservations);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch mysteries" });
+      res.status(500).json({ error: "Failed to fetch reservations" });
     }
   });
 
-  app.get("/api/mysteries/:id", async (req, res) => {
+  app.post("/api/reservations", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const mystery = await storage.getMystery(id);
-      if (!mystery) {
-        return res.status(404).json({ error: "Mystery not found" });
-      }
-      res.json(mystery);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch mystery" });
-    }
-  });
-
-  // Families routes
-  app.get("/api/families", async (req, res) => {
-    try {
-      const families = await storage.getAllFamilies();
-      res.json(families);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch families" });
-    }
-  });
-
-  app.post("/api/families", async (req, res) => {
-    try {
-      const validatedData = insertFamilySchema.parse(req.body);
-      const family = await storage.createFamily(validatedData);
-      res.status(201).json(family);
+      const validatedData = insertReservationSchema.parse(req.body);
+      const reservation = await storage.createReservation(validatedData);
+      res.status(201).json(reservation);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid family data", details: error.errors });
+        return res.status(400).json({ error: "Invalid reservation data", details: error.errors });
       }
-      res.status(500).json({ error: "Failed to create family" });
+      res.status(500).json({ error: "Failed to create reservation" });
     }
   });
 
-  // Game session routes
-  app.post("/api/game-sessions", async (req, res) => {
+  app.patch("/api/reservations/:id", async (req, res) => {
     try {
-      const validatedData = insertGameSessionSchema.parse(req.body);
-      const session = await storage.createGameSession(validatedData);
-      res.status(201).json(session);
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      const reservation = await storage.updateReservationStatus(id, status);
+      res.json(reservation);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update reservation" });
+    }
+  });
+
+  // Testimonials routes
+  app.get("/api/testimonials", async (req, res) => {
+    try {
+      const testimonials = await storage.getAllTestimonials();
+      res.json(testimonials);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch testimonials" });
+    }
+  });
+
+  // Contact Messages routes
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const validatedData = insertContactMessageSchema.parse(req.body);
+      const message = await storage.createContactMessage(validatedData);
+      res.status(201).json(message);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid session data", details: error.errors });
+        return res.status(400).json({ error: "Invalid contact data", details: error.errors });
       }
-      res.status(500).json({ error: "Failed to create game session" });
+      res.status(500).json({ error: "Failed to send message" });
     }
   });
 
-  app.get("/api/game-sessions/:id", async (req, res) => {
+  app.get("/api/contact", async (req, res) => {
     try {
-      const id = parseInt(req.params.id);
-      const session = await storage.getGameSession(id);
-      if (!session) {
-        return res.status(404).json({ error: "Game session not found" });
-      }
-      res.json(session);
+      const messages = await storage.getAllContactMessages();
+      res.json(messages);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch game session" });
-    }
-  });
-
-  app.patch("/api/game-sessions/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const updates = req.body;
-      const session = await storage.updateGameSession(id, updates);
-      res.json(session);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to update game session" });
+      res.status(500).json({ error: "Failed to fetch contact messages" });
     }
   });
 

@@ -1,72 +1,74 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, decimal, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const characters = pgTable("characters", {
+export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  title: text("title").notNull(),
-  ability: text("ability").notNull(),
   description: text("description").notNull(),
-  icon: text("icon").notNull(),
-  color: text("color").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  category: text("category").notNull(),
+  image: text("image").notNull(),
+  isSpicy: boolean("is_spicy").default(false),
+  isVegetarian: boolean("is_vegetarian").default(false),
+  isPopular: boolean("is_popular").default(false),
 });
 
-export const mysteries = pgTable("mysteries", {
+export const reservations = pgTable("reservations", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  difficulty: integer("difficulty").notNull(), // 1-3
-  ageRange: text("age_range").notNull(),
-  maxPlayers: integer("max_players").notNull(),
-  icon: text("icon").notNull(),
-  solved: boolean("solved").default(false),
-});
-
-export const families = pgTable("families", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  mysteriesSolved: integer("mysteries_solved").default(0),
-  totalPoints: integer("total_points").default(0),
+  customerName: text("customer_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  date: text("date").notNull(),
+  time: text("time").notNull(),
+  partySize: integer("party_size").notNull(),
+  specialRequests: text("special_requests"),
+  status: text("status").default("pending"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const gameSession = pgTable("game_session", {
+export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
-  familyId: integer("family_id").references(() => families.id),
-  mysteryId: integer("mystery_id").references(() => mysteries.id),
-  selectedCharacters: text("selected_characters").array(),
-  currentStep: integer("current_step").default(0),
-  cluesFound: text("clues_found").array(),
-  isCompleted: boolean("is_completed").default(false),
+  customerName: text("customer_name").notNull(),
+  rating: integer("rating").notNull(), // 1-5
+  review: text("review").notNull(),
+  date: text("date").notNull(),
+  avatar: text("avatar"),
+});
+
+export const contactMessages = pgTable("contact_messages", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject").notNull(),
+  message: text("message").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertCharacterSchema = createInsertSchema(characters).omit({
+export const insertMenuItemSchema = createInsertSchema(menuItems).omit({
   id: true,
 });
 
-export const insertMysterySchema = createInsertSchema(mysteries).omit({
+export const insertReservationSchema = createInsertSchema(reservations).omit({
   id: true,
-});
-
-export const insertFamilySchema = createInsertSchema(families).omit({
-  id: true,
-  mysteriesSolved: true,
-  totalPoints: true,
+  status: true,
   createdAt: true,
 });
 
-export const insertGameSessionSchema = createInsertSchema(gameSession).omit({
+export const insertTestimonialSchema = createInsertSchema(testimonials).omit({
+  id: true,
+});
+
+export const insertContactMessageSchema = createInsertSchema(contactMessages).omit({
   id: true,
   createdAt: true,
 });
 
-export type Character = typeof characters.$inferSelect;
-export type Mystery = typeof mysteries.$inferSelect;
-export type Family = typeof families.$inferSelect;
-export type GameSession = typeof gameSession.$inferSelect;
-export type InsertCharacter = z.infer<typeof insertCharacterSchema>;
-export type InsertMystery = z.infer<typeof insertMysterySchema>;
-export type InsertFamily = z.infer<typeof insertFamilySchema>;
-export type InsertGameSession = z.infer<typeof insertGameSessionSchema>;
+export type MenuItem = typeof menuItems.$inferSelect;
+export type Reservation = typeof reservations.$inferSelect;
+export type Testimonial = typeof testimonials.$inferSelect;
+export type ContactMessage = typeof contactMessages.$inferSelect;
+export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
+export type InsertReservation = z.infer<typeof insertReservationSchema>;
+export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
+export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
