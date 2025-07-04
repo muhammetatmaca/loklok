@@ -53,6 +53,8 @@ export default function Home() {
                     item === 'Menü' ? '/menu' : 
                     item === 'Hakkımızda' ? '/about' :
                     item === 'Galeri' ? '/gallery' :
+                    item === 'Yorumlar' ? '/testimonials' :
+                    item === 'İletişim' ? '/contact' :
                     `#${item.toLowerCase().replace(' ', '-')}`
                   }
                   className="text-zafer-text-muted hover:text-zafer-primary transition-colors font-inter font-medium cursor-pointer"
@@ -69,6 +71,12 @@ export default function Home() {
                     } else if (item === 'Galeri') {
                       e.preventDefault();
                       setLocation('/gallery');
+                    } else if (item === 'Yorumlar') {
+                      e.preventDefault();
+                      setLocation('/testimonials');
+                    } else if (item === 'İletişim') {
+                      e.preventDefault();
+                      setLocation('/contact');
                     }
                   }}
                 >
