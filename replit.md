@@ -104,6 +104,8 @@ The application uses four main tables:
 ```
 Changelog:
 - July 03, 2025. Initial setup
+- July 04, 2025. Created modern menu page with category filtering, equal height cards, and glassmorphism design
+- July 04, 2025. Added restaurant logo to navigation and removed order functionality
 ```
 
 ## User Preferences
