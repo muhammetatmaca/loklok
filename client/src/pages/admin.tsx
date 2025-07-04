@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -167,6 +167,9 @@ export default function Admin() {
                   <DialogTitle className="text-zafer-primary">
                     {editingItem ? "Menü Öğesini Düzenle" : "Yeni Menü Öğesi Ekle"}
                   </DialogTitle>
+                  <DialogDescription className="text-zafer-text-muted text-sm">
+                    {editingItem ? "Mevcut menü öğesinin bilgilerini güncelleyin" : "Menüye yeni bir öğe eklemek için aşağıdaki formu doldurun"}
+                  </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
@@ -187,7 +190,7 @@ export default function Admin() {
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                         className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text"
-                        placeholder="₺15.99"
+                        placeholder="15.99"
                         required
                       />
                     </div>
@@ -314,7 +317,7 @@ export default function Admin() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <CardTitle className="text-zafer-primary text-lg">{item.name}</CardTitle>
-                        <p className="text-zafer-accent font-bold text-lg mt-1">{item.price}</p>
+                        <p className="text-zafer-accent font-bold text-lg mt-1">₺{item.price}</p>
                       </div>
                       <div className="flex gap-2">
                         <Button
