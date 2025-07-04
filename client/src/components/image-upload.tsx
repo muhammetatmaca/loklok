@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +22,11 @@ export default function ImageUpload({
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState<string>(value || "");
+
+  // Sync preview with value prop changes
+  useEffect(() => {
+    setPreview(value || "");
+  }, [value]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,8 +58,10 @@ export default function ImageUpload({
         folder: `zafer-restaurant/${type}`
       }) as any;
 
-      setPreview(result.optimized_url || result.secure_url);
-      onChange(result.optimized_url || result.secure_url, result.public_id);
+      const imageUrl = result.optimized_url || result.secure_url;
+      console.log('ImageUpload: Setting image URL:', imageUrl);
+      setPreview(imageUrl);
+      onChange(imageUrl, result.public_id);
     } catch (error) {
       console.error('Upload error:', error);
       alert('Görsel yüklenirken hata oluştu.');
