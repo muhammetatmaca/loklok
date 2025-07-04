@@ -203,7 +203,7 @@ export default function DonerSliceEffect() {
 
     knifeGroup.position.set(2, 6, 0); // Start above döner
     knifeGroup.rotation.x = 0; // Keep horizontal orientation
-    knifeGroup.rotation.y = Math.PI / 2; // Point blade tip toward screen
+    knifeGroup.rotation.y = -Math.PI / 2; // Point blade tip toward left side
     knifeGroup.rotation.z = -Math.PI / 6; // Angle blade towards user (30 degrees)
     scene.add(knifeGroup);
 
