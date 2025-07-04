@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import DonerSliceEffect from "@/components/doner-slice-effect";
 import type { MenuItem, Testimonial } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { data: menuItems, isLoading: menuLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -45,6 +47,7 @@ export default function Home() {
               </h1>
             </motion.div>
             
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
                 <motion.a
@@ -84,11 +87,105 @@ export default function Home() {
                 </motion.a>
               ))}
             </div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden text-zafer-text p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {mobileMenuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </>
+                ) : (
+                  <>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </>
+                )}
+              </svg>
+            </motion.button>
             
             
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <motion.div
+          className="fixed inset-0 bg-zafer-surface/95 backdrop-blur-lg z-50 md:hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex flex-col items-center justify-center h-full space-y-8">
+            {/* Close Button */}
+            <motion.button
+              className="absolute top-6 right-6 text-zafer-text p-2"
+              onClick={() => setMobileMenuOpen(false)}
+              initial={{ opacity: 0, rotate: -90 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </motion.button>
+
+            {/* Mobile Menu Items */}
+            {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
+              <motion.button
+                key={item}
+                className="text-2xl font-playfair font-semibold text-zafer-text hover:text-zafer-primary transition-colors"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (item === 'Menü') {
+                    setLocation('/menu');
+                  } else if (item === 'Hakkımızda') {
+                    setLocation('/about');
+                  } else if (item === 'Galeri') {
+                    setLocation('/gallery');
+                  } else if (item === 'Yorumlar') {
+                    setLocation('/testimonials');
+                  } else if (item === 'İletişim') {
+                    setLocation('/contact');
+                  }
+                }}
+              >
+                {item}
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+      )}
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
