@@ -235,6 +235,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Testimonials API
+  app.post("/api/admin/testimonials", async (req, res) => {
+    try {
+      const testimonial = await storage.createTestimonial(req.body);
+      res.json(testimonial);
+    } catch (error) {
+      console.error("Error creating testimonial:", error);
+      res.status(500).json({ error: "Failed to create testimonial" });
+    }
+  });
+
+  app.put("/api/admin/testimonials/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const testimonial = await storage.updateTestimonial(id, req.body);
+      res.json(testimonial);
+    } catch (error) {
+      console.error("Error updating testimonial:", error);
+      res.status(500).json({ error: "Failed to update testimonial" });
+    }
+  });
+
+  app.delete("/api/admin/testimonials/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteTestimonial(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting testimonial:", error);
+      res.status(500).json({ error: "Failed to delete testimonial" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

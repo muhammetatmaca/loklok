@@ -34,8 +34,54 @@ export default function Admin() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Gallery states
+  const [isGalleryDialogOpen, setIsGalleryDialogOpen] = useState(false);
+  const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryImage | null>(null);
+  const [galleryFormData, setGalleryFormData] = useState<InsertGalleryImage>({
+    title: "",
+    description: "",
+    imageUrl: "",
+    category: "",
+    isActive: true,
+  });
+
+  // About states
+  const [isAboutDialogOpen, setIsAboutDialogOpen] = useState(false);
+  const [editingAboutItem, setEditingAboutItem] = useState<AboutInfo | null>(null);
+  const [aboutFormData, setAboutFormData] = useState<InsertAboutInfo>({
+    title: "",
+    content: "",
+    imageUrl: "",
+    section: "",
+    displayOrder: 0,
+    isActive: true,
+  });
+
+  // Testimonial states
+  const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
+  const [editingTestimonialItem, setEditingTestimonialItem] = useState<Testimonial | null>(null);
+  const [testimonialFormData, setTestimonialFormData] = useState<InsertTestimonial>({
+    customerName: "",
+    rating: 5,
+    review: "",
+    date: new Date().toISOString().split('T')[0],
+    avatar: "",
+  });
+
   const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
+  });
+
+  const { data: galleryImages = [], isLoading: isGalleryLoading } = useQuery<GalleryImage[]>({
+    queryKey: ["/api/gallery"],
+  });
+
+  const { data: aboutInfos = [], isLoading: isAboutLoading } = useQuery<AboutInfo[]>({
+    queryKey: ["/api/about"],
+  });
+
+  const { data: testimonials = [], isLoading: isTestimonialsLoading } = useQuery<Testimonial[]>({
+    queryKey: ["/api/testimonials"],
   });
 
   const createMutation = useMutation({
@@ -102,6 +148,138 @@ export default function Admin() {
     },
   });
 
+  // Gallery mutations
+  const createGalleryMutation = useMutation({
+    mutationFn: async (data: InsertGalleryImage) => {
+      return await apiRequest("POST", "/api/admin/gallery", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/gallery"] });
+      setIsGalleryDialogOpen(false);
+      resetGalleryForm();
+      toast({ title: "Başarılı", description: "Galeri görseli eklendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Galeri görseli eklenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const updateGalleryMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertGalleryImage> }) => {
+      return await apiRequest("PUT", `/api/admin/gallery/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/gallery"] });
+      setEditingGalleryItem(null);
+      resetGalleryForm();
+      toast({ title: "Başarılı", description: "Galeri görseli güncellendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Galeri görseli güncellenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const deleteGalleryMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest("DELETE", `/api/admin/gallery/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/gallery"] });
+      toast({ title: "Başarılı", description: "Galeri görseli silindi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Galeri görseli silinirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  // About mutations
+  const createAboutMutation = useMutation({
+    mutationFn: async (data: InsertAboutInfo) => {
+      return await apiRequest("POST", "/api/admin/about", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/about"] });
+      setIsAboutDialogOpen(false);
+      resetAboutForm();
+      toast({ title: "Başarılı", description: "Hakkımızda bilgisi eklendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Hakkımızda bilgisi eklenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const updateAboutMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertAboutInfo> }) => {
+      return await apiRequest("PUT", `/api/admin/about/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/about"] });
+      setEditingAboutItem(null);
+      resetAboutForm();
+      toast({ title: "Başarılı", description: "Hakkımızda bilgisi güncellendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Hakkımızda bilgisi güncellenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const deleteAboutMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest("DELETE", `/api/admin/about/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/about"] });
+      toast({ title: "Başarılı", description: "Hakkımızda bilgisi silindi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Hakkımızda bilgisi silinirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  // Testimonial mutations
+  const createTestimonialMutation = useMutation({
+    mutationFn: async (data: InsertTestimonial) => {
+      return await apiRequest("POST", "/api/admin/testimonials", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/testimonials"] });
+      setIsTestimonialDialogOpen(false);
+      resetTestimonialForm();
+      toast({ title: "Başarılı", description: "Yorum eklendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Yorum eklenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const updateTestimonialMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertTestimonial> }) => {
+      return await apiRequest("PUT", `/api/admin/testimonials/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/testimonials"] });
+      setEditingTestimonialItem(null);
+      resetTestimonialForm();
+      toast({ title: "Başarılı", description: "Yorum güncellendi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Yorum güncellenirken hata oluştu", variant: "destructive" });
+    },
+  });
+
+  const deleteTestimonialMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest("DELETE", `/api/admin/testimonials/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/testimonials"] });
+      toast({ title: "Başarılı", description: "Yorum silindi" });
+    },
+    onError: () => {
+      toast({ title: "Hata", description: "Yorum silinirken hata oluştu", variant: "destructive" });
+    },
+  });
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -112,6 +290,37 @@ export default function Admin() {
       isSpicy: false,
       isVegetarian: false,
       isPopular: false,
+    });
+  };
+
+  const resetGalleryForm = () => {
+    setGalleryFormData({
+      title: "",
+      description: "",
+      imageUrl: "",
+      category: "",
+      isActive: true,
+    });
+  };
+
+  const resetAboutForm = () => {
+    setAboutFormData({
+      title: "",
+      content: "",
+      imageUrl: "",
+      section: "",
+      displayOrder: 0,
+      isActive: true,
+    });
+  };
+
+  const resetTestimonialForm = () => {
+    setTestimonialFormData({
+      customerName: "",
+      rating: 5,
+      review: "",
+      date: new Date().toISOString().split('T')[0],
+      avatar: "",
     });
   };
 
@@ -141,6 +350,58 @@ export default function Admin() {
   const handleDelete = (id: number) => {
     if (window.confirm("Bu menü öğesini silmek istediğinizden emin misiniz?")) {
       deleteMutation.mutate(id);
+    }
+  };
+
+  const handleGalleryEdit = (item: GalleryImage) => {
+    setEditingGalleryItem(item);
+    setGalleryFormData({
+      title: item.title,
+      description: item.description || "",
+      imageUrl: item.imageUrl,
+      category: item.category || "",
+      isActive: item.isActive || true,
+    });
+  };
+
+  const handleGalleryDelete = (id: number) => {
+    if (window.confirm("Bu galeri görselini silmek istediğinizden emin misiniz?")) {
+      deleteGalleryMutation.mutate(id);
+    }
+  };
+
+  const handleAboutEdit = (item: AboutInfo) => {
+    setEditingAboutItem(item);
+    setAboutFormData({
+      title: item.title,
+      content: item.content,
+      imageUrl: item.imageUrl || "",
+      section: item.section,
+      displayOrder: item.displayOrder || 0,
+      isActive: item.isActive || true,
+    });
+  };
+
+  const handleAboutDelete = (id: number) => {
+    if (window.confirm("Bu hakkımızda bilgisini silmek istediğinizden emin misiniz?")) {
+      deleteAboutMutation.mutate(id);
+    }
+  };
+
+  const handleTestimonialEdit = (item: Testimonial) => {
+    setEditingTestimonialItem(item);
+    setTestimonialFormData({
+      customerName: item.customerName,
+      rating: item.rating,
+      review: item.review,
+      date: item.date,
+      avatar: item.avatar || "",
+    });
+  };
+
+  const handleTestimonialDelete = (id: number) => {
+    if (window.confirm("Bu yorumu silmek istediğinizden emin misiniz?")) {
+      deleteTestimonialMutation.mutate(id);
     }
   };
 
@@ -408,24 +669,572 @@ export default function Admin() {
           </TabsContent>
 
           <TabsContent value="gallery" className="mt-6">
-            <div className="text-center py-12">
-              <h3 className="text-xl text-zafer-primary mb-4">Galeri Yönetimi</h3>
-              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl text-zafer-primary">Galeri Yönetimi</h3>
+              <Dialog open={isGalleryDialogOpen} onOpenChange={setIsGalleryDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Galeri Ekle
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-zafer-primary">
+                      {editingGalleryItem ? "Galeri Görselini Düzenle" : "Yeni Galeri Görseli Ekle"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (editingGalleryItem) {
+                        updateGalleryMutation.mutate({ id: editingGalleryItem.id, data: galleryFormData });
+                      } else {
+                        createGalleryMutation.mutate(galleryFormData);
+                      }
+                    }}
+                    className="space-y-4 mt-4"
+                  >
+                    <div>
+                      <Label htmlFor="gallery-title" className="text-white">Başlık</Label>
+                      <Input
+                        id="gallery-title"
+                        value={galleryFormData.title}
+                        onChange={(e) => setGalleryFormData({...galleryFormData, title: e.target.value})}
+                        required
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="gallery-description" className="text-white">Açıklama</Label>
+                      <Textarea
+                        id="gallery-description"
+                        value={galleryFormData.description}
+                        onChange={(e) => setGalleryFormData({...galleryFormData, description: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="gallery-imageUrl" className="text-white">Görsel URL</Label>
+                      <Input
+                        id="gallery-imageUrl"
+                        type="url"
+                        value={galleryFormData.imageUrl}
+                        onChange={(e) => setGalleryFormData({...galleryFormData, imageUrl: e.target.value})}
+                        required
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="gallery-category" className="text-white">Kategori</Label>
+                      <Input
+                        id="gallery-category"
+                        value={galleryFormData.category}
+                        onChange={(e) => setGalleryFormData({...galleryFormData, category: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="gallery-isActive"
+                        checked={galleryFormData.isActive}
+                        onCheckedChange={(checked) => setGalleryFormData({...galleryFormData, isActive: checked as boolean})}
+                      />
+                      <Label htmlFor="gallery-isActive" className="text-white">Aktif</Label>
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          setIsGalleryDialogOpen(false);
+                          setEditingGalleryItem(null);
+                          resetGalleryForm();
+                        }}
+                        className="border-gray-700 text-gray-300"
+                      >
+                        İptal
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-zafer-primary hover:bg-zafer-primary/90 text-white"
+                        disabled={createGalleryMutation.isPending || updateGalleryMutation.isPending}
+                      >
+                        {editingGalleryItem ? "Güncelle" : "Ekle"}
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
+
+            {isGalleryLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
+                    <CardContent className="p-6">
+                      <div className="animate-pulse">
+                        <div className="h-48 bg-zafer-primary/20 rounded mb-4"></div>
+                        <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-1/2"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {galleryImages.map((item: GalleryImage, index: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:bg-zafer-surface/70 transition-all duration-200">
+                      <CardContent className="p-4">
+                        <div className="relative mb-4">
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title}
+                            className="w-full h-48 object-cover rounded-lg"
+                          />
+                          <div className="absolute top-2 right-2 flex gap-1">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                handleGalleryEdit(item);
+                                setIsGalleryDialogOpen(true);
+                              }}
+                              className="bg-white/20 border-white/30 text-white hover:bg-white/30"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleGalleryDelete(item.id)}
+                              className="bg-red-500/20 border-red-500/30 text-red-500 hover:bg-red-500/30"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <h4 className="text-zafer-primary font-semibold">{item.title}</h4>
+                        {item.description && (
+                          <p className="text-zafer-text-muted text-sm mt-1">{item.description}</p>
+                        )}
+                        <div className="flex justify-between items-center mt-3">
+                          {item.category && (
+                            <Badge variant="outline" className="border-zafer-primary/20 text-zafer-primary">
+                              {item.category}
+                            </Badge>
+                          )}
+                          <Badge variant={item.isActive ? "default" : "secondary"}>
+                            {item.isActive ? "Aktif" : "Pasif"}
+                          </Badge>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="about" className="mt-6">
-            <div className="text-center py-12">
-              <h3 className="text-xl text-zafer-primary mb-4">Hakkımızda Yönetimi</h3>
-              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl text-zafer-primary">Hakkımızda Yönetimi</h3>
+              <Dialog open={isAboutDialogOpen} onOpenChange={setIsAboutDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    İçerik Ekle
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-zafer-primary">
+                      {editingAboutItem ? "Hakkımızda İçeriğini Düzenle" : "Yeni Hakkımızda İçeriği Ekle"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (editingAboutItem) {
+                        updateAboutMutation.mutate({ id: editingAboutItem.id, data: aboutFormData });
+                      } else {
+                        createAboutMutation.mutate(aboutFormData);
+                      }
+                    }}
+                    className="space-y-4 mt-4"
+                  >
+                    <div>
+                      <Label htmlFor="about-title" className="text-white">Başlık</Label>
+                      <Input
+                        id="about-title"
+                        value={aboutFormData.title}
+                        onChange={(e) => setAboutFormData({...aboutFormData, title: e.target.value})}
+                        required
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="about-section" className="text-white">Bölüm</Label>
+                      <Select 
+                        value={aboutFormData.section} 
+                        onValueChange={(value) => setAboutFormData({...aboutFormData, section: value})}
+                      >
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                          <SelectValue placeholder="Bölüm seçin" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 border-gray-700">
+                          <SelectItem value="hikayemiz">Hikayemiz</SelectItem>
+                          <SelectItem value="misyonumuz">Misyonumuz</SelectItem>
+                          <SelectItem value="vizyonumuz">Vizyonumuz</SelectItem>
+                          <SelectItem value="ekibimiz">Ekibimiz</SelectItem>
+                          <SelectItem value="degelerimiz">Değerlerimiz</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="about-content" className="text-white">İçerik</Label>
+                      <Textarea
+                        id="about-content"
+                        value={aboutFormData.content}
+                        onChange={(e) => setAboutFormData({...aboutFormData, content: e.target.value})}
+                        required
+                        rows={6}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="about-imageUrl" className="text-white">Görsel URL (İsteğe bağlı)</Label>
+                      <Input
+                        id="about-imageUrl"
+                        type="url"
+                        value={aboutFormData.imageUrl}
+                        onChange={(e) => setAboutFormData({...aboutFormData, imageUrl: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="about-displayOrder" className="text-white">Görüntüleme Sırası</Label>
+                      <Input
+                        id="about-displayOrder"
+                        type="number"
+                        value={aboutFormData.displayOrder}
+                        onChange={(e) => setAboutFormData({...aboutFormData, displayOrder: parseInt(e.target.value) || 0})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="about-isActive"
+                        checked={aboutFormData.isActive}
+                        onCheckedChange={(checked) => setAboutFormData({...aboutFormData, isActive: checked as boolean})}
+                      />
+                      <Label htmlFor="about-isActive" className="text-white">Aktif</Label>
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          setIsAboutDialogOpen(false);
+                          setEditingAboutItem(null);
+                          resetAboutForm();
+                        }}
+                        className="border-gray-700 text-gray-300"
+                      >
+                        İptal
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-zafer-primary hover:bg-zafer-primary/90 text-white"
+                        disabled={createAboutMutation.isPending || updateAboutMutation.isPending}
+                      >
+                        {editingAboutItem ? "Güncelle" : "Ekle"}
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
+
+            {isAboutLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[...Array(4)].map((_, i) => (
+                  <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
+                    <CardContent className="p-6">
+                      <div className="animate-pulse">
+                        <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-4"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-2/3"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {aboutInfos.map((item: AboutInfo, index: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:bg-zafer-surface/70 transition-all duration-200">
+                      <CardHeader className="pb-3">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <CardTitle className="text-zafer-primary text-lg">{item.title}</CardTitle>
+                            <Badge variant="outline" className="border-zafer-primary/20 text-zafer-primary mt-2">
+                              {item.section}
+                            </Badge>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                handleAboutEdit(item);
+                                setIsAboutDialogOpen(true);
+                              }}
+                              className="border-zafer-primary/20 text-zafer-primary hover:bg-zafer-primary/10"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleAboutDelete(item.id)}
+                              className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-zafer-text-muted text-sm mb-3 line-clamp-3">
+                          {item.content}
+                        </p>
+                        <div className="flex justify-between items-center">
+                          <span className="text-xs text-zafer-text-muted">
+                            Sıra: {item.displayOrder}
+                          </span>
+                          <Badge variant={item.isActive ? "default" : "secondary"}>
+                            {item.isActive ? "Aktif" : "Pasif"}
+                          </Badge>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="testimonials" className="mt-6">
-            <div className="text-center py-12">
-              <h3 className="text-xl text-zafer-primary mb-4">Yorumlar Yönetimi</h3>
-              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl text-zafer-primary">Yorumlar Yönetimi</h3>
+              <Dialog open={isTestimonialDialogOpen} onOpenChange={setIsTestimonialDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Yorum Ekle
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-zafer-primary">
+                      {editingTestimonialItem ? "Yorumu Düzenle" : "Yeni Yorum Ekle"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (editingTestimonialItem) {
+                        updateTestimonialMutation.mutate({ id: editingTestimonialItem.id, data: testimonialFormData });
+                      } else {
+                        createTestimonialMutation.mutate(testimonialFormData);
+                      }
+                    }}
+                    className="space-y-4 mt-4"
+                  >
+                    <div>
+                      <Label htmlFor="testimonial-customerName" className="text-white">Müşteri Adı</Label>
+                      <Input
+                        id="testimonial-customerName"
+                        value={testimonialFormData.customerName}
+                        onChange={(e) => setTestimonialFormData({...testimonialFormData, customerName: e.target.value})}
+                        required
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="testimonial-rating" className="text-white">Puan (1-5)</Label>
+                      <Select 
+                        value={testimonialFormData.rating.toString()} 
+                        onValueChange={(value) => setTestimonialFormData({...testimonialFormData, rating: parseInt(value)})}
+                      >
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                          <SelectValue placeholder="Puan seçin" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 border-gray-700">
+                          <SelectItem value="1">1 ⭐</SelectItem>
+                          <SelectItem value="2">2 ⭐⭐</SelectItem>
+                          <SelectItem value="3">3 ⭐⭐⭐</SelectItem>
+                          <SelectItem value="4">4 ⭐⭐⭐⭐</SelectItem>
+                          <SelectItem value="5">5 ⭐⭐⭐⭐⭐</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="testimonial-review" className="text-white">Yorum</Label>
+                      <Textarea
+                        id="testimonial-review"
+                        value={testimonialFormData.review}
+                        onChange={(e) => setTestimonialFormData({...testimonialFormData, review: e.target.value})}
+                        required
+                        rows={4}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="testimonial-date" className="text-white">Tarih</Label>
+                      <Input
+                        id="testimonial-date"
+                        type="date"
+                        value={testimonialFormData.date}
+                        onChange={(e) => setTestimonialFormData({...testimonialFormData, date: e.target.value})}
+                        required
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="testimonial-avatar" className="text-white">Avatar URL (İsteğe bağlı)</Label>
+                      <Input
+                        id="testimonial-avatar"
+                        type="url"
+                        value={testimonialFormData.avatar}
+                        onChange={(e) => setTestimonialFormData({...testimonialFormData, avatar: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => {
+                          setIsTestimonialDialogOpen(false);
+                          setEditingTestimonialItem(null);
+                          resetTestimonialForm();
+                        }}
+                        className="border-gray-700 text-gray-300"
+                      >
+                        İptal
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-zafer-primary hover:bg-zafer-primary/90 text-white"
+                        disabled={createTestimonialMutation.isPending || updateTestimonialMutation.isPending}
+                      >
+                        {editingTestimonialItem ? "Güncelle" : "Ekle"}
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
+
+            {isTestimonialsLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
+                    <CardContent className="p-6">
+                      <div className="animate-pulse">
+                        <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-4"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-2/3"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {testimonials.map((item: Testimonial, index: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:bg-zafer-surface/70 transition-all duration-200">
+                      <CardHeader className="pb-3">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              {item.avatar && (
+                                <img
+                                  src={item.avatar}
+                                  alt={item.customerName}
+                                  className="w-10 h-10 rounded-full object-cover"
+                                />
+                              )}
+                              <div>
+                                <CardTitle className="text-zafer-primary text-lg">{item.customerName}</CardTitle>
+                                <div className="flex">
+                                  {[...Array(5)].map((_, i) => (
+                                    <span key={i} className={i < item.rating ? "text-yellow-500" : "text-gray-300"}>
+                                      ⭐
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                handleTestimonialEdit(item);
+                                setIsTestimonialDialogOpen(true);
+                              }}
+                              className="border-zafer-primary/20 text-zafer-primary hover:bg-zafer-primary/10"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleTestimonialDelete(item.id)}
+                              className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-zafer-text-muted text-sm mb-3 line-clamp-3">
+                          "{item.review}"
+                        </p>
+                        <div className="text-xs text-zafer-text-muted">
+                          {new Date(item.date).toLocaleDateString('tr-TR')}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

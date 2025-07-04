@@ -424,4 +424,28 @@ export class MongoStorage implements IStorage {
 
     await AboutInfo.findByIdAndDelete(aboutInfo._id);
   }
+
+  // Missing Testimonial methods
+  async updateTestimonial(id: number, updateData: Partial<InsertTestimonial>): Promise<DrizzleTestimonial> {
+    const testimonial = await Testimonial.findOne({ id });
+    
+    if (!testimonial) {
+      throw new Error(`Testimonial with id ${id} not found`);
+    }
+
+    Object.assign(testimonial, updateData, { updatedAt: new Date() });
+    await testimonial.save();
+
+    return mongoToTestimonial(testimonial);
+  }
+
+  async deleteTestimonial(id: number): Promise<void> {
+    const testimonial = await Testimonial.findOne({ id });
+    
+    if (!testimonial) {
+      throw new Error(`Testimonial with id ${id} not found`);
+    }
+
+    await Testimonial.findByIdAndDelete(testimonial._id);
+  }
 }
