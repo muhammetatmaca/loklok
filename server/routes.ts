@@ -4,8 +4,68 @@ import { storage } from "./storage";
 import { insertReservationSchema, insertContactMessageSchema, insertMenuItemSchema } from "@shared/schema";
 import { z } from "zod";
 import CloudinaryService from "./cloudinary";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { Request, Response, NextFunction } from "express";
+
+// Admin credentials (in production, store these securely)
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "zafer123";
+const JWT_SECRET = process.env.JWT_SECRET || "zafer-restaurant-secret-key";
+
+// Extend Request interface for user property
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
+
+// Authentication middleware
+const authenticateAdmin = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Access token required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: "Invalid token" });
+  }
+};
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Admin Login
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      if (!username || !password) {
+        return res.status(400).json({ error: "Username and password required" });
+      }
+
+      if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const token = jwt.sign(
+        { username: ADMIN_USERNAME, role: "admin" },
+        JWT_SECRET,
+        { expiresIn: "24h" }
+      );
+
+      res.json({ token, message: "Login successful" });
+    } catch (error) {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Menu Items routes
   app.get("/api/menu", async (req, res) => {
     try {
@@ -104,8 +164,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin Routes
-  app.post('/api/admin/menu', async (req, res) => {
+  // Admin Routes (Protected)
+  app.post('/api/admin/menu', authenticateAdmin, async (req, res) => {
     try {
       console.log('Received menu data:', req.body);
       const data = insertMenuItemSchema.parse(req.body);
@@ -122,7 +182,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/admin/menu/:id', async (req, res) => {
+  app.put('/api/admin/menu/:id', authenticateAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const data = insertMenuItemSchema.partial().parse(req.body);
@@ -137,7 +197,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/admin/menu/:id', async (req, res) => {
+  app.delete('/api/admin/menu/:id', authenticateAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteMenuItem(id);

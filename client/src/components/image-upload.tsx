@@ -59,8 +59,14 @@ export default function ImageUpload({
       }) as any;
 
       console.log('ImageUpload: Full result from API:', result);
-      const imageUrl = result.secure_url || result.url;
+      const imageUrl = result.secure_url || result.url || result.optimized_url;
       console.log('ImageUpload: Setting image URL:', imageUrl);
+      
+      if (!imageUrl) {
+        console.error('No valid image URL received from API');
+        return;
+      }
+      
       setPreview(imageUrl);
       onChange(imageUrl, result.public_id);
     } catch (error) {
