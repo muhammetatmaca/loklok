@@ -580,7 +580,7 @@ export default function Admin() {
                   Yeni Öğe Ekle
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
+              <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                 <DialogHeader>
                   <DialogTitle className="text-zafer-primary">
                     {editingItem ? "Menü Öğesini Düzenle" : "Yeni Menü Öğesi Ekle"}
@@ -589,7 +589,7 @@ export default function Admin() {
                     {editingItem ? "Mevcut menü öğesinin bilgilerini güncelleyin" : "Menüye yeni bir öğe eklemek için aşağıdaki formu doldurun"}
                   </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-4 p-1">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-zafer-text font-medium">Menü Öğesi Adı *</Label>
@@ -837,7 +837,7 @@ export default function Admin() {
                     Galeri Ekle
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                   <DialogHeader>
                     <DialogTitle className="text-zafer-primary">
                       {editingGalleryItem ? "Galeri Görselini Düzenle" : "Yeni Galeri Görseli Ekle"}
@@ -852,7 +852,7 @@ export default function Admin() {
                         createGalleryMutation.mutate(galleryFormData);
                       }
                     }}
-                    className="space-y-4 mt-4"
+                    className="space-y-3 mt-4 p-1"
                   >
                     <div>
                       <Label htmlFor="gallery-title" className="text-white">Başlık</Label>
@@ -1009,7 +1009,7 @@ export default function Admin() {
                     İçerik Ekle
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
+                <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                   <DialogHeader>
                     <DialogTitle className="text-zafer-primary">
                       {editingAboutItem ? "Hakkımızda İçeriğini Düzenle" : "Yeni Hakkımızda İçeriği Ekle"}
@@ -1024,7 +1024,7 @@ export default function Admin() {
                         createAboutMutation.mutate(aboutFormData);
                       }
                     }}
-                    className="space-y-4 mt-4"
+                    className="space-y-3 mt-4 p-1"
                   >
                     <div>
                       <Label htmlFor="about-title" className="text-white">Başlık</Label>
@@ -1203,7 +1203,7 @@ export default function Admin() {
                     Yorum Ekle
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                   <DialogHeader>
                     <DialogTitle className="text-zafer-primary">
                       {editingTestimonialItem ? "Yorumu Düzenle" : "Yeni Yorum Ekle"}
@@ -1218,7 +1218,7 @@ export default function Admin() {
                         createTestimonialMutation.mutate(testimonialFormData);
                       }
                     }}
-                    className="space-y-4 mt-4"
+                    className="space-y-3 mt-4 p-1"
                   >
                     <div>
                       <Label htmlFor="testimonial-customerName" className="text-white">Müşteri Adı</Label>
@@ -1399,13 +1399,13 @@ export default function Admin() {
                     Signature Öğesi Ekle
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                   <DialogHeader>
                     <DialogTitle className="text-zafer-primary">
                       {editingSignatureItem ? "Signature Öğesini Düzenle" : "Yeni Signature Öğesi Ekle"}
                     </DialogTitle>
                   </DialogHeader>
-                  <form onSubmit={handleSignatureSubmit} className="space-y-4">
+                  <form onSubmit={handleSignatureSubmit} className="space-y-3 p-1">
                     <div>
                       <Label htmlFor="signature-title" className="text-white">Başlık</Label>
                       <Input
