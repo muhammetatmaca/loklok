@@ -11,6 +11,7 @@ import Testimonials from "@/pages/testimonials";
 import Contact from "@/pages/contact";
 import Game from "@/pages/game";
 import Leaderboard from "@/pages/leaderboard";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/game" component={Game} />
       <Route path="/game/:mysteryId" component={Game} />
       <Route path="/leaderboard" component={Leaderboard} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

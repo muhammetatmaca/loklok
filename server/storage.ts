@@ -12,6 +12,8 @@ import {
   type InsertTestimonial, 
   type InsertContactMessage 
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Menu Items
@@ -19,6 +21,8 @@ export interface IStorage {
   getMenuItem(id: number): Promise<MenuItem | undefined>;
   getMenuItemsByCategory(category: string): Promise<MenuItem[]>;
   createMenuItem(item: InsertMenuItem): Promise<MenuItem>;
+  updateMenuItem(id: number, item: Partial<InsertMenuItem>): Promise<MenuItem>;
+  deleteMenuItem(id: number): Promise<void>;
 
   // Reservations
   getAllReservations(): Promise<Reservation[]>;
@@ -181,6 +185,30 @@ export class MemStorage implements IStorage {
     return item;
   }
 
+  async updateMenuItem(id: number, updateData: Partial<InsertMenuItem>): Promise<MenuItem> {
+    const existingItem = this.menuItems.get(id);
+    if (!existingItem) {
+      throw new Error(`MenuItem with id ${id} not found`);
+    }
+    
+    const updatedItem: MenuItem = {
+      ...existingItem,
+      ...updateData,
+      isSpicy: updateData.isSpicy ?? existingItem.isSpicy,
+      isVegetarian: updateData.isVegetarian ?? existingItem.isVegetarian,
+      isPopular: updateData.isPopular ?? existingItem.isPopular
+    };
+    this.menuItems.set(id, updatedItem);
+    return updatedItem;
+  }
+
+  async deleteMenuItem(id: number): Promise<void> {
+    if (!this.menuItems.has(id)) {
+      throw new Error(`MenuItem with id ${id} not found`);
+    }
+    this.menuItems.delete(id);
+  }
+
   // Reservations
   async getAllReservations(): Promise<Reservation[]> {
     return Array.from(this.reservations.values()).sort((a, b) => 
@@ -265,4 +293,90 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  // Menu Items
+  async getAllMenuItems(): Promise<MenuItem[]> {
+    return await db.select().from(menuItems);
+  }
+
+  async getMenuItem(id: number): Promise<MenuItem | undefined> {
+    const [item] = await db.select().from(menuItems).where(eq(menuItems.id, id));
+    return item;
+  }
+
+  async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
+    return await db.select().from(menuItems).where(eq(menuItems.category, category));
+  }
+
+  async createMenuItem(insertItem: InsertMenuItem): Promise<MenuItem> {
+    const [item] = await db.insert(menuItems).values(insertItem).returning();
+    return item;
+  }
+
+  async updateMenuItem(id: number, updateData: Partial<InsertMenuItem>): Promise<MenuItem> {
+    const [item] = await db.update(menuItems)
+      .set(updateData)
+      .where(eq(menuItems.id, id))
+      .returning();
+    return item;
+  }
+
+  async deleteMenuItem(id: number): Promise<void> {
+    await db.delete(menuItems).where(eq(menuItems.id, id));
+  }
+
+  // Reservations
+  async getAllReservations(): Promise<Reservation[]> {
+    return await db.select().from(reservations);
+  }
+
+  async getReservation(id: number): Promise<Reservation | undefined> {
+    const [reservation] = await db.select().from(reservations).where(eq(reservations.id, id));
+    return reservation;
+  }
+
+  async createReservation(insertReservation: InsertReservation): Promise<Reservation> {
+    const [reservation] = await db.insert(reservations).values(insertReservation).returning();
+    return reservation;
+  }
+
+  async updateReservationStatus(id: number, status: string): Promise<Reservation> {
+    const [reservation] = await db.update(reservations)
+      .set({ status })
+      .where(eq(reservations.id, id))
+      .returning();
+    return reservation;
+  }
+
+  // Testimonials
+  async getAllTestimonials(): Promise<Testimonial[]> {
+    return await db.select().from(testimonials);
+  }
+
+  async getTestimonial(id: number): Promise<Testimonial | undefined> {
+    const [testimonial] = await db.select().from(testimonials).where(eq(testimonials.id, id));
+    return testimonial;
+  }
+
+  async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
+    const [testimonial] = await db.insert(testimonials).values(insertTestimonial).returning();
+    return testimonial;
+  }
+
+  // Contact Messages
+  async getAllContactMessages(): Promise<ContactMessage[]> {
+    return await db.select().from(contactMessages);
+  }
+
+  async getContactMessage(id: number): Promise<ContactMessage | undefined> {
+    const [message] = await db.select().from(contactMessages).where(eq(contactMessages.id, id));
+    return message;
+  }
+
+  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
+    const [message] = await db.insert(contactMessages).values(insertMessage).returning();
+    return message;
+  }
+}
+
+export const storage = new DatabaseStorage();
