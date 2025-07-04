@@ -51,7 +51,8 @@ export default function Home() {
                   key={item}
                   href={
                     item === 'Menü' ? '/menu' : 
-                    item === 'Hakkımızda' ? '/about' : 
+                    item === 'Hakkımızda' ? '/about' :
+                    item === 'Galeri' ? '/gallery' :
                     `#${item.toLowerCase().replace(' ', '-')}`
                   }
                   className="text-zafer-text-muted hover:text-zafer-primary transition-colors font-inter font-medium cursor-pointer"
@@ -65,6 +66,9 @@ export default function Home() {
                     } else if (item === 'Hakkımızda') {
                       e.preventDefault();
                       setLocation('/about');
+                    } else if (item === 'Galeri') {
+                      e.preventDefault();
+                      setLocation('/gallery');
                     }
                   }}
                 >
