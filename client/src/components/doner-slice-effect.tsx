@@ -201,10 +201,10 @@ export default function DonerSliceEffect() {
     guard.position.set(0, 0, -2.5);
     knifeGroup.add(guard);
 
-    knifeGroup.position.set(2, 6, 0); // Start above döner
-    knifeGroup.rotation.x = Math.PI / 6; // Tilt to point handle away from user
-    knifeGroup.rotation.y = Math.PI; // Rotate 180 degrees so tip points left, handle points right
-    knifeGroup.rotation.z = 0; // No z rotation needed now
+    knifeGroup.position.set(3, 6, 0); // Start right of döner
+    knifeGroup.rotation.x = Math.PI / 8; // Slight tilt 
+    knifeGroup.rotation.y = Math.PI * 0.75; // Angle toward döner
+    knifeGroup.rotation.z = -Math.PI / 12; // Slight downward angle
     scene.add(knifeGroup);
 
     // Lighting
@@ -228,11 +228,11 @@ export default function DonerSliceEffect() {
         donerGroup.rotation.y += 0.01;
       }
 
-      // Knife cutting animation (back and forth)
+      // Knife cutting animation (back and forth toward döner)
       if (knifeGroup && !isSlicing) {
         const time = Date.now() * 0.002;
-        knifeGroup.position.x = 2 + Math.sin(time) * 0.3; // Gentle back and forth movement
-        knifeGroup.rotation.y = Math.sin(time * 0.7) * 0.1; // Slight rotation for cutting motion
+        knifeGroup.position.x = 3 + Math.sin(time) * 0.2; // Gentle back and forth movement
+        knifeGroup.rotation.y = Math.PI * 0.75 + Math.sin(time * 0.7) * 0.05; // Slight rotation for cutting motion
       }
 
       renderer.render(scene, camera);
@@ -253,11 +253,11 @@ export default function DonerSliceEffect() {
         const progress = self.progress;
         
         if (progress > 0.2 && progress < 0.8) {
-          // Knife animation - top-down slicing with cutting motion
+          // Knife animation - diagonal slicing toward döner
           if (knifeRef.current) {
             const sliceProgress = (progress - 0.2) / 0.6; // 0 to 1
             knifeRef.current.position.y = 6 - sliceProgress * 8; // Move from top to bottom
-            knifeRef.current.position.x = 2 + Math.sin(sliceProgress * Math.PI * 4) * 0.15; // Cutting motion
+            knifeRef.current.position.x = 3 - sliceProgress * 1.5 + Math.sin(sliceProgress * Math.PI * 4) * 0.1; // Move toward döner with cutting motion
           }
           
           // Start slicing effect
