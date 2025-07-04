@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import type { MenuItem } from "@shared/schema";
+import zaferLogo from "@assets/image_1751589634254.png";
 
 export default function Menu() {
   const [, setLocation] = useLocation();
@@ -58,7 +59,7 @@ export default function Menu() {
             >
               <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
                 <img 
-                  src="/attached_assets/image_1751589634254.png" 
+                  src={zaferLogo} 
                   alt="Zafer Lokantası Logo" 
                   className="w-full h-full object-cover"
                 />

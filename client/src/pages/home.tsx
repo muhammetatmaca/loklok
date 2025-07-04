@@ -5,6 +5,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import DonerSliceEffect from "@/components/doner-slice-effect";
 import type { MenuItem, Testimonial } from "@shared/schema";
+import zaferLogo from "@assets/image_1751589634254.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -34,7 +35,7 @@ export default function Home() {
               {/* Zafer Lokantası Logo */}
               <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
                 <img 
-                  src="/attached_assets/image_1751589634254.png" 
+                  src={zaferLogo} 
                   alt="Zafer Lokantası Logo" 
                   className="w-full h-full object-cover"
                 />
