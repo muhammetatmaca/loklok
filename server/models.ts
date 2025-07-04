@@ -140,3 +140,27 @@ export interface IAboutInfo {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+// Signature Collection Schema
+const signatureCollectionSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  image: { type: String, required: true },
+  displayOrder: { type: Number, default: 0 },
+  isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+export const SignatureCollection = mongoose.models.SignatureCollection || mongoose.model('SignatureCollection', signatureCollectionSchema);
+
+export interface ISignatureCollection {
+  _id?: string;
+  title: string;
+  description: string;
+  image: string;
+  displayOrder?: number;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}

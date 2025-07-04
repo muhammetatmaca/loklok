@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import DonerSliceEffect from "@/components/doner-slice-effect";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
-import type { MenuItem, Testimonial } from "@shared/schema";
+import type { MenuItem, Testimonial, SignatureCollection } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 
 export default function Home() {
@@ -19,6 +19,10 @@ export default function Home() {
 
   const { data: testimonials, isLoading: testimonialsLoading } = useQuery<Testimonial[]>({
     queryKey: ["/api/testimonials"],
+  });
+
+  const { data: signatureCollection, isLoading: signatureLoading } = useQuery<SignatureCollection[]>({
+    queryKey: ["/api/signature-collection"],
   });
 
   const featuredItems = menuItems?.filter(item => item.isPopular) || [];
@@ -453,6 +457,74 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Signature Collection Section */}
+      {signatureCollection && signatureCollection.length > 0 && (
+        <section className="py-24 relative overflow-hidden bg-gradient-to-br from-zafer-surface to-zafer-surface-light">
+          <div className="container mx-auto px-6">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
+                <span className="text-zafer-primary">Signature</span> Collection
+              </h2>
+              <p className="text-xl text-zafer-text-muted max-w-2xl mx-auto font-inter leading-relaxed">
+                Zafer Lokantası'nın gurur duyduğu özel koleksiyonu
+              </p>
+            </motion.div>
+
+            {signatureLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="h-80 bg-zafer-surface-light rounded-2xl animate-pulse"></div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {signatureCollection.map((item, index) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <Card className="modern-card group">
+                      <CardContent className="p-8">
+                        <div className="relative overflow-hidden rounded-2xl mb-6">
+                          <img 
+                            src={item.image} 
+                            alt={item.title}
+                            className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/30 transition-all duration-500"></div>
+                          
+                          <div className="absolute top-6 right-6">
+                            <span className="bg-zafer-primary/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
+                              ⭐ Signature
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <h3 className="text-2xl font-playfair font-bold text-zafer-text mb-4 group-hover:text-zafer-primary transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-zafer-text-muted font-inter leading-relaxed">
+                          {item.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* About Section */}
       <section className="py-24 relative overflow-hidden">

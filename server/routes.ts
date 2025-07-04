@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReservationSchema, insertContactMessageSchema, insertMenuItemSchema } from "@shared/schema";
+import { insertReservationSchema, insertContactMessageSchema, insertMenuItemSchema, insertSignatureCollectionSchema } from "@shared/schema";
 import { z } from "zod";
 import CloudinaryService from "./cloudinary";
 import jwt from "jsonwebtoken";
@@ -432,6 +432,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting image:", error);
       res.status(500).json({ error: "Failed to delete image" });
+    }
+  });
+
+  // Signature Collection endpoints
+  app.get("/api/signature-collection", async (req, res) => {
+    try {
+      const items = await storage.getAllSignatureCollection();
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching signature collection:", error);
+      res.status(500).json({ error: "Failed to fetch signature collection" });
+    }
+  });
+
+  app.get("/api/signature-collection/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const item = await storage.getSignatureCollection(id);
+      if (!item) {
+        return res.status(404).json({ error: "Signature collection item not found" });
+      }
+      res.json(item);
+    } catch (error) {
+      console.error("Error fetching signature collection item:", error);
+      res.status(500).json({ error: "Failed to fetch signature collection item" });
+    }
+  });
+
+  app.post("/api/signature-collection", authenticateAdmin, async (req, res) => {
+    try {
+      const parsed = insertSignatureCollectionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data", details: parsed.error.issues });
+      }
+      
+      const item = await storage.createSignatureCollection(parsed.data);
+      res.status(201).json(item);
+    } catch (error) {
+      console.error("Error creating signature collection item:", error);
+      res.status(500).json({ error: "Failed to create signature collection item" });
+    }
+  });
+
+  app.put("/api/signature-collection/:id", authenticateAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const parsed = insertSignatureCollectionSchema.partial().safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ error: "Invalid data", details: parsed.error.issues });
+      }
+      
+      const item = await storage.updateSignatureCollection(id, parsed.data);
+      res.json(item);
+    } catch (error) {
+      console.error("Error updating signature collection item:", error);
+      res.status(500).json({ error: "Failed to update signature collection item" });
+    }
+  });
+
+  app.delete("/api/signature-collection/:id", authenticateAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteSignatureCollection(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting signature collection item:", error);
+      res.status(500).json({ error: "Failed to delete signature collection item" });
     }
   });
 

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { MenuItem, Reservation, Testimonial, ContactMessage, GalleryImage, AboutInfo, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage, type IGalleryImage, type IAboutInfo } from './models';
+import { MenuItem, Reservation, Testimonial, ContactMessage, GalleryImage, AboutInfo, SignatureCollection, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage, type IGalleryImage, type IAboutInfo, type ISignatureCollection } from './models';
 import type { IStorage } from './storage';
-import type { MenuItem as DrizzleMenuItem, InsertMenuItem, Reservation as DrizzleReservation, InsertReservation, Testimonial as DrizzleTestimonial, InsertTestimonial, ContactMessage as DrizzleContactMessage, InsertContactMessage, GalleryImage as DrizzleGalleryImage, InsertGalleryImage, AboutInfo as DrizzleAboutInfo, InsertAboutInfo } from '@shared/schema';
+import type { MenuItem as DrizzleMenuItem, InsertMenuItem, Reservation as DrizzleReservation, InsertReservation, Testimonial as DrizzleTestimonial, InsertTestimonial, ContactMessage as DrizzleContactMessage, InsertContactMessage, GalleryImage as DrizzleGalleryImage, InsertGalleryImage, AboutInfo as DrizzleAboutInfo, InsertAboutInfo, SignatureCollection as DrizzleSignatureCollection, InsertSignatureCollection } from '@shared/schema';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('MONGODB_URI environment variable is not defined');
@@ -89,6 +89,19 @@ function mongoToAboutInfo(doc: any): DrizzleAboutInfo {
     displayOrder: doc.displayOrder || 0,
     isActive: doc.isActive !== false,
     updatedAt: doc.updatedAt || new Date(),
+  };
+}
+
+function mongoToSignatureCollection(doc: any): DrizzleSignatureCollection {
+  return {
+    id: parseInt(doc._id.toString().slice(-6), 16),
+    title: doc.title,
+    description: doc.description,
+    image: doc.image,
+    displayOrder: doc.displayOrder || null,
+    isActive: doc.isActive !== false,
+    createdAt: doc.createdAt || null,
+    updatedAt: doc.updatedAt || null,
   };
 }
 
@@ -447,5 +460,50 @@ export class MongoStorage implements IStorage {
     }
 
     await Testimonial.findByIdAndDelete(testimonial._id);
+  }
+
+  // Signature Collection operations
+  async getAllSignatureCollection(): Promise<DrizzleSignatureCollection[]> {
+    const items = await SignatureCollection.find({ isActive: true }).sort({ displayOrder: 1 });
+    return items.map(mongoToSignatureCollection);
+  }
+
+  async getSignatureCollection(id: number): Promise<DrizzleSignatureCollection | undefined> {
+    const item = await SignatureCollection.findOne({ id });
+    return item ? mongoToSignatureCollection(item) : undefined;
+  }
+
+  async createSignatureCollection(insertItem: InsertSignatureCollection): Promise<DrizzleSignatureCollection> {
+    const id = Math.floor(Math.random() * 1000000); // Generate random ID
+    const item = new SignatureCollection({
+      id,
+      ...insertItem,
+    });
+    await item.save();
+    return mongoToSignatureCollection(item);
+  }
+
+  async updateSignatureCollection(id: number, updateData: Partial<InsertSignatureCollection>): Promise<DrizzleSignatureCollection> {
+    const item = await SignatureCollection.findOneAndUpdate(
+      { id },
+      { ...updateData, updatedAt: new Date() },
+      { new: true }
+    );
+    
+    if (!item) {
+      throw new Error(`Signature collection with id ${id} not found`);
+    }
+    
+    return mongoToSignatureCollection(item);
+  }
+
+  async deleteSignatureCollection(id: number): Promise<void> {
+    const item = await SignatureCollection.findOne({ id });
+    
+    if (!item) {
+      throw new Error(`Signature collection with id ${id} not found`);
+    }
+
+    await SignatureCollection.findByIdAndDelete(item._id);
   }
 }

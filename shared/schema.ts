@@ -68,6 +68,17 @@ export const aboutInfo = pgTable("about_info", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const signatureCollection = pgTable("signature_collection", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  image: text("image").notNull(),
+  displayOrder: integer("display_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({
   id: true,
 });
@@ -97,15 +108,23 @@ export const insertAboutInfoSchema = createInsertSchema(aboutInfo).omit({
   updatedAt: true,
 });
 
+export const insertSignatureCollectionSchema = createInsertSchema(signatureCollection).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export type MenuItem = typeof menuItems.$inferSelect;
 export type Reservation = typeof reservations.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type GalleryImage = typeof galleryImages.$inferSelect;
 export type AboutInfo = typeof aboutInfo.$inferSelect;
+export type SignatureCollection = typeof signatureCollection.$inferSelect;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
 export type InsertReservation = z.infer<typeof insertReservationSchema>;
 export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type InsertGalleryImage = z.infer<typeof insertGalleryImageSchema>;
 export type InsertAboutInfo = z.infer<typeof insertAboutInfoSchema>;
+export type InsertSignatureCollection = z.infer<typeof insertSignatureCollectionSchema>;

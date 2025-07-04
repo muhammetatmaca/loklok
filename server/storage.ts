@@ -5,18 +5,21 @@ import {
   contactMessages,
   galleryImages,
   aboutInfo,
+  signatureCollection,
   type MenuItem, 
   type Reservation, 
   type Testimonial, 
   type ContactMessage,
   type GalleryImage,
   type AboutInfo,
+  type SignatureCollection,
   type InsertMenuItem, 
   type InsertReservation, 
   type InsertTestimonial, 
   type InsertContactMessage,
   type InsertGalleryImage,
-  type InsertAboutInfo
+  type InsertAboutInfo,
+  type InsertSignatureCollection
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -60,6 +63,13 @@ export interface IStorage {
   createAboutInfo(info: InsertAboutInfo): Promise<AboutInfo>;
   updateAboutInfo(id: number, info: Partial<InsertAboutInfo>): Promise<AboutInfo>;
   deleteAboutInfo(id: number): Promise<void>;
+
+  // Signature Collection
+  getAllSignatureCollection(): Promise<SignatureCollection[]>;
+  getSignatureCollection(id: number): Promise<SignatureCollection | undefined>;
+  createSignatureCollection(item: InsertSignatureCollection): Promise<SignatureCollection>;
+  updateSignatureCollection(id: number, item: Partial<InsertSignatureCollection>): Promise<SignatureCollection>;
+  deleteSignatureCollection(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {

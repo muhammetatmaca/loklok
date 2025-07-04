@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 import { Plus, Edit3, Trash2, Save, X, Image, FileText, Star, LogOut } from "lucide-react";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 import ImageUpload from "@/components/image-upload";
-import type { MenuItem, InsertMenuItem, GalleryImage, InsertGalleryImage, AboutInfo, InsertAboutInfo, Testimonial, InsertTestimonial } from "@shared/schema";
+import type { MenuItem, InsertMenuItem, GalleryImage, InsertGalleryImage, AboutInfo, InsertAboutInfo, Testimonial, InsertTestimonial, SignatureCollection, InsertSignatureCollection } from "@shared/schema";
 
 export default function Admin() {
   const [, setLocation] = useLocation();
@@ -93,6 +93,17 @@ export default function Admin() {
     avatar: "",
   });
 
+  // Signature Collection states
+  const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false);
+  const [editingSignatureItem, setEditingSignatureItem] = useState<SignatureCollection | null>(null);
+  const [signatureFormData, setSignatureFormData] = useState<InsertSignatureCollection>({
+    title: "",
+    description: "",
+    image: "",
+    displayOrder: 0,
+    isActive: true,
+  });
+
   const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
   });
@@ -107,6 +118,10 @@ export default function Admin() {
 
   const { data: testimonials = [], isLoading: isTestimonialsLoading } = useQuery<Testimonial[]>({
     queryKey: ["/api/testimonials"],
+  });
+
+  const { data: signatureCollection = [], isLoading: isSignatureLoading } = useQuery<SignatureCollection[]>({
+    queryKey: ["/api/signature-collection"],
   });
 
   const createMutation = useMutation({
@@ -431,6 +446,112 @@ export default function Admin() {
     }
   };
 
+  // Signature Collection mutations
+  const createSignatureMutation = useMutation({
+    mutationFn: async (data: InsertSignatureCollection) => {
+      return await apiRequest("POST", "/api/signature-collection", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/signature-collection"] });
+      setIsSignatureDialogOpen(false);
+      resetSignatureForm();
+      toast({
+        title: "Başarılı",
+        description: "Signature Collection öğesi eklendi",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "Signature Collection öğesi eklenirken hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateSignatureMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<InsertSignatureCollection> }) => {
+      return await apiRequest("PUT", `/api/signature-collection/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/signature-collection"] });
+      setEditingSignatureItem(null);
+      resetSignatureForm();
+      toast({
+        title: "Başarılı",
+        description: "Signature Collection öğesi güncellendi",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "Signature Collection öğesi güncellenirken hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteSignatureMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest("DELETE", `/api/signature-collection/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/signature-collection"] });
+      toast({
+        title: "Başarılı",
+        description: "Signature Collection öğesi silindi",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "Signature Collection öğesi silinirken hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const resetSignatureForm = () => {
+    setSignatureFormData({
+      title: "",
+      description: "",
+      image: "",
+      displayOrder: 0,
+      isActive: true,
+    });
+    setEditingSignatureItem(null);
+    setIsSignatureDialogOpen(false);
+  };
+
+  const handleSignatureSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingSignatureItem) {
+      updateSignatureMutation.mutate({
+        id: editingSignatureItem.id,
+        data: signatureFormData,
+      });
+    } else {
+      createSignatureMutation.mutate(signatureFormData);
+    }
+  };
+
+  const handleSignatureEdit = (item: SignatureCollection) => {
+    setEditingSignatureItem(item);
+    setSignatureFormData({
+      title: item.title,
+      description: item.description,
+      image: item.image,
+      displayOrder: item.displayOrder || 0,
+      isActive: item.isActive || true,
+    });
+  };
+
+  const handleSignatureDelete = (id: number) => {
+    if (window.confirm("Bu signature collection öğesini silmek istediğinizden emin misiniz?")) {
+      deleteSignatureMutation.mutate(id);
+    }
+  };
+
   const categories = ["Ana Yemekler", "Başlangıçlar", "Çorbalar", "Tatlılar", "İçecekler", "Salatalar", "Pideler"];
 
   return (
@@ -596,7 +717,7 @@ export default function Admin() {
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
         <Tabs defaultValue="menu" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-zafer-surface/50 border border-zafer-primary/20">
+          <TabsList className="grid w-full grid-cols-5 bg-zafer-surface/50 border border-zafer-primary/20">
             <TabsTrigger value="menu" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
               <Plus className="w-4 h-4 mr-2" />
               Menü
@@ -612,6 +733,10 @@ export default function Admin() {
             <TabsTrigger value="testimonials" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
               <Star className="w-4 h-4 mr-2" />
               Yorumlar
+            </TabsTrigger>
+            <TabsTrigger value="signature" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
+              <Star className="w-4 h-4 mr-2" />
+              Signature
             </TabsTrigger>
           </TabsList>
 
@@ -743,7 +868,7 @@ export default function Admin() {
                       <Label htmlFor="gallery-description" className="text-white">Açıklama</Label>
                       <Textarea
                         id="gallery-description"
-                        value={galleryFormData.description}
+                        value={galleryFormData.description || ''}
                         onChange={(e) => setGalleryFormData({...galleryFormData, description: e.target.value})}
                         className="bg-gray-800 border-gray-700 text-white"
                       />
@@ -760,7 +885,7 @@ export default function Admin() {
                       <Label htmlFor="gallery-category" className="text-white">Kategori</Label>
                       <Input
                         id="gallery-category"
-                        value={galleryFormData.category}
+                        value={galleryFormData.category || ''}
                         onChange={(e) => setGalleryFormData({...galleryFormData, category: e.target.value})}
                         className="bg-gray-800 border-gray-700 text-white"
                       />
@@ -768,7 +893,7 @@ export default function Admin() {
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="gallery-isActive"
-                        checked={galleryFormData.isActive}
+                        checked={galleryFormData.isActive ?? false}
                         onCheckedChange={(checked) => setGalleryFormData({...galleryFormData, isActive: checked as boolean})}
                       />
                       <Label htmlFor="gallery-isActive" className="text-white">Aktif</Label>
@@ -942,7 +1067,7 @@ export default function Admin() {
                     </div>
                     <div>
                       <ImageUpload
-                        value={aboutFormData.imageUrl}
+                        value={aboutFormData.imageUrl || ''}
                         onChange={(url) => setAboutFormData({...aboutFormData, imageUrl: url})}
                         type="gallery"
                         label="Hakkımızda Görseli (İsteğe bağlı)"
@@ -953,7 +1078,7 @@ export default function Admin() {
                       <Input
                         id="about-displayOrder"
                         type="number"
-                        value={aboutFormData.displayOrder}
+                        value={aboutFormData.displayOrder || 0}
                         onChange={(e) => setAboutFormData({...aboutFormData, displayOrder: parseInt(e.target.value) || 0})}
                         className="bg-gray-800 border-gray-700 text-white"
                       />
@@ -961,7 +1086,7 @@ export default function Admin() {
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id="about-isActive"
-                        checked={aboutFormData.isActive}
+                        checked={aboutFormData.isActive ?? false}
                         onCheckedChange={(checked) => setAboutFormData({...aboutFormData, isActive: checked as boolean})}
                       />
                       <Label htmlFor="about-isActive" className="text-white">Aktif</Label>
@@ -1147,7 +1272,7 @@ export default function Admin() {
                     </div>
                     <div>
                       <ImageUpload
-                        value={testimonialFormData.avatar}
+                        value={testimonialFormData.avatar || ''}
                         onChange={(url) => setTestimonialFormData({...testimonialFormData, avatar: url})}
                         type="avatar"
                         label="Müşteri Avatarı (İsteğe bağlı)"
@@ -1256,6 +1381,174 @@ export default function Admin() {
                         <div className="text-xs text-zafer-text-muted">
                           {new Date(item.date).toLocaleDateString('tr-TR')}
                         </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="signature" className="mt-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl text-zafer-primary">Signature Collection Yönetimi</h3>
+              <Dialog open={isSignatureDialogOpen} onOpenChange={setIsSignatureDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Signature Öğesi Ekle
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+                  <DialogHeader>
+                    <DialogTitle className="text-zafer-primary">
+                      {editingSignatureItem ? "Signature Öğesini Düzenle" : "Yeni Signature Öğesi Ekle"}
+                    </DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleSignatureSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="signature-title" className="text-white">Başlık</Label>
+                      <Input
+                        id="signature-title"
+                        value={signatureFormData.title}
+                        onChange={(e) => setSignatureFormData({...signatureFormData, title: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="signature-description" className="text-white">Açıklama</Label>
+                      <Textarea
+                        id="signature-description"
+                        value={signatureFormData.description}
+                        onChange={(e) => setSignatureFormData({...signatureFormData, description: e.target.value})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <ImageUpload
+                        value={signatureFormData.image}
+                        onChange={(url) => setSignatureFormData({...signatureFormData, image: url})}
+                        type="gallery"
+                        label="Signature Görseli"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="signature-displayOrder" className="text-white">Görüntüleme Sırası</Label>
+                      <Input
+                        id="signature-displayOrder"
+                        type="number"
+                        value={signatureFormData.displayOrder || 0}
+                        onChange={(e) => setSignatureFormData({...signatureFormData, displayOrder: parseInt(e.target.value) || 0})}
+                        className="bg-gray-800 border-gray-700 text-white"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox
+                        id="signature-isActive"
+                        checked={signatureFormData.isActive ?? false}
+                        onCheckedChange={(checked) => setSignatureFormData({...signatureFormData, isActive: checked as boolean})}
+                      />
+                      <Label htmlFor="signature-isActive" className="text-white">Aktif</Label>
+                    </div>
+                    <div className="flex justify-end space-x-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={resetSignatureForm}
+                        className="border-gray-600 text-white hover:bg-gray-700"
+                      >
+                        İptal
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="bg-zafer-primary hover:bg-zafer-primary/90 text-white"
+                        disabled={createSignatureMutation.isPending || updateSignatureMutation.isPending}
+                      >
+                        {editingSignatureItem ? "Güncelle" : "Ekle"}
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
+
+            {isSignatureLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
+                    <CardContent className="p-6">
+                      <div className="animate-pulse">
+                        <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-4"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-2/3"></div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {signatureCollection.map((item: SignatureCollection, index: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:border-zafer-primary/40 transition-colors">
+                      <CardHeader className="pb-3">
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex-1">
+                            <CardTitle className="text-zafer-primary text-lg mb-1">
+                              {item.title}
+                            </CardTitle>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                handleSignatureEdit(item);
+                                setIsSignatureDialogOpen(true);
+                              }}
+                              className="border-zafer-primary/20 text-zafer-primary hover:bg-zafer-primary/10"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleSignatureDelete(item.id)}
+                              className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-xs">
+                            Sıra: {item.displayOrder || 0}
+                          </Badge>
+                          <Badge variant={item.isActive ? "default" : "secondary"} className="text-xs">
+                            {item.isActive ? "Aktif" : "Pasif"}
+                          </Badge>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        {item.image && (
+                          <div className="mb-3">
+                            <img 
+                              src={item.image} 
+                              alt={item.title}
+                              className="w-full h-32 object-cover rounded"
+                            />
+                          </div>
+                        )}
+                        <p className="text-zafer-text-muted text-sm line-clamp-3">
+                          {item.description}
+                        </p>
                       </CardContent>
                     </Card>
                   </motion.div>
