@@ -31,8 +31,8 @@ export default function DonerSliceEffect() {
       0.1,
       1000
     );
-    camera.position.set(3, 2, 8);
-    camera.lookAt(0, 0, 0);
+    camera.position.set(4, 1, 6);
+    camera.lookAt(0, -1, 0); // Look slightly down to see the plate better
     cameraRef.current = camera;
 
     // Renderer
@@ -205,18 +205,26 @@ export default function DonerSliceEffect() {
     knifeGroup.rotation.x = Math.PI / 2; // Rotate to make blade vertical (dik)
     scene.add(knifeGroup);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    // Lighting - brighter to see falling pieces
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
     directionalLight.position.set(5, 10, 5);
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
-    const pointLight = new THREE.PointLight(0xFF6B35, 1, 10);
+    const pointLight = new THREE.PointLight(0xFF6B35, 1.5, 15);
     pointLight.position.set(-3, 0, 3);
     scene.add(pointLight);
+
+    // Additional light focused on the plate area
+    const plateLight = new THREE.SpotLight(0xffffff, 2, 20, Math.PI / 6, 0.2, 1);
+    plateLight.position.set(0, 2, 0);
+    plateLight.target.position.set(0, -4, 0);
+    plateLight.castShadow = true;
+    scene.add(plateLight);
+    scene.add(plateLight.target);
 
     // Animation loop
     const animate = () => {
@@ -341,13 +349,17 @@ export default function DonerSliceEffect() {
             
             sceneRef.current?.add(piece);
             
-            // Animate piece falling to plate with more dramatic effect
+            // Animate piece falling to plate (within plate bounds)
+            const plateRadius = 2.2; // Slightly smaller than plate to stay within bounds
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * plateRadius * 0.8; // Stay within 80% of plate radius
+            
             gsap.to(piece.position, {
-              x: (Math.random() - 0.5) * 3, // Wider spread on plate
+              x: Math.cos(angle) * distance, // Polar coordinates to stay on plate
               y: -3.5, // Just above the plate
-              z: (Math.random() - 0.5) * 3,
-              duration: 1.5 + Math.random() * 0.8,
-              delay: sliceIndex * 0.05,
+              z: Math.sin(angle) * distance,
+              duration: 2.0 + Math.random() * 1.0,
+              delay: sliceIndex * 0.03,
               ease: "bounce.out"
             });
 
