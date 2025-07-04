@@ -57,11 +57,11 @@ export default function Menu() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="w-12 h-12 shadow-lg">
+              <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
                 <img 
                   src={zaferLogo} 
                   alt="Zafer Lokantası Logo" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <h1 className="text-3xl font-playfair font-bold text-zafer-text">
