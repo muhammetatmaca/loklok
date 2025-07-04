@@ -327,6 +327,7 @@ export default function Admin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form data being submitted:', formData);
     if (editingItem) {
       updateMutation.mutate({ id: editingItem.id, data: formData });
     } else {

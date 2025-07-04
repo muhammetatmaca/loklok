@@ -107,13 +107,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin Routes
   app.post('/api/admin/menu', async (req, res) => {
     try {
+      console.log('Received menu data:', req.body);
       const data = insertMenuItemSchema.parse(req.body);
       const menuItem = await storage.createMenuItem(data);
       res.json(menuItem);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.log('Validation error:', error.errors);
         res.status(400).json({ error: error.errors });
       } else {
+        console.log('Server error:', error);
         res.status(500).json({ error: 'Internal server error' });
       }
     }
