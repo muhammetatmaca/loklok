@@ -276,6 +276,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/upload/image", async (req, res) => {
     try {
       const { base64, folder, type } = req.body;
+      console.log("Upload request received - type:", type, "folder:", folder);
       
       if (!base64) {
         return res.status(400).json({ error: "Base64 image data required" });
@@ -300,11 +301,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         transformation
       );
 
-      res.json({
+      console.log("Cloudinary upload result:", result);
+
+      const response = {
         public_id: result.public_id,
         secure_url: result.secure_url,
+        url: result.secure_url, // Add url field as fallback
         optimized_url: CloudinaryService.getTransformedUrl(result.public_id, transformation)
-      });
+      };
+
+      console.log("API response:", response);
+      res.json(response);
     } catch (error) {
       console.error("Error uploading image:", error);
       res.status(500).json({ error: "Failed to upload image" });

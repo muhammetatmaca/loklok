@@ -195,6 +195,8 @@ export default function Menu() {
                         src={item.image} 
                         alt={item.name}
                         className="absolute inset-0 w-full h-full object-cover"
+                        onLoad={() => console.log('Image loaded:', item.image)}
+                        onError={() => console.log('Image failed to load:', item.image)}
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center text-white/30">
