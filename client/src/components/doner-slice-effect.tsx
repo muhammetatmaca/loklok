@@ -203,6 +203,7 @@ export default function DonerSliceEffect() {
 
     knifeGroup.position.set(2, 6, 0); // Start above döner
     knifeGroup.rotation.x = Math.PI / 2; // Rotate to make blade vertical (dik)
+    knifeGroup.rotation.z = -Math.PI / 6; // Angle blade towards user (30 degrees)
     scene.add(knifeGroup);
 
     // Lighting
@@ -226,6 +227,13 @@ export default function DonerSliceEffect() {
         donerGroup.rotation.y += 0.01;
       }
 
+      // Knife cutting animation (back and forth)
+      if (knifeGroup && !isSlicing) {
+        const time = Date.now() * 0.002;
+        knifeGroup.position.x = 2 + Math.sin(time) * 0.3; // Gentle back and forth movement
+        knifeGroup.rotation.y = Math.sin(time * 0.7) * 0.1; // Slight rotation for cutting motion
+      }
+
       renderer.render(scene, camera);
     };
 
@@ -244,11 +252,11 @@ export default function DonerSliceEffect() {
         const progress = self.progress;
         
         if (progress > 0.2 && progress < 0.8) {
-          // Knife animation - top-down slicing
+          // Knife animation - top-down slicing with cutting motion
           if (knifeRef.current) {
             const sliceProgress = (progress - 0.2) / 0.6; // 0 to 1
             knifeRef.current.position.y = 6 - sliceProgress * 8; // Move from top to bottom
-            knifeRef.current.position.x = 2; // Keep x position fixed
+            knifeRef.current.position.x = 2 + Math.sin(sliceProgress * Math.PI * 4) * 0.15; // Cutting motion
           }
           
           // Start slicing effect
