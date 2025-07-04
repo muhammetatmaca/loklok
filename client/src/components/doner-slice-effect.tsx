@@ -240,20 +240,6 @@ export default function DonerSliceEffect() {
 
     animate();
 
-    // Handle window resize
-    const handleResize = () => {
-      if (containerRef.current && camera && renderer) {
-        const width = containerRef.current.clientWidth;
-        const height = containerRef.current.clientHeight;
-        
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
     // GSAP ScrollTrigger animations
     gsap.registerPlugin(ScrollTrigger);
 
@@ -288,7 +274,20 @@ export default function DonerSliceEffect() {
       }
     });
 
-    // Cleanup function
+    // Handle resize
+    const handleResize = () => {
+      if (containerRef.current && camera && renderer) {
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+        
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
       window.removeEventListener('resize', handleResize);
       
@@ -403,9 +402,14 @@ export default function DonerSliceEffect() {
   return (
     <div 
       ref={containerRef}
-      className="w-full h-screen sticky top-0 z-10"
+      className="absolute right-2 top-40 z-0 w-64 h-80 pointer-events-none
+                 sm:right-4 sm:top-36 sm:w-72 sm:h-88
+                 md:right-8 md:top-32 md:w-80 md:h-96
+                 lg:right-12 lg:top-32 lg:w-80 lg:h-96
+                 xl:right-16 xl:top-32 xl:w-80 xl:h-96
+                 hidden sm:block"
       style={{
-        background: 'transparent'
+        background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.05) 0%, transparent 80%)'
       }}
     />
   );
