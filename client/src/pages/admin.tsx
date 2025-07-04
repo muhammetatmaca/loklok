@@ -179,7 +179,7 @@ export default function Admin() {
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12 text-lg"
+                        className="bg-gray-800 border-zafer-primary/40 text-white h-12 text-lg focus:bg-gray-700 placeholder:text-gray-400"
                         placeholder="Örn: Adana Kebap"
                         required
                       />
@@ -190,7 +190,7 @@ export default function Admin() {
                         id="price"
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12 text-lg"
+                        className="bg-gray-800 border-zafer-primary/40 text-white h-12 text-lg focus:bg-gray-700 placeholder:text-gray-400"
                         placeholder="₺85"
                         required
                       />
@@ -203,7 +203,7 @@ export default function Admin() {
                       id="description"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text min-h-[120px] text-lg"
+                      className="bg-gray-800 border-zafer-primary/40 text-white min-h-[120px] text-lg focus:bg-gray-700 placeholder:text-gray-400"
                       placeholder="Yemeğin detaylı açıklamasını yazın..."
                       rows={5}
                     />
@@ -213,8 +213,8 @@ export default function Admin() {
                     <div className="space-y-2">
                       <Label htmlFor="category" className="text-zafer-text font-medium">Kategori *</Label>
                       <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-                        <SelectTrigger className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12">
-                          <SelectValue placeholder="Kategori seçin" />
+                        <SelectTrigger className="bg-gray-800 border-zafer-primary/40 text-white h-12 focus:bg-gray-700">
+                          <SelectValue placeholder="Kategori seçin" className="placeholder:text-gray-400" />
                         </SelectTrigger>
                         <SelectContent>
                           {categories.map(cat => (
@@ -229,7 +229,7 @@ export default function Admin() {
                         id="image"
                         value={formData.image}
                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12"
+                        className="bg-gray-800 border-zafer-primary/40 text-white h-12 focus:bg-gray-700 placeholder:text-gray-400"
                         placeholder="https://example.com/image.jpg"
                       />
                     </div>
