@@ -253,7 +253,6 @@ export default function DonerSliceEffect() {
           
           // Start slicing effect
           if (!isSlicing && progress > 0.4) {
-            console.log("Starting slicing effect!"); // Debug log
             setIsSlicing(true);
             startSlicing();
           }
@@ -307,14 +306,9 @@ export default function DonerSliceEffect() {
   }, [isSlicing]);
 
   const startSlicing = () => {
-    console.log("startSlicing called!"); // Debug log
-    if (!donerGroupRef.current || !plateRef.current) {
-      console.log("Missing refs:", donerGroupRef.current, plateRef.current);
-      return;
-    }
+    if (!donerGroupRef.current || !plateRef.current) return;
 
     const platePosition = plateRef.current.position;
-    console.log("Plate position:", platePosition); // Debug log
 
     // Create falling meat slices (individual pieces, not layers)
     donerGroupRef.current.children.forEach((child, index) => {
@@ -322,50 +316,52 @@ export default function DonerSliceEffect() {
         const sliceIndex = child.userData.sliceIndex;
         
         // Only slice some layers randomly
-        if (Math.random() > 0.1) { // More layers will be sliced
-          console.log(`Slicing layer ${sliceIndex}`); // Debug log
+        if (Math.random() > 0.05) { // Almost all layers will be sliced
           // Create small meat pieces that fall
-          for (let i = 0; i < 5; i++) { // More pieces per layer
+          for (let i = 0; i < 8; i++) { // More pieces per layer
             const pieceGeometry = new THREE.BoxGeometry(
-              0.15 + Math.random() * 0.15, // Bigger pieces
-              0.08 + Math.random() * 0.08,
-              0.15 + Math.random() * 0.15
+              0.3 + Math.random() * 0.2, // Much bigger pieces
+              0.15 + Math.random() * 0.1,
+              0.3 + Math.random() * 0.2
             );
             const pieceMaterial = new THREE.MeshPhongMaterial({
-              color: new THREE.Color().setHSL(0.08, 0.9, 0.4 + Math.random() * 0.3), // Brighter meat color
-              shininess: 30,
-              specular: 0x444444,
+              color: new THREE.Color(0xFF6B35), // Bright orange meat color
+              shininess: 50,
+              specular: 0x666666,
+              emissive: new THREE.Color(0x331100), // Add glow
             });
             
             const piece = new THREE.Mesh(pieceGeometry, pieceMaterial);
             piece.position.copy(child.position);
-            piece.position.x += (Math.random() - 0.5) * 0.5;
-            piece.position.z += (Math.random() - 0.5) * 0.5;
+            piece.position.x += (Math.random() - 0.5) * 1.0; // More spread
+            piece.position.z += (Math.random() - 0.5) * 1.0;
+            piece.position.y += 0.5; // Start higher for better visibility
             piece.castShadow = true;
+            piece.receiveShadow = true;
             
-            console.log(`Creating piece ${i} at position:`, piece.position); // Debug log
             sceneRef.current?.add(piece);
             
-            // Animate piece falling to plate
+            // Animate piece falling to plate with more dramatic effect
             gsap.to(piece.position, {
-              x: (Math.random() - 0.5) * 2, // Random position on plate
-              y: -3.7, // Just above the plate
-              z: (Math.random() - 0.5) * 2,
-              duration: 1.0 + Math.random() * 0.5,
-              delay: sliceIndex * 0.02,
-              ease: "power2.out"
+              x: (Math.random() - 0.5) * 3, // Wider spread on plate
+              y: -3.5, // Just above the plate
+              z: (Math.random() - 0.5) * 3,
+              duration: 1.5 + Math.random() * 0.8,
+              delay: sliceIndex * 0.05,
+              ease: "bounce.out"
             });
 
             gsap.to(piece.rotation, {
-              x: (Math.random() - 0.5) * Math.PI * 2,
-              y: (Math.random() - 0.5) * Math.PI * 2,
-              z: (Math.random() - 0.5) * Math.PI * 2,
-              duration: 1.5 + Math.random() * 0.5,
-              delay: sliceIndex * 0.05
+              x: (Math.random() - 0.5) * Math.PI * 4,
+              y: (Math.random() - 0.5) * Math.PI * 4,
+              z: (Math.random() - 0.5) * Math.PI * 4,
+              duration: 2.0 + Math.random() * 0.8,
+              delay: sliceIndex * 0.05,
+              ease: "power2.out"
             });
 
-            // Remove piece after animation
-            gsap.delayedCall(3 + sliceIndex * 0.05, () => {
+            // Remove piece after animation (longer duration)
+            gsap.delayedCall(5 + sliceIndex * 0.1, () => {
               sceneRef.current?.remove(piece);
               piece.geometry.dispose();
               if (piece.material instanceof THREE.Material) {
