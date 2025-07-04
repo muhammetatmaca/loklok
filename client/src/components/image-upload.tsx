@@ -51,7 +51,7 @@ export default function ImageUpload({
         base64,
         type,
         folder: `zafer-restaurant/${type}`
-      });
+      }) as any;
 
       setPreview(result.optimized_url || result.secure_url);
       onChange(result.optimized_url || result.secure_url, result.public_id);
@@ -73,7 +73,7 @@ export default function ImageUpload({
         url,
         type,
         folder: `zafer-restaurant/${type}`
-      });
+      }) as any;
 
       setPreview(result.optimized_url || result.secure_url);
       onChange(result.optimized_url || result.secure_url, result.public_id);

@@ -109,6 +109,8 @@ Changelog:
 - July 04, 2025. Created testimonials page with customer reviews, ratings, and statistics
 - July 04, 2025. Created contact page with contact form and business information
 - July 04, 2025. Added mobile navbar with sliding panel for all pages
+- July 04, 2025. Integrated Cloudinary image management system with drag-and-drop upload and preview functionality
+- July 04, 2025. Replaced all URL-based image inputs with professional ImageUpload component in admin panel
 ```
 
 ## User Preferences
