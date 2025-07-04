@@ -58,7 +58,8 @@ export default function ImageUpload({
         folder: `zafer-restaurant/${type}`
       }) as any;
 
-      const imageUrl = result.optimized_url || result.secure_url;
+      console.log('ImageUpload: Full result from API:', result);
+      const imageUrl = result.secure_url || result.url;
       console.log('ImageUpload: Setting image URL:', imageUrl);
       setPreview(imageUrl);
       onChange(imageUrl, result.public_id);
