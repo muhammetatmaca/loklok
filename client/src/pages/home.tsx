@@ -227,6 +227,38 @@ export default function Home() {
         </motion.div>
       )}
 
+      {/* Mobile Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
+        <div className="backdrop-blur-xl bg-zafer-surface/95 border-t border-white/10 shadow-2xl">
+          <div className="grid grid-cols-6 py-2">
+            {[
+              { name: 'Ana Sayfa', icon: '🏠', path: '/' },
+              { name: 'Menü', icon: '🍽️', path: '/menu' },
+              { name: 'Hakkımızda', icon: 'ℹ️', path: '/about' },
+              { name: 'Galeri', icon: '📸', path: '/gallery' },
+              { name: 'Yorumlar', icon: '💬', path: '/testimonials' },
+              { name: 'İletişim', icon: '📞', path: '/contact' }
+            ].map((item, index) => (
+              <motion.button
+                key={item.name}
+                className="flex flex-col items-center py-2 px-1 text-zafer-text-muted hover:text-zafer-primary transition-colors duration-200"
+                onClick={() => setLocation(item.path)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <span className="text-lg mb-1">{item.icon}</span>
+                <span className="text-xs font-medium text-center leading-tight">
+                  {item.name}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-zafer-surface via-zafer-surface-light to-zafer-dark"></div>
@@ -706,22 +738,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Floating Action Button */}
-      <motion.div 
-        className="fixed bottom-8 right-8 z-50"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5, delay: 1 }}
-      >
-        <Button className="floating-action-btn" onClick={() => setLocation("/reservations")}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-            <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
-            <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
-            <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
-          </svg>
-        </Button>
-      </motion.div>
+      
 
       {/* Footer */}
       <footer className="bg-zafer-dark py-20 border-t border-white/10">
