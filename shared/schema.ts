@@ -6,7 +6,7 @@ export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
+  price: text("price").notNull(),
   category: text("category").notNull(),
   image: text("image").notNull(),
   isSpicy: boolean("is_spicy").default(false),
