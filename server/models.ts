@@ -41,11 +41,32 @@ const contactMessageSchema = new mongoose.Schema({
   message: { type: String, required: true },
 }, { timestamps: true });
 
+// Gallery Image Schema
+const galleryImageSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  imageUrl: { type: String, required: true },
+  category: { type: String },
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true });
+
+// About Info Schema
+const aboutInfoSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  imageUrl: { type: String },
+  section: { type: String, required: true }, // 'history', 'mission', 'team', etc.
+  displayOrder: { type: Number, default: 0 },
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true });
+
 // Export models
 export const MenuItem = mongoose.models.MenuItem || mongoose.model('MenuItem', menuItemSchema);
 export const Reservation = mongoose.models.Reservation || mongoose.model('Reservation', reservationSchema);
 export const Testimonial = mongoose.models.Testimonial || mongoose.model('Testimonial', testimonialSchema);
 export const ContactMessage = mongoose.models.ContactMessage || mongoose.model('ContactMessage', contactMessageSchema);
+export const GalleryImage = mongoose.models.GalleryImage || mongoose.model('GalleryImage', galleryImageSchema);
+export const AboutInfo = mongoose.models.AboutInfo || mongoose.model('AboutInfo', aboutInfoSchema);
 
 // Types
 export interface IMenuItem {
@@ -93,6 +114,29 @@ export interface IContactMessage {
   email: string;
   subject: string;
   message: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IGalleryImage {
+  _id?: string;
+  title: string;
+  description?: string;
+  imageUrl: string;
+  category?: string;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IAboutInfo {
+  _id?: string;
+  title: string;
+  content: string;
+  imageUrl?: string;
+  section: string;
+  displayOrder?: number;
+  isActive?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

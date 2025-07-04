@@ -9,12 +9,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { motion } from "framer-motion";
-import { Plus, Edit3, Trash2, Save, X } from "lucide-react";
+import { Plus, Edit3, Trash2, Save, X, Image, FileText, Star } from "lucide-react";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
-import type { MenuItem, InsertMenuItem } from "@shared/schema";
+import type { MenuItem, InsertMenuItem, GalleryImage, InsertGalleryImage, AboutInfo, InsertAboutInfo, Testimonial, InsertTestimonial } from "@shared/schema";
 
 export default function Admin() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);

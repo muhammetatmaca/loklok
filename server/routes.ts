@@ -143,6 +143,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Gallery Images API
+  app.get("/api/gallery", async (req, res) => {
+    try {
+      const images = await storage.getAllGalleryImages();
+      res.json(images);
+    } catch (error) {
+      console.error("Error fetching gallery images:", error);
+      res.status(500).json({ error: "Failed to fetch gallery images" });
+    }
+  });
+
+  app.post("/api/admin/gallery", async (req, res) => {
+    try {
+      const image = await storage.createGalleryImage(req.body);
+      res.json(image);
+    } catch (error) {
+      console.error("Error creating gallery image:", error);
+      res.status(500).json({ error: "Failed to create gallery image" });
+    }
+  });
+
+  app.put("/api/admin/gallery/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const image = await storage.updateGalleryImage(id, req.body);
+      res.json(image);
+    } catch (error) {
+      console.error("Error updating gallery image:", error);
+      res.status(500).json({ error: "Failed to update gallery image" });
+    }
+  });
+
+  app.delete("/api/admin/gallery/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteGalleryImage(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting gallery image:", error);
+      res.status(500).json({ error: "Failed to delete gallery image" });
+    }
+  });
+
+  // About Info API
+  app.get("/api/about", async (req, res) => {
+    try {
+      const section = req.query.section as string;
+      let aboutInfo;
+      if (section) {
+        aboutInfo = await storage.getAboutInfoBySection(section);
+      } else {
+        aboutInfo = await storage.getAllAboutInfo();
+      }
+      res.json(aboutInfo);
+    } catch (error) {
+      console.error("Error fetching about info:", error);
+      res.status(500).json({ error: "Failed to fetch about info" });
+    }
+  });
+
+  app.post("/api/admin/about", async (req, res) => {
+    try {
+      const info = await storage.createAboutInfo(req.body);
+      res.json(info);
+    } catch (error) {
+      console.error("Error creating about info:", error);
+      res.status(500).json({ error: "Failed to create about info" });
+    }
+  });
+
+  app.put("/api/admin/about/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const info = await storage.updateAboutInfo(id, req.body);
+      res.json(info);
+    } catch (error) {
+      console.error("Error updating about info:", error);
+      res.status(500).json({ error: "Failed to update about info" });
+    }
+  });
+
+  app.delete("/api/admin/about/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteAboutInfo(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting about info:", error);
+      res.status(500).json({ error: "Failed to delete about info" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import { MenuItem, Reservation, Testimonial, ContactMessage, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage } from './models';
+import { MenuItem, Reservation, Testimonial, ContactMessage, GalleryImage, AboutInfo, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage, type IGalleryImage, type IAboutInfo } from './models';
 import type { IStorage } from './storage';
-import type { MenuItem as DrizzleMenuItem, InsertMenuItem, Reservation as DrizzleReservation, InsertReservation, Testimonial as DrizzleTestimonial, InsertTestimonial, ContactMessage as DrizzleContactMessage, InsertContactMessage } from '@shared/schema';
+import type { MenuItem as DrizzleMenuItem, InsertMenuItem, Reservation as DrizzleReservation, InsertReservation, Testimonial as DrizzleTestimonial, InsertTestimonial, ContactMessage as DrizzleContactMessage, InsertContactMessage, GalleryImage as DrizzleGalleryImage, InsertGalleryImage, AboutInfo as DrizzleAboutInfo, InsertAboutInfo } from '@shared/schema';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('MONGODB_URI environment variable is not defined');
@@ -64,6 +64,31 @@ function mongoToContactMessage(doc: any): DrizzleContactMessage {
     subject: doc.subject,
     message: doc.message,
     createdAt: doc.createdAt || new Date(),
+  };
+}
+
+function mongoToGalleryImage(doc: any): DrizzleGalleryImage {
+  return {
+    id: parseInt(doc._id.toString().slice(-6), 16),
+    title: doc.title,
+    description: doc.description || null,
+    imageUrl: doc.imageUrl,
+    category: doc.category || null,
+    isActive: doc.isActive !== false,
+    createdAt: doc.createdAt || new Date(),
+  };
+}
+
+function mongoToAboutInfo(doc: any): DrizzleAboutInfo {
+  return {
+    id: parseInt(doc._id.toString().slice(-6), 16),
+    title: doc.title,
+    content: doc.content,
+    imageUrl: doc.imageUrl || null,
+    section: doc.section,
+    displayOrder: doc.displayOrder || 0,
+    isActive: doc.isActive !== false,
+    updatedAt: doc.updatedAt || new Date(),
   };
 }
 
@@ -282,5 +307,121 @@ export class MongoStorage implements IStorage {
     const newMessage = new ContactMessage(insertMessage);
     const savedMessage = await newMessage.save();
     return mongoToContactMessage(savedMessage);
+  }
+
+  // Gallery Images
+  async getAllGalleryImages(): Promise<DrizzleGalleryImage[]> {
+    await connectMongoDB();
+    const images = await GalleryImage.find({ isActive: true }).sort({ createdAt: -1 });
+    return images.map(mongoToGalleryImage);
+  }
+
+  async getGalleryImage(id: number): Promise<DrizzleGalleryImage | undefined> {
+    await connectMongoDB();
+    const images = await GalleryImage.find({});
+    const image = images.find(img => parseInt(img._id.toString().slice(-6), 16) === id);
+    return image ? mongoToGalleryImage(image) : undefined;
+  }
+
+  async createGalleryImage(insertImage: InsertGalleryImage): Promise<DrizzleGalleryImage> {
+    await connectMongoDB();
+    const newImage = new GalleryImage(insertImage);
+    const savedImage = await newImage.save();
+    return mongoToGalleryImage(savedImage);
+  }
+
+  async updateGalleryImage(id: number, updateData: Partial<InsertGalleryImage>): Promise<DrizzleGalleryImage> {
+    await connectMongoDB();
+    const images = await GalleryImage.find({});
+    const image = images.find(img => parseInt(img._id.toString().slice(-6), 16) === id);
+    
+    if (!image) {
+      throw new Error(`GalleryImage with id ${id} not found`);
+    }
+
+    const updatedImage = await GalleryImage.findByIdAndUpdate(
+      image._id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedImage) {
+      throw new Error(`Failed to update GalleryImage with id ${id}`);
+    }
+
+    return mongoToGalleryImage(updatedImage);
+  }
+
+  async deleteGalleryImage(id: number): Promise<void> {
+    await connectMongoDB();
+    const images = await GalleryImage.find({});
+    const image = images.find(img => parseInt(img._id.toString().slice(-6), 16) === id);
+    
+    if (!image) {
+      throw new Error(`GalleryImage with id ${id} not found`);
+    }
+
+    await GalleryImage.findByIdAndDelete(image._id);
+  }
+
+  // About Info
+  async getAllAboutInfo(): Promise<DrizzleAboutInfo[]> {
+    await connectMongoDB();
+    const aboutInfos = await AboutInfo.find({ isActive: true }).sort({ displayOrder: 1, createdAt: -1 });
+    return aboutInfos.map(mongoToAboutInfo);
+  }
+
+  async getAboutInfo(id: number): Promise<DrizzleAboutInfo | undefined> {
+    await connectMongoDB();
+    const aboutInfos = await AboutInfo.find({});
+    const aboutInfo = aboutInfos.find(info => parseInt(info._id.toString().slice(-6), 16) === id);
+    return aboutInfo ? mongoToAboutInfo(aboutInfo) : undefined;
+  }
+
+  async getAboutInfoBySection(section: string): Promise<DrizzleAboutInfo[]> {
+    await connectMongoDB();
+    const aboutInfos = await AboutInfo.find({ section, isActive: true }).sort({ displayOrder: 1 });
+    return aboutInfos.map(mongoToAboutInfo);
+  }
+
+  async createAboutInfo(insertInfo: InsertAboutInfo): Promise<DrizzleAboutInfo> {
+    await connectMongoDB();
+    const newInfo = new AboutInfo(insertInfo);
+    const savedInfo = await newInfo.save();
+    return mongoToAboutInfo(savedInfo);
+  }
+
+  async updateAboutInfo(id: number, updateData: Partial<InsertAboutInfo>): Promise<DrizzleAboutInfo> {
+    await connectMongoDB();
+    const aboutInfos = await AboutInfo.find({});
+    const aboutInfo = aboutInfos.find(info => parseInt(info._id.toString().slice(-6), 16) === id);
+    
+    if (!aboutInfo) {
+      throw new Error(`AboutInfo with id ${id} not found`);
+    }
+
+    const updatedInfo = await AboutInfo.findByIdAndUpdate(
+      aboutInfo._id,
+      { ...updateData, updatedAt: new Date() },
+      { new: true }
+    );
+
+    if (!updatedInfo) {
+      throw new Error(`Failed to update AboutInfo with id ${id}`);
+    }
+
+    return mongoToAboutInfo(updatedInfo);
+  }
+
+  async deleteAboutInfo(id: number): Promise<void> {
+    await connectMongoDB();
+    const aboutInfos = await AboutInfo.find({});
+    const aboutInfo = aboutInfos.find(info => parseInt(info._id.toString().slice(-6), 16) === id);
+    
+    if (!aboutInfo) {
+      throw new Error(`AboutInfo with id ${id} not found`);
+    }
+
+    await AboutInfo.findByIdAndDelete(aboutInfo._id);
   }
 }

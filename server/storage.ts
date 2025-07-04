@@ -3,14 +3,20 @@ import {
   reservations, 
   testimonials, 
   contactMessages,
+  galleryImages,
+  aboutInfo,
   type MenuItem, 
   type Reservation, 
   type Testimonial, 
   type ContactMessage,
+  type GalleryImage,
+  type AboutInfo,
   type InsertMenuItem, 
   type InsertReservation, 
   type InsertTestimonial, 
-  type InsertContactMessage 
+  type InsertContactMessage,
+  type InsertGalleryImage,
+  type InsertAboutInfo
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -39,6 +45,21 @@ export interface IStorage {
   getAllContactMessages(): Promise<ContactMessage[]>;
   getContactMessage(id: number): Promise<ContactMessage | undefined>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
+
+  // Gallery Images
+  getAllGalleryImages(): Promise<GalleryImage[]>;
+  getGalleryImage(id: number): Promise<GalleryImage | undefined>;
+  createGalleryImage(image: InsertGalleryImage): Promise<GalleryImage>;
+  updateGalleryImage(id: number, image: Partial<InsertGalleryImage>): Promise<GalleryImage>;
+  deleteGalleryImage(id: number): Promise<void>;
+
+  // About Info
+  getAllAboutInfo(): Promise<AboutInfo[]>;
+  getAboutInfo(id: number): Promise<AboutInfo | undefined>;
+  getAboutInfoBySection(section: string): Promise<AboutInfo[]>;
+  createAboutInfo(info: InsertAboutInfo): Promise<AboutInfo>;
+  updateAboutInfo(id: number, info: Partial<InsertAboutInfo>): Promise<AboutInfo>;
+  deleteAboutInfo(id: number): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
