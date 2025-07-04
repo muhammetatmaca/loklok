@@ -94,7 +94,7 @@ export default function Home() {
           />
         ))}
         
-        <div className="container mx-auto px-6 py-20 relative z-10">
+        <div className="container mx-auto px-6 py-20 relative z-30">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2 
               className="text-6xl md:text-8xl font-playfair font-bold text-zafer-text mb-8 leading-tight"
