@@ -31,20 +31,29 @@ export default function DonerSliceEffect() {
       0.1,
       1000
     );
-    camera.position.set(3, 2, 8);
+    
+    // Adjust camera position for mobile vs desktop
+    const isMobile = window.innerWidth < 640;
+    if (isMobile) {
+      camera.position.set(2, 1.5, 6);
+    } else {
+      camera.position.set(3, 2, 8);
+    }
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
       alpha: true,
-      powerPreference: "high-performance"
+      powerPreference: isMobile ? "low-power" : "high-performance"
     });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    renderer.shadowMap.enabled = !isMobile; // Disable shadows on mobile
+    if (!isMobile) {
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    }
     rendererRef.current = renderer;
 
     containerRef.current.appendChild(renderer.domElement);
@@ -402,12 +411,11 @@ export default function DonerSliceEffect() {
   return (
     <div 
       ref={containerRef}
-      className="absolute right-2 top-40 z-0 w-64 h-80 pointer-events-none
+      className="absolute right-2 top-40 z-0 w-48 h-64 pointer-events-none
                  sm:right-4 sm:top-36 sm:w-72 sm:h-88
                  md:right-8 md:top-32 md:w-80 md:h-96
                  lg:right-12 lg:top-32 lg:w-80 lg:h-96
-                 xl:right-16 xl:top-32 xl:w-80 xl:h-96
-                 hidden sm:block"
+                 xl:right-16 xl:top-32 xl:w-80 xl:h-96"
       style={{
         background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.05) 0%, transparent 80%)'
       }}
