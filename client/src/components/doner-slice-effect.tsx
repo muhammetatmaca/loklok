@@ -202,9 +202,9 @@ export default function DonerSliceEffect() {
     knifeGroup.add(guard);
 
     knifeGroup.position.set(2, 6, 0); // Start above döner
-    knifeGroup.rotation.x = 0; // Keep horizontal orientation
+    knifeGroup.rotation.x = Math.PI / 6; // Tilt to point handle away from user
     knifeGroup.rotation.y = Math.PI; // Rotate 180 degrees so tip points left, handle points right
-    knifeGroup.rotation.z = -Math.PI / 6; // Angle blade towards user (30 degrees)
+    knifeGroup.rotation.z = 0; // No z rotation needed now
     scene.add(knifeGroup);
 
     // Lighting
