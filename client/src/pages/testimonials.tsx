@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import type { Testimonial } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export default function Testimonials() {
   const [, setLocation] = useLocation();
@@ -311,6 +312,9 @@ export default function Testimonials() {
           </motion.div>
         </div>
       </section>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 }

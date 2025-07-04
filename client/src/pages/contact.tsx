@@ -7,6 +7,7 @@ import { useLocation } from "wouter";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export default function Contact() {
   const [, setLocation] = useLocation();
@@ -417,6 +418,9 @@ export default function Contact() {
           </motion.div>
         </div>
       </section>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 }

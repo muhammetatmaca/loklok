@@ -5,6 +5,7 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import DonerSliceEffect from "@/components/doner-slice-effect";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 import type { MenuItem, Testimonial } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 
@@ -228,36 +229,7 @@ export default function Home() {
       )}
 
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden">
-        <div className="backdrop-blur-xl bg-zafer-surface/95 border-t border-white/10 shadow-2xl">
-          <div className="grid grid-cols-6 py-2">
-            {[
-              { name: 'Ana Sayfa', icon: '🏠', path: '/' },
-              { name: 'Menü', icon: '🍽️', path: '/menu' },
-              { name: 'Hakkımızda', icon: 'ℹ️', path: '/about' },
-              { name: 'Galeri', icon: '📸', path: '/gallery' },
-              { name: 'Yorumlar', icon: '💬', path: '/testimonials' },
-              { name: 'İletişim', icon: '📞', path: '/contact' }
-            ].map((item, index) => (
-              <motion.button
-                key={item.name}
-                className="flex flex-col items-center py-2 px-1 text-zafer-text-muted hover:text-zafer-primary transition-colors duration-200"
-                onClick={() => setLocation(item.path)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <span className="text-lg mb-1">{item.icon}</span>
-                <span className="text-xs font-medium text-center leading-tight">
-                  {item.name}
-                </span>
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <MobileBottomNav />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import type { MenuItem } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export default function Menu() {
   const [, setLocation] = useLocation();
@@ -264,6 +265,9 @@ export default function Menu() {
           </motion.div>
         </div>
       </section>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 }

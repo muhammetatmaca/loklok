@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useState } from "react";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export default function Gallery() {
   const [, setLocation] = useLocation();
@@ -393,6 +394,9 @@ export default function Gallery() {
           </motion.div>
         </div>
       </section>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 }
