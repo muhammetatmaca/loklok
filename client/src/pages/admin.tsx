@@ -143,7 +143,7 @@ export default function Admin() {
     }
   };
 
-  const categories = ["Kebabs", "Appetizers", "Mains", "Desserts", "Beverages"];
+  const categories = ["Ana Yemekler", "Başlangıçlar", "Çorbalar", "Tatlılar", "İçecekler", "Salatalar", "Pideler"];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zafer-surface via-zafer-surface/95 to-zafer-surface">
@@ -162,7 +162,7 @@ export default function Admin() {
                   Yeni Öğe Ekle
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl bg-zafer-surface border-zafer-primary/20">
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
                 <DialogHeader>
                   <DialogTitle className="text-zafer-primary">
                     {editingItem ? "Menü Öğesini Düzenle" : "Yeni Menü Öğesi Ekle"}
@@ -171,45 +171,49 @@ export default function Admin() {
                     {editingItem ? "Mevcut menü öğesinin bilgilerini güncelleyin" : "Menüye yeni bir öğe eklemek için aşağıdaki formu doldurun"}
                   </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="name" className="text-zafer-text">İsim</Label>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-zafer-text font-medium">Menü Öğesi Adı *</Label>
                       <Input
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text"
+                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12 text-lg"
+                        placeholder="Örn: Adana Kebap"
                         required
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="price" className="text-zafer-text">Fiyat</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="price" className="text-zafer-text font-medium">Fiyat *</Label>
                       <Input
                         id="price"
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text"
-                        placeholder="15.99"
+                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12 text-lg"
+                        placeholder="₺85"
                         required
                       />
                     </div>
                   </div>
-                  <div>
-                    <Label htmlFor="description" className="text-zafer-text">Açıklama</Label>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="description" className="text-zafer-text font-medium">Açıklama</Label>
                     <Textarea
                       id="description"
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text"
-                      rows={3}
+                      className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text min-h-[120px] text-lg"
+                      placeholder="Yemeğin detaylı açıklamasını yazın..."
+                      rows={5}
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="category" className="text-zafer-text">Kategori</Label>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="category" className="text-zafer-text font-medium">Kategori *</Label>
                       <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-                        <SelectTrigger className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text">
+                        <SelectTrigger className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12">
                           <SelectValue placeholder="Kategori seçin" />
                         </SelectTrigger>
                         <SelectContent>
@@ -219,51 +223,58 @@ export default function Admin() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div>
-                      <Label htmlFor="image" className="text-zafer-text">Resim URL</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="image" className="text-zafer-text font-medium">Resim URL</Label>
                       <Input
                         id="image"
                         value={formData.image}
                         onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text"
+                        className="bg-zafer-surface/50 border-zafer-primary/20 text-zafer-text h-12"
                         placeholder="https://example.com/image.jpg"
                       />
                     </div>
                   </div>
-                  <div className="flex gap-6">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="isSpicy"
-                        checked={formData.isSpicy || false}
-                        onCheckedChange={(checked) => setFormData({ ...formData, isSpicy: checked as boolean })}
-                      />
-                      <Label htmlFor="isSpicy" className="text-zafer-text">Acı</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="isVegetarian"
-                        checked={formData.isVegetarian || false}
-                        onCheckedChange={(checked) => setFormData({ ...formData, isVegetarian: checked as boolean })}
-                      />
-                      <Label htmlFor="isVegetarian" className="text-zafer-text">Vejetaryen</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="isPopular"
-                        checked={formData.isPopular || false}
-                        onCheckedChange={(checked) => setFormData({ ...formData, isPopular: checked as boolean })}
-                      />
-                      <Label htmlFor="isPopular" className="text-zafer-text">Popüler</Label>
+                  <div className="space-y-2">
+                    <Label className="text-zafer-text font-medium">Özellikler</Label>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
+                        <Checkbox
+                          id="isSpicy"
+                          checked={formData.isSpicy || false}
+                          onCheckedChange={(checked) => setFormData({ ...formData, isSpicy: checked as boolean })}
+                          className="w-5 h-5"
+                        />
+                        <Label htmlFor="isSpicy" className="text-zafer-text font-medium cursor-pointer">🌶️ Acı</Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
+                        <Checkbox
+                          id="isVegetarian"
+                          checked={formData.isVegetarian || false}
+                          onCheckedChange={(checked) => setFormData({ ...formData, isVegetarian: checked as boolean })}
+                          className="w-5 h-5"
+                        />
+                        <Label htmlFor="isVegetarian" className="text-zafer-text font-medium cursor-pointer">🥬 Vejetaryen</Label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
+                        <Checkbox
+                          id="isPopular"
+                          checked={formData.isPopular || false}
+                          onCheckedChange={(checked) => setFormData({ ...formData, isPopular: checked as boolean })}
+                          className="w-5 h-5"
+                        />
+                        <Label htmlFor="isPopular" className="text-zafer-text font-medium cursor-pointer">⭐ Popüler</Label>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex gap-2 pt-4">
+                  <div className="flex gap-4 pt-6 border-t border-zafer-primary/10">
                     <Button
                       type="submit"
-                      className="bg-zafer-primary hover:bg-zafer-primary/90 text-white"
+                      className="bg-zafer-primary hover:bg-zafer-primary/90 text-white h-12 text-lg px-8"
                       disabled={createMutation.isPending || updateMutation.isPending}
                     >
-                      <Save className="w-4 h-4 mr-2" />
-                      {editingItem ? "Güncelle" : "Ekle"}
+                      <Save className="w-5 h-5 mr-2" />
+                      {editingItem ? "Güncelle" : "Kaydet"}
+                      {(createMutation.isPending || updateMutation.isPending) && " ..."}
                     </Button>
                     <Button
                       type="button"
@@ -273,9 +284,9 @@ export default function Admin() {
                         setEditingItem(null);
                         resetForm();
                       }}
-                      className="border-zafer-primary/20 text-zafer-text"
+                      className="border-zafer-primary/20 text-zafer-text h-12 text-lg px-8"
                     >
-                      <X className="w-4 h-4 mr-2" />
+                      <X className="w-5 h-5 mr-2" />
                       İptal
                     </Button>
                   </div>
@@ -317,7 +328,7 @@ export default function Admin() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <CardTitle className="text-zafer-primary text-lg">{item.name}</CardTitle>
-                        <p className="text-zafer-accent font-bold text-lg mt-1">₺{item.price}</p>
+                        <p className="text-zafer-accent font-bold text-lg mt-1">{item.price}</p>
                       </div>
                       <div className="flex gap-2">
                         <Button
