@@ -49,15 +49,24 @@ export default function Home() {
               {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
                 <motion.a
                   key={item}
-                  href={item === 'Menü' ? '/menu' : `#${item.toLowerCase().replace(' ', '-')}`}
+                  href={
+                    item === 'Menü' ? '/menu' : 
+                    item === 'Hakkımızda' ? '/about' : 
+                    `#${item.toLowerCase().replace(' ', '-')}`
+                  }
                   className="text-zafer-text-muted hover:text-zafer-primary transition-colors font-inter font-medium cursor-pointer"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  onClick={item === 'Menü' ? (e) => {
-                    e.preventDefault();
-                    setLocation('/menu');
-                  } : undefined}
+                  onClick={(e) => {
+                    if (item === 'Menü') {
+                      e.preventDefault();
+                      setLocation('/menu');
+                    } else if (item === 'Hakkımızda') {
+                      e.preventDefault();
+                      setLocation('/about');
+                    }
+                  }}
                 >
                   {item}
                 </motion.a>
