@@ -16,9 +16,9 @@ export async function connectMongoDB() {
 }
 
 // Helper function to convert MongoDB document to Drizzle format
-function mongoToMenuItem(doc: IMenuItem): DrizzleMenuItem {
+function mongoToMenuItem(doc: any): DrizzleMenuItem {
   return {
-    id: parseInt(doc._id as string, 16) % 1000000, // Convert ObjectId to number for compatibility
+    id: parseInt(doc._id.toString().slice(-6), 16), // Use last 6 chars of ObjectId
     name: doc.name,
     description: doc.description,
     price: doc.price,
@@ -30,9 +30,9 @@ function mongoToMenuItem(doc: IMenuItem): DrizzleMenuItem {
   };
 }
 
-function mongoToReservation(doc: IReservation): DrizzleReservation {
+function mongoToReservation(doc: any): DrizzleReservation {
   return {
-    id: parseInt(doc._id as string, 16) % 1000000,
+    id: parseInt(doc._id.toString().slice(-6), 16),
     customerName: doc.customerName,
     email: doc.email,
     phone: doc.phone,
@@ -45,9 +45,9 @@ function mongoToReservation(doc: IReservation): DrizzleReservation {
   };
 }
 
-function mongoToTestimonial(doc: ITestimonial): DrizzleTestimonial {
+function mongoToTestimonial(doc: any): DrizzleTestimonial {
   return {
-    id: parseInt(doc._id as string, 16) % 1000000,
+    id: parseInt(doc._id.toString().slice(-6), 16),
     customerName: doc.customerName,
     rating: doc.rating,
     review: doc.review,
@@ -56,9 +56,9 @@ function mongoToTestimonial(doc: ITestimonial): DrizzleTestimonial {
   };
 }
 
-function mongoToContactMessage(doc: IContactMessage): DrizzleContactMessage {
+function mongoToContactMessage(doc: any): DrizzleContactMessage {
   return {
-    id: parseInt(doc._id as string, 16) % 1000000,
+    id: parseInt(doc._id.toString().slice(-6), 16),
     name: doc.name,
     email: doc.email,
     subject: doc.subject,
@@ -76,12 +76,9 @@ export class MongoStorage implements IStorage {
 
   private async initializeDefaultData() {
     try {
-      // Check if data already exists
-      const existingItems = await MenuItem.find({});
-      if (existingItems.length > 0) {
-        console.log('Menu items already exist, skipping initialization');
-        return;
-      }
+      // Clear existing data and create fresh sample data
+      await MenuItem.deleteMany({});
+      console.log('Cleared existing menu items');
 
       // Create sample menu items
       const sampleMenuItems = [
@@ -149,7 +146,7 @@ export class MongoStorage implements IStorage {
     await connectMongoDB();
     // Since we're using ObjectId, we need to find by a different approach
     const items = await MenuItem.find({});
-    const item = items.find(item => parseInt(item._id as string, 16) % 1000000 === id);
+    const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
     return item ? mongoToMenuItem(item) : undefined;
   }
 
@@ -170,7 +167,7 @@ export class MongoStorage implements IStorage {
     await connectMongoDB();
     // Find by converted id approach
     const items = await MenuItem.find({});
-    const item = items.find(item => parseInt(item._id as string, 16) % 1000000 === id);
+    const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
     
     if (!item) {
       throw new Error(`MenuItem with id ${id} not found`);
@@ -193,7 +190,7 @@ export class MongoStorage implements IStorage {
     await connectMongoDB();
     // Find by converted id approach
     const items = await MenuItem.find({});
-    const item = items.find(item => parseInt(item._id as string, 16) % 1000000 === id);
+    const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
     
     if (!item) {
       throw new Error(`MenuItem with id ${id} not found`);
@@ -212,7 +209,7 @@ export class MongoStorage implements IStorage {
   async getReservation(id: number): Promise<DrizzleReservation | undefined> {
     await connectMongoDB();
     const reservations = await Reservation.find({});
-    const reservation = reservations.find(res => parseInt(res._id as string, 16) % 1000000 === id);
+    const reservation = reservations.find(res => parseInt(res._id.toString().slice(-6), 16) === id);
     return reservation ? mongoToReservation(reservation) : undefined;
   }
 
@@ -226,7 +223,7 @@ export class MongoStorage implements IStorage {
   async updateReservationStatus(id: number, status: string): Promise<DrizzleReservation> {
     await connectMongoDB();
     const reservations = await Reservation.find({});
-    const reservation = reservations.find(res => parseInt(res._id as string, 16) % 1000000 === id);
+    const reservation = reservations.find(res => parseInt(res._id.toString().slice(-6), 16) === id);
     
     if (!reservation) {
       throw new Error(`Reservation with id ${id} not found`);
@@ -255,7 +252,7 @@ export class MongoStorage implements IStorage {
   async getTestimonial(id: number): Promise<DrizzleTestimonial | undefined> {
     await connectMongoDB();
     const testimonials = await Testimonial.find({});
-    const testimonial = testimonials.find(test => parseInt(test._id as string, 16) % 1000000 === id);
+    const testimonial = testimonials.find(test => parseInt(test._id.toString().slice(-6), 16) === id);
     return testimonial ? mongoToTestimonial(testimonial) : undefined;
   }
 
@@ -276,7 +273,7 @@ export class MongoStorage implements IStorage {
   async getContactMessage(id: number): Promise<DrizzleContactMessage | undefined> {
     await connectMongoDB();
     const messages = await ContactMessage.find({});
-    const message = messages.find(msg => parseInt(msg._id as string, 16) % 1000000 === id);
+    const message = messages.find(msg => parseInt(msg._id.toString().slice(-6), 16) === id);
     return message ? mongoToContactMessage(message) : undefined;
   }
 
