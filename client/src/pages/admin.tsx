@@ -15,6 +15,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { motion } from "framer-motion";
 import { Plus, Edit3, Trash2, Save, X, Image, FileText, Star } from "lucide-react";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
+import ImageUpload from "@/components/image-upload";
 import type { MenuItem, InsertMenuItem, GalleryImage, InsertGalleryImage, AboutInfo, InsertAboutInfo, Testimonial, InsertTestimonial } from "@shared/schema";
 
 export default function Admin() {
@@ -486,13 +487,11 @@ export default function Admin() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="image" className="text-zafer-text font-medium">Resim URL</Label>
-                      <Input
-                        id="image"
+                      <ImageUpload
                         value={formData.image}
-                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                        className="bg-gray-800 border-zafer-primary/40 text-white h-12 focus:bg-gray-700 placeholder:text-gray-400"
-                        placeholder="https://example.com/image.jpg"
+                        onChange={(url) => setFormData({ ...formData, image: url })}
+                        type="menu"
+                        label="Menü Görseli"
                       />
                     </div>
                   </div>
@@ -715,14 +714,11 @@ export default function Admin() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="gallery-imageUrl" className="text-white">Görsel URL</Label>
-                      <Input
-                        id="gallery-imageUrl"
-                        type="url"
+                      <ImageUpload
                         value={galleryFormData.imageUrl}
-                        onChange={(e) => setGalleryFormData({...galleryFormData, imageUrl: e.target.value})}
-                        required
-                        className="bg-gray-800 border-gray-700 text-white"
+                        onChange={(url) => setGalleryFormData({...galleryFormData, imageUrl: url})}
+                        type="gallery"
+                        label="Galeri Görseli"
                       />
                     </div>
                     <div>
@@ -910,13 +906,11 @@ export default function Admin() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="about-imageUrl" className="text-white">Görsel URL (İsteğe bağlı)</Label>
-                      <Input
-                        id="about-imageUrl"
-                        type="url"
+                      <ImageUpload
                         value={aboutFormData.imageUrl}
-                        onChange={(e) => setAboutFormData({...aboutFormData, imageUrl: e.target.value})}
-                        className="bg-gray-800 border-gray-700 text-white"
+                        onChange={(url) => setAboutFormData({...aboutFormData, imageUrl: url})}
+                        type="gallery"
+                        label="Hakkımızda Görseli (İsteğe bağlı)"
                       />
                     </div>
                     <div>
@@ -1117,13 +1111,11 @@ export default function Admin() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="testimonial-avatar" className="text-white">Avatar URL (İsteğe bağlı)</Label>
-                      <Input
-                        id="testimonial-avatar"
-                        type="url"
+                      <ImageUpload
                         value={testimonialFormData.avatar}
-                        onChange={(e) => setTestimonialFormData({...testimonialFormData, avatar: e.target.value})}
-                        className="bg-gray-800 border-gray-700 text-white"
+                        onChange={(url) => setTestimonialFormData({...testimonialFormData, avatar: url})}
+                        type="avatar"
+                        label="Müşteri Avatarı (İsteğe bağlı)"
                       />
                     </div>
                     <div className="flex justify-end space-x-2">

@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertReservationSchema, insertContactMessageSchema, insertMenuItemSchema } from "@shared/schema";
 import { z } from "zod";
+import CloudinaryService from "./cloudinary";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Menu Items routes
@@ -265,6 +266,102 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting testimonial:", error);
       res.status(500).json({ error: "Failed to delete testimonial" });
+    }
+  });
+
+  // Cloudinary Upload Endpoints
+  app.post("/api/upload/image", async (req, res) => {
+    try {
+      const { base64, folder, type } = req.body;
+      
+      if (!base64) {
+        return res.status(400).json({ error: "Base64 image data required" });
+      }
+
+      let transformation = {};
+      switch (type) {
+        case 'menu':
+          transformation = { width: 400, height: 300, crop: 'fill' };
+          break;
+        case 'gallery':
+          transformation = { width: 800, height: 600, crop: 'fill' };
+          break;
+        case 'avatar':
+          transformation = { width: 100, height: 100, crop: 'fill', gravity: 'face' };
+          break;
+      }
+
+      const result = await CloudinaryService.uploadFromBase64(
+        base64,
+        folder || 'zafer-restaurant',
+        transformation
+      );
+
+      res.json({
+        public_id: result.public_id,
+        secure_url: result.secure_url,
+        optimized_url: CloudinaryService.getTransformedUrl(result.public_id, transformation)
+      });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      res.status(500).json({ error: "Failed to upload image" });
+    }
+  });
+
+  app.post("/api/upload/url", async (req, res) => {
+    try {
+      const { url, folder, type } = req.body;
+      
+      if (!url) {
+        return res.status(400).json({ error: "Image URL required" });
+      }
+
+      let transformation = {};
+      switch (type) {
+        case 'menu':
+          transformation = { width: 400, height: 300, crop: 'fill' };
+          break;
+        case 'gallery':
+          transformation = { width: 800, height: 600, crop: 'fill' };
+          break;
+        case 'avatar':
+          transformation = { width: 100, height: 100, crop: 'fill', gravity: 'face' };
+          break;
+      }
+
+      const result = await CloudinaryService.uploadFromUrl(
+        url,
+        folder || 'zafer-restaurant',
+        transformation
+      );
+
+      res.json({
+        public_id: result.public_id,
+        secure_url: result.secure_url,
+        optimized_url: CloudinaryService.getTransformedUrl(result.public_id, transformation)
+      });
+    } catch (error) {
+      console.error("Error uploading image from URL:", error);
+      res.status(500).json({ error: "Failed to upload image from URL" });
+    }
+  });
+
+  app.delete("/api/upload/:publicId", async (req, res) => {
+    try {
+      const { publicId } = req.params;
+      
+      if (!publicId) {
+        return res.status(400).json({ error: "Public ID required" });
+      }
+
+      // URL decode the public ID
+      const decodedPublicId = decodeURIComponent(publicId);
+      
+      await CloudinaryService.deleteImage(decodedPublicId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      res.status(500).json({ error: "Failed to delete image" });
     }
   });
 
