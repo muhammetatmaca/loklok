@@ -235,8 +235,110 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-br from-zafer-surface via-zafer-surface-light to-zafer-dark"></div>
         
-        {/* Döner Slice Effect */}
-        <DonerSliceEffect />
+        {/* Desktop Döner Slice Effect */}
+        <div className="hidden lg:block">
+          <DonerSliceEffect />
+        </div>
+
+        {/* Mobile 3D Döner Effect */}
+        <div className="lg:hidden absolute bottom-20 right-4 z-20">
+          <motion.div
+            className="w-28 h-28 relative"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 1.2 }}
+          >
+            <div 
+              className="w-full h-full bg-gradient-to-br from-amber-600 via-orange-500 to-red-600 rounded-full shadow-2xl"
+              style={{
+                background: 'conic-gradient(from 0deg, #d97706, #ea580c, #dc2626, #991b1b, #7c2d12, #d97706)'
+              }}
+            >
+              <motion.div
+                className="absolute inset-2 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full"
+                animate={{ rotateY: [0, 360] }}
+                transition={{ 
+                  duration: 8, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+                style={{
+                  transformStyle: "preserve-3d",
+                  boxShadow: "inset 0 4px 8px rgba(0,0,0,0.3), 0 0 20px rgba(251, 146, 60, 0.6)"
+                }}
+              >
+                {/* Döner meat texture lines */}
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-full h-0.5 bg-gradient-to-r from-red-800 to-amber-700 opacity-60"
+                    style={{
+                      top: `${20 + i * 12}%`,
+                      borderRadius: '50%',
+                      transform: `rotateY(${i * 30}deg)`
+                    }}
+                  />
+                ))}
+                
+                {/* Center highlight */}
+                <div className="absolute inset-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-70" />
+                
+                {/* Top cap */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6 h-3 bg-gradient-to-b from-gray-700 to-gray-900 rounded-t-full" />
+              </motion.div>
+              
+              {/* Slicing knife */}
+              <motion.div
+                className="absolute right-0 top-1/2 transform translate-x-1 -translate-y-1/2 w-10 h-1 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full"
+                animate={{ 
+                  x: [4, 8, 4],
+                  scaleX: [1, 1.2, 1]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+                style={{
+                  boxShadow: "0 0 8px rgba(156, 163, 175, 0.8)"
+                }}
+              />
+              
+              {/* Falling meat pieces */}
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1.5 h-1 bg-gradient-to-r from-red-600 to-orange-500 rounded"
+                  style={{
+                    right: `-${6 + i * 3}px`,
+                    top: `${50 + i * 6}%`
+                  }}
+                  animate={{
+                    y: [0, 40, 0],
+                    opacity: [0, 1, 0],
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: i * 0.5,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </div>
+            
+            {/* Mobile döner label */}
+            <motion.div
+              className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-zafer-text-muted text-center font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+            >
+              Taze Döner
+            </motion.div>
+          </motion.div>
+        </div>
         
         {/* Animated background particles */}
         {[...Array(20)].map((_, i) => (
