@@ -187,7 +187,7 @@ export default function Menu() {
                 whileHover={{ y: -10 }}
                 className="group"
               >
-                <Card className="overflow-hidden backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-zafer-primary/10">
+                <Card className="overflow-hidden backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-zafer-primary/10 h-full flex flex-col">
                   {/* Image placeholder */}
                   <div className="relative h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
@@ -206,7 +206,7 @@ export default function Menu() {
                     </div>
                   </div>
                   
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 flex-1 flex flex-col">
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="text-xl font-playfair font-bold text-zafer-text group-hover:text-zafer-primary transition-colors">
                         {item.name}
@@ -216,22 +216,14 @@ export default function Menu() {
                       </span>
                     </div>
                     
-                    <p className="text-zafer-text-muted leading-relaxed mb-4">
+                    <p className="text-zafer-text-muted leading-relaxed mb-4 flex-1">
                       {item.description}
                     </p>
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-center mt-auto">
                       <Badge variant="outline" className="text-zafer-primary border-zafer-primary/30">
                         {item.category}
                       </Badge>
-                      
-                      <motion.button
-                        className="px-6 py-2 bg-gradient-to-r from-zafer-primary to-zafer-secondary text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        Sipariş Ver
-                      </motion.button>
                     </div>
                   </CardContent>
                 </Card>
@@ -265,20 +257,11 @@ export default function Menu() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-playfair font-bold text-zafer-text mb-6">
-              Rezervasyon Yapmaya Hazır mısınız?
+              Zafer Lokantası'nın Lezzetli Dünyası
             </h2>
             <p className="text-xl text-zafer-text-muted mb-8 max-w-2xl mx-auto">
-              Türk mutfağının eşsiz lezzetlerini deneyimlemek için hemen rezervasyon yapın.
+              Türk mutfağının geleneksel lezzetlerini modern sunumlarla birleştiren eşsiz tatlar.
             </p>
-            
-            <motion.button
-              onClick={() => setLocation("/reservations")}
-              className="px-12 py-4 bg-gradient-to-r from-zafer-primary to-zafer-secondary text-white text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-zafer-primary/25 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Rezervasyon Yap
-            </motion.button>
           </motion.div>
         </div>
       </section>
