@@ -404,9 +404,9 @@ export default function DonerSliceEffect() {
       ref={containerRef}
       className="absolute right-2 top-40 z-0 w-64 h-80 pointer-events-none
                  sm:right-4 sm:top-36 sm:w-72 sm:h-88
-                 md:right-8 md:top-24 md:w-96 md:h-[500px]
-                 lg:right-12 lg:top-20 lg:w-[500px] lg:h-[600px]
-                 xl:right-16 xl:top-16 xl:w-[600px] xl:h-[700px]
+                 md:right-8 md:top-32 md:w-80 md:h-96
+                 lg:right-12 lg:top-32 lg:w-80 lg:h-96
+                 xl:right-16 xl:top-32 xl:w-80 xl:h-96
                  hidden sm:block"
       style={{
         background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.05) 0%, transparent 80%)'
