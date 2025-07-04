@@ -31,29 +31,20 @@ export default function DonerSliceEffect() {
       0.1,
       1000
     );
-    
-    // Adjust camera position for mobile vs desktop
-    const isMobile = window.innerWidth < 640;
-    if (isMobile) {
-      camera.position.set(2, 1.5, 6);
-    } else {
-      camera.position.set(3, 2, 8);
-    }
+    camera.position.set(3, 2, 8);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ 
-      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+      antialias: true, 
       alpha: true,
-      powerPreference: isMobile ? "low-power" : "high-performance"
+      powerPreference: "high-performance"
     });
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
-    renderer.shadowMap.enabled = !isMobile; // Disable shadows on mobile
-    if (!isMobile) {
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     rendererRef.current = renderer;
 
     containerRef.current.appendChild(renderer.domElement);
@@ -255,18 +246,11 @@ export default function DonerSliceEffect() {
     // Scroll-triggered slicing animation
     ScrollTrigger.create({
       trigger: containerRef.current,
-      start: isMobile ? "top 80%" : "top center",
-      end: isMobile ? "bottom 20%" : "bottom center",
+      start: "top center",
+      end: "bottom center",
       scrub: true,
-      invalidateOnRefresh: true,
-      refreshPriority: -1,
       onUpdate: (self) => {
         const progress = self.progress;
-        
-        // Debug log for mobile
-        if (isMobile && progress > 0) {
-          console.log('ScrollTrigger progress:', progress);
-        }
         
         if (progress > 0.2 && progress < 0.8) {
           // Knife animation - vertical slicing with cutting motion
@@ -411,21 +395,6 @@ export default function DonerSliceEffect() {
   };
 
   useEffect(() => {
-    // Register ScrollTrigger plugin globally
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // Mobile-specific ScrollTrigger configuration
-    ScrollTrigger.config({
-      ignoreMobileResize: true,
-      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize"
-    });
-    
-    // Force refresh on mobile
-    const isMobile = window.innerWidth < 640;
-    if (isMobile) {
-      ScrollTrigger.refresh();
-    }
-    
     const cleanup = initThreeJS();
     return cleanup;
   }, [initThreeJS]);
@@ -433,11 +402,12 @@ export default function DonerSliceEffect() {
   return (
     <div 
       ref={containerRef}
-      className="absolute right-2 top-40 z-0 w-48 h-64 pointer-events-none
+      className="absolute right-2 top-40 z-0 w-64 h-80 pointer-events-none
                  sm:right-4 sm:top-36 sm:w-72 sm:h-88
                  md:right-8 md:top-32 md:w-80 md:h-96
                  lg:right-12 lg:top-32 lg:w-80 lg:h-96
-                 xl:right-16 xl:top-32 xl:w-80 xl:h-96"
+                 xl:right-16 xl:top-32 xl:w-80 xl:h-96
+                 hidden sm:block"
       style={{
         background: 'radial-gradient(circle at center, rgba(255, 107, 53, 0.05) 0%, transparent 80%)'
       }}
