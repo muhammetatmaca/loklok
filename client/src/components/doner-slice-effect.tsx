@@ -255,11 +255,18 @@ export default function DonerSliceEffect() {
     // Scroll-triggered slicing animation
     ScrollTrigger.create({
       trigger: containerRef.current,
-      start: "top center",
-      end: "bottom center",
+      start: isMobile ? "top 80%" : "top center",
+      end: isMobile ? "bottom 20%" : "bottom center",
       scrub: true,
+      invalidateOnRefresh: true,
+      refreshPriority: -1,
       onUpdate: (self) => {
         const progress = self.progress;
+        
+        // Debug log for mobile
+        if (isMobile && progress > 0) {
+          console.log('ScrollTrigger progress:', progress);
+        }
         
         if (progress > 0.2 && progress < 0.8) {
           // Knife animation - vertical slicing with cutting motion
@@ -404,6 +411,21 @@ export default function DonerSliceEffect() {
   };
 
   useEffect(() => {
+    // Register ScrollTrigger plugin globally
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Mobile-specific ScrollTrigger configuration
+    ScrollTrigger.config({
+      ignoreMobileResize: true,
+      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize"
+    });
+    
+    // Force refresh on mobile
+    const isMobile = window.innerWidth < 640;
+    if (isMobile) {
+      ScrollTrigger.refresh();
+    }
+    
     const cleanup = initThreeJS();
     return cleanup;
   }, [initThreeJS]);
