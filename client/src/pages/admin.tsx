@@ -284,7 +284,7 @@ export default function Admin() {
                         setEditingItem(null);
                         resetForm();
                       }}
-                      className="border-zafer-primary/20 text-zafer-text h-12 text-lg px-8"
+                      className="border-zafer-primary/20 h-12 text-lg px-8 text-[#2b3245]"
                     >
                       <X className="w-5 h-5 mr-2" />
                       İptal
