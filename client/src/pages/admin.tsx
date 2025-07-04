@@ -39,7 +39,7 @@ export default function Admin() {
 
   const createMutation = useMutation({
     mutationFn: async (data: InsertMenuItem) => {
-      return await apiRequest("/api/admin/menu", "POST", data);
+      return await apiRequest("POST", "/api/admin/menu", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
@@ -61,7 +61,7 @@ export default function Admin() {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<InsertMenuItem> }) => {
-      return await apiRequest(`/api/admin/menu/${id}`, "PUT", data);
+      return await apiRequest("PUT", `/api/admin/menu/${id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
@@ -83,7 +83,7 @@ export default function Admin() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/admin/menu/${id}`, "DELETE");
+      return await apiRequest("DELETE", `/api/admin/menu/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
