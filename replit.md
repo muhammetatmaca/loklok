@@ -106,6 +106,9 @@ Changelog:
 - July 03, 2025. Initial setup
 - July 04, 2025. Created modern menu page with category filtering, equal height cards, and glassmorphism design
 - July 04, 2025. Added restaurant logo to navigation and removed order functionality
+- July 04, 2025. Created testimonials page with customer reviews, ratings, and statistics
+- July 04, 2025. Created contact page with contact form and business information
+- July 04, 2025. Added mobile navbar with sliding panel for all pages
 ```
 
 ## User Preferences

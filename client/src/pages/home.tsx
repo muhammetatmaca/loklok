@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import DonerSliceEffect from "@/components/doner-slice-effect";
 import type { MenuItem, Testimonial } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { data: menuItems, isLoading: menuLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -45,6 +47,7 @@ export default function Home() {
               </h1>
             </motion.div>
             
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
                 <motion.a
@@ -84,11 +87,145 @@ export default function Home() {
                 </motion.a>
               ))}
             </div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden p-2 rounded-xl backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <svg
+                className="w-6 h-6 text-zafer-text"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </motion.button>
             
             
           </div>
         </div>
       </nav>
+
+      {/* Mobile Navigation Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 md:hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Backdrop */}
+          <motion.div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Mobile Menu Panel */}
+          <motion.div
+            className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-zafer-surface/95 backdrop-blur-xl border-l border-white/10 shadow-2xl"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <div className="p-6">
+              {/* Close Button */}
+              <div className="flex justify-end mb-8">
+                <motion.button
+                  className="p-2 rounded-xl backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <svg className="w-6 h-6 text-zafer-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </motion.button>
+              </div>
+
+              {/* Mobile Menu Items */}
+              <div className="space-y-4">
+                {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
+                  <motion.button
+                    key={item}
+                    className="w-full text-left p-4 rounded-xl backdrop-blur-sm bg-white/5 border border-white/10 hover:bg-white/10 hover:border-zafer-primary/30 transition-all duration-300 text-zafer-text font-inter font-medium"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      if (item === 'Menü') {
+                        setLocation('/menu');
+                      } else if (item === 'Hakkımızda') {
+                        setLocation('/about');
+                      } else if (item === 'Galeri') {
+                        setLocation('/gallery');
+                      } else if (item === 'Yorumlar') {
+                        setLocation('/testimonials');
+                      } else if (item === 'İletişim') {
+                        setLocation('/contact');
+                      } else if (item === 'Ana Sayfa') {
+                        setLocation('/');
+                      }
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg">{item}</span>
+                      <svg className="w-5 h-5 text-zafer-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Mobile Footer */}
+              <div className="mt-8 pt-8 border-t border-white/10">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
+                    <img 
+                      src={zaferLogo} 
+                      alt="Zafer Lokantası Logo" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-playfair font-bold text-zafer-text">
+                      Zafer Lokantası
+                    </h3>
+                    <p className="text-sm text-zafer-text-muted">
+                      Geleneksel Türk Mutfağı
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="text-sm text-zafer-text-muted">
+                  <p>📍 Atatürk Bulvarı No: 123/A</p>
+                  <p>📞 +90 312 123 45 67</p>
+                  <p>🕐 10:00 - 24:00</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
