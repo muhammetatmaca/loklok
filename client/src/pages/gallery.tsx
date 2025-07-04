@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { GalleryImage } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 
@@ -10,11 +12,36 @@ export default function Gallery() {
   const [, setLocation] = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  // Gallery categories
-  const categories = ["All", "Yemekler", "Restoran", "Mutfak", "Etkinlikler"];
+  const { data: galleryItems, isLoading } = useQuery<GalleryImage[]>({
+    queryKey: ["/api/gallery"],
+  });
 
-  // Gallery items with placeholder data
-  const galleryItems = [
+  // Get unique categories
+  const uniqueCategories = galleryItems ? 
+    galleryItems.reduce((cats: string[], item) => {
+      if (item.category && !cats.includes(item.category)) {
+        cats.push(item.category);
+      }
+      return cats;
+    }, []) : [];
+  const categories = ["All", ...uniqueCategories];
+
+
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-zafer-surface flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-3 border-zafer-primary border-t-transparent rounded-full"
+        />
+      </div>
+    );
+  }
+
+  // Fallback for empty gallery
+  const placeholderItems = [
     {
       id: 1,
       title: "Döner Kebab",
@@ -71,10 +98,13 @@ export default function Gallery() {
     }
   ];
 
+  // Use real data or fallback to placeholder
+  const displayItems = galleryItems && galleryItems.length > 0 ? galleryItems : placeholderItems;
+  
   // Filter items by category
   const filteredItems = selectedCategory === "All" 
-    ? galleryItems 
-    : galleryItems.filter(item => item.category === selectedCategory);
+    ? displayItems 
+    : displayItems.filter(item => item.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-zafer-surface text-zafer-text">

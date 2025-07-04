@@ -188,21 +188,27 @@ export default function Menu() {
                 className="group"
               >
                 <Card className="overflow-hidden backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-zafer-primary/10 h-full flex flex-col">
-                  {/* Image placeholder */}
+                  {/* Image */}
                   <div className="relative h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 overflow-hidden">
+                    {item.image ? (
+                      <img 
+                        src={item.image} 
+                        alt={item.name}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-white/30">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.3"/>
+                          <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="2" fill="white"/>
+                        </svg>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
                     <div className="absolute top-4 left-4 z-20 flex gap-2">
                       {item.isPopular && <Badge className="bg-zafer-primary text-white">Popüler</Badge>}
                       {item.isSpicy && <Badge className="bg-red-500 text-white">Acı</Badge>}
                       {item.isVegetarian && <Badge className="bg-green-500 text-white">Vejetaryen</Badge>}
-                    </div>
-                    
-                    {/* Food icon as placeholder */}
-                    <div className="absolute inset-0 flex items-center justify-center text-white/30">
-                      <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.3"/>
-                        <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="2" fill="white"/>
-                      </svg>
                     </div>
                   </div>
                   
