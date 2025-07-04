@@ -129,30 +129,53 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
             >
-              <Button 
+              {/* Modern Menu Button */}
+              <motion.button
                 onClick={() => setLocation("/menu")}
-                className="modern-button text-lg px-10 py-6"
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-zafer-primary to-zafer-secondary 
+                          px-12 py-5 text-lg font-semibold text-white shadow-2xl
+                          transition-all duration-300 hover:scale-105 hover:shadow-zafer-primary/25
+                          backdrop-blur-sm border border-white/20"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
-                  <path d="M6 7h12l-1 7H7L6 7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M6 7L5 4H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="9" cy="20" r="1" stroke="currentColor" strokeWidth="2"/>
-                  <circle cx="18" cy="20" r="1" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-                Menüyü Keşfet
-              </Button>
-              <Button 
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 
+                               transition-opacity duration-300 group-hover:opacity-100"></div>
+                <div className="relative flex items-center justify-center space-x-3">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:rotate-12">
+                    <path d="M3 7c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v2H3V7z" fill="currentColor"/>
+                    <path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z" fill="currentColor" opacity="0.7"/>
+                    <circle cx="8" cy="15" r="1" fill="white"/>
+                    <circle cx="16" cy="15" r="1" fill="white"/>
+                  </svg>
+                  <span>Menüyü Keşfet</span>
+                </div>
+              </motion.button>
+
+              {/* Modern Reservation Button */}
+              <motion.button
                 onClick={() => setLocation("/reservations")}
-                className="glass-effect text-zafer-text border border-zafer-primary/30 text-lg px-10 py-6 hover:bg-zafer-primary/10"
+                className="group relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/10 
+                          px-12 py-5 text-lg font-semibold text-zafer-text border border-white/20
+                          transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-zafer-primary/50
+                          shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
-                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
-                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-                Rezervasyon Yap
-              </Button>
+                <div className="absolute inset-0 bg-gradient-to-r from-zafer-primary/10 to-zafer-secondary/10 
+                               opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                <div className="relative flex items-center justify-center space-x-3">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:scale-110">
+                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" fill="none"/>
+                    <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M3 10h18" stroke="currentColor" strokeWidth="2"/>
+                    <circle cx="8" cy="16" r="1" fill="currentColor"/>
+                    <circle cx="12" cy="16" r="1" fill="currentColor"/>
+                    <circle cx="16" cy="16" r="1" fill="currentColor"/>
+                  </svg>
+                  <span>Rezervasyon Yap</span>
+                </div>
+              </motion.button>
             </motion.div>
           </div>
         </div>
