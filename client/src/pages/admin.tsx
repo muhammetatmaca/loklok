@@ -154,7 +154,7 @@ export default function Admin() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-zafer-primary">Admin Panel</h1>
-              <p className="text-zafer-text-muted mt-2">Menü yönetimi</p>
+              <p className="text-zafer-text-muted mt-2">Restoran yönetim sistemi</p>
             </div>
             <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
               <DialogTrigger asChild>
@@ -300,90 +300,134 @@ export default function Admin() {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
-                <CardContent className="p-6">
-                  <div className="animate-pulse">
-                    <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-zafer-primary/20 rounded w-1/2 mb-4"></div>
-                    <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
-                    <div className="h-3 bg-zafer-primary/20 rounded w-2/3"></div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {menuItems?.map((item: MenuItem, index: number) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:bg-zafer-surface/70 transition-all duration-200 h-full">
-                  <CardHeader className="pb-3">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <CardTitle className="text-zafer-primary text-lg">{item.name}</CardTitle>
-                        <p className="text-zafer-accent font-bold text-lg mt-1">{item.price}</p>
+        <Tabs defaultValue="menu" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-zafer-surface/50 border border-zafer-primary/20">
+            <TabsTrigger value="menu" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
+              <Plus className="w-4 h-4 mr-2" />
+              Menü
+            </TabsTrigger>
+            <TabsTrigger value="gallery" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
+              <Image className="w-4 h-4 mr-2" />
+              Galeri
+            </TabsTrigger>
+            <TabsTrigger value="about" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
+              <FileText className="w-4 h-4 mr-2" />
+              Hakkımızda
+            </TabsTrigger>
+            <TabsTrigger value="testimonials" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
+              <Star className="w-4 h-4 mr-2" />
+              Yorumlar
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="menu" className="mt-6">
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <Card key={i} className="bg-zafer-surface/50 border-zafer-primary/20">
+                    <CardContent className="p-6">
+                      <div className="animate-pulse">
+                        <div className="h-4 bg-zafer-primary/20 rounded w-3/4 mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-1/2 mb-4"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-full mb-2"></div>
+                        <div className="h-3 bg-zafer-primary/20 rounded w-2/3"></div>
                       </div>
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            handleEdit(item);
-                            setIsAddDialogOpen(true);
-                          }}
-                          className="border-zafer-primary/20 text-zafer-primary hover:bg-zafer-primary/10"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDelete(item.id)}
-                          className="border-red-500/20 text-red-500 hover:bg-red-500/10"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <p className="text-zafer-text-muted text-sm mb-3 line-clamp-2">
-                      {item.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <Badge variant="outline" className="border-zafer-primary/20 text-zafer-primary">
-                        {item.category}
-                      </Badge>
-                      {item.isSpicy && (
-                        <Badge variant="destructive" className="bg-red-500/20 text-red-500">
-                          Acı
-                        </Badge>
-                      )}
-                      {item.isVegetarian && (
-                        <Badge variant="outline" className="border-green-500/20 text-green-500">
-                          Vejetaryen
-                        </Badge>
-                      )}
-                      {item.isPopular && (
-                        <Badge variant="outline" className="border-zafer-accent/20 text-zafer-accent">
-                          Popüler
-                        </Badge>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {menuItems?.map((item: MenuItem, index: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-zafer-surface/50 border-zafer-primary/20 hover:bg-zafer-surface/70 transition-all duration-200 h-full">
+                      <CardHeader className="pb-3">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <CardTitle className="text-zafer-primary text-lg">{item.name}</CardTitle>
+                            <p className="text-zafer-accent font-bold text-lg mt-1">{item.price}</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                handleEdit(item);
+                                setIsAddDialogOpen(true);
+                              }}
+                              className="border-zafer-primary/20 text-zafer-primary hover:bg-zafer-primary/10"
+                            >
+                              <Edit3 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDelete(item.id)}
+                              className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-zafer-text-muted text-sm mb-3 line-clamp-2">
+                          {item.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          <Badge variant="outline" className="border-zafer-primary/20 text-zafer-primary">
+                            {item.category}
+                          </Badge>
+                          {item.isSpicy && (
+                            <Badge variant="destructive" className="bg-red-500/20 text-red-500">
+                              Acı
+                            </Badge>
+                          )}
+                          {item.isVegetarian && (
+                            <Badge variant="outline" className="border-green-500/20 text-green-500">
+                              Vejetaryen
+                            </Badge>
+                          )}
+                          {item.isPopular && (
+                            <Badge variant="outline" className="border-zafer-accent/20 text-zafer-accent">
+                              Popüler
+                            </Badge>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="gallery" className="mt-6">
+            <div className="text-center py-12">
+              <h3 className="text-xl text-zafer-primary mb-4">Galeri Yönetimi</h3>
+              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="about" className="mt-6">
+            <div className="text-center py-12">
+              <h3 className="text-xl text-zafer-primary mb-4">Hakkımızda Yönetimi</h3>
+              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="testimonials" className="mt-6">
+            <div className="text-center py-12">
+              <h3 className="text-xl text-zafer-primary mb-4">Yorumlar Yönetimi</h3>
+              <p className="text-zafer-text-muted">Bu bölüm yakında eklenecek...</p>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <MobileBottomNav />
