@@ -1,3 +1,4 @@
+import 'dotenv/config'; // En üst satırlarda olmalı!
 import mongoose from 'mongoose';
 import { MenuItem, Reservation, Testimonial, ContactMessage, GalleryImage, AboutInfo, SignatureCollection, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage, type IGalleryImage, type IAboutInfo, type ISignatureCollection } from './models';
 import type { IStorage } from './storage';

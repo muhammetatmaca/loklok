@@ -271,14 +271,14 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Modern
+               1969’dan Bu Yana
               <motion.span 
                 className="text-zafer-primary block font-dancing text-7xl md:text-9xl"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                Türk Lezzeti
+                Değişmeyen Bir Lezzet
               </motion.span>
             </motion.h2>
             
@@ -288,8 +288,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Geleneksel döner ustası ile çağdaş gastronomi sanatının mükemmel uyumu. 
-              Her lokmada İstanbul'un ruhunu hissedin.
+               Aynı özen, aynı tarif, aynı sadelik. Çünkü bazı lezzetler zamana meydan okur.
             </motion.p>
             
             <motion.div 
@@ -372,10 +371,10 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
-              Signature <span className="text-zafer-primary">Collection</span>
+                 İmza <span className="text-zafer-primary">Lezzetlerimiz</span>
             </h2>
             <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto font-inter">
-              Usta ellerde şekillenen özel tariflerimizle Türk mutfağının en seçkin lezzetlerini keşfedin
+                 Ustamızın yıllardır koruduğu tariflerle hazırlanan en özel tabaklar.
             </p>
           </motion.div>
           
@@ -541,14 +540,17 @@ export default function Home() {
                 <span className="text-zafer-primary">Zafer</span> Hikayesi
               </h2>
               <p className="text-lg text-zafer-text-muted mb-6 font-inter leading-relaxed">
-                1975 yılından bu yana İstanbul'un kalbinde, geleneksel Türk mutfağının 
-                eşsiz lezzetlerini çağdaş gastronomi sanatıyla buluştururuz. Üç nesil 
-                boyunca aktarılan usta bilgisi ve modern tekniklerin mükemmel uyumu.
+                              Bayburt'un taş plakalarına kazınmış en eski lokantası olarak,
+                              dedemiz Mustafa Aydoğdu'nun 1969 yılında hayata geçirdiği bu mekan,
+                              yalnızca bir yeme-içme durağı değil,
+                              aynı zamanda Bayburt'un lezzet hikayesinin canlı bir müzesidir.
+                              Dedemizin "Yemediğim hiçbir şeyi müşterime yedirmem" ilkesiyle yola çıkarak,
+                              bu lokanta, yarım asırdan fazla süredir Bayburt'a özgü lezzetleri, asırlık tariflerle ve büyük bir ustalıkla yaşatmaktadır.
+                              
               </p>
               <p className="text-lg text-zafer-text-muted mb-10 font-inter leading-relaxed">
-                Her tabakta, geçmişin zenginliği ile geleceğin vizyonunu bir araya getiren 
-                Zafer Lokantası, otantik döner kebabı ve benzersiz lezzetleriyle 
-                unutulmaz deneyimler sunuyor.
+                              Dağlarda kekik yiyerek otlayan yöre hayvanlarının eti, özellikle dönerimiz için seçilirken,
+                              etin terbiyesi için yılların birikimiyle geliştirilen özel bir formül kullanılır.
               </p>
               <Button className="modern-button text-lg px-8 py-4">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-3">
@@ -569,11 +571,11 @@ export default function Home() {
               <div className="modern-card p-10">
                 <div className="grid grid-cols-2 gap-8 text-center">
                   <div className="space-y-2">
-                    <div className="text-4xl font-bold text-zafer-primary">48+</div>
+                    <div className="text-4xl font-bold text-zafer-primary">56+</div>
                     <div className="text-zafer-text-muted font-inter">Yıllık Deneyim</div>
                   </div>
                   <div className="space-y-2">
-                    <div className="text-4xl font-bold text-zafer-primary">2500+</div>
+                    <div className="text-4xl font-bold text-zafer-primary">+++</div>
                     <div className="text-zafer-text-muted font-inter">Mutlu Müşteri</div>
                   </div>
                   <div className="space-y-2">
