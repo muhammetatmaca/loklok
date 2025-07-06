@@ -165,7 +165,7 @@ export default function Home() {
 
               {/* Mobile Menu Items */}
               <div className="space-y-4">
-                {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Galeri', 'Yorumlar', 'İletişim'].map((item, index) => (
+                {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Yorumlar', 'İletişim'].map((item, index) => (
                   <motion.button
                     key={item}
                     className="w-full text-left p-4 rounded-xl backdrop-blur-sm bg-white/5 border border-white/10 hover:bg-white/10 hover:border-zafer-primary/30 transition-all duration-300 text-zafer-text font-inter font-medium"
@@ -180,8 +180,6 @@ export default function Home() {
                         setLocation('/menu');
                       } else if (item === 'Hakkımızda') {
                         setLocation('/about');
-                      } else if (item === 'Galeri') {
-                        setLocation('/gallery');
                       } else if (item === 'Yorumlar') {
                         setLocation('/testimonials');
                       } else if (item === 'İletişim') {
@@ -451,7 +449,7 @@ export default function Home() {
                 <circle cx="9" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
                 <circle cx="20" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
               </svg>
-              Tüm Koleksiyonu Keşfet
+                 Menüye Göz Atın
             </Button>
           </motion.div>
         </div>
@@ -754,7 +752,7 @@ export default function Home() {
                     <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
                     <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
                   </svg>
-                  Online Rezervasyon Yap
+                  Online Rezervasyon 
                 </Button>
               </div>
             </motion.div>

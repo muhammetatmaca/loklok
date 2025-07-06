@@ -4,7 +4,6 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { fileURLToPath } from 'url';
 
-// __dirname polyfill for ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
@@ -33,6 +32,13 @@ export default defineConfig({
         fs: {
             strict: true,
             deny: ["**/.*"],
+        },
+        proxy: {
+            "/api": {
+                target: "http://localhost:5000",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, "/api"),
+            },
         },
     },
 });

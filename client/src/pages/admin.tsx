@@ -577,7 +577,7 @@ export default function Admin() {
               <DialogTrigger asChild>
                 <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
                   <Plus className="w-4 h-4 mr-2" />
-                  Yeni Öğe Ekle
+                  Yeni
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
@@ -728,15 +728,15 @@ export default function Admin() {
             </TabsTrigger>
             <TabsTrigger value="about" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
               <FileText className="w-4 h-4 mr-2" />
-              Hakkımızda
+              Hakkımda
             </TabsTrigger>
             <TabsTrigger value="testimonials" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
               <Star className="w-4 h-4 mr-2" />
-              Yorumlar
+              Yorum
             </TabsTrigger>
             <TabsTrigger value="signature" className="data-[state=active]:bg-zafer-primary data-[state=active]:text-white">
               <Star className="w-4 h-4 mr-2" />
-              Signature
+              imza
             </TabsTrigger>
           </TabsList>
 

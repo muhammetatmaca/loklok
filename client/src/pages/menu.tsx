@@ -8,6 +8,7 @@ import { useLocation } from "wouter";
 import type { MenuItem } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
+import bosfoto from "@assets/download.png";
 
 export default function Menu() {
   const [, setLocation] = useLocation();
@@ -191,13 +192,21 @@ export default function Menu() {
                   {/* Image */}
                   <div className="relative h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 overflow-hidden">
                     {item.image ? (
-                      <img 
-                        src={item.image} 
-                        alt={item.name}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        onLoad={() => console.log('Image loaded:', item.image)}
-                        onError={() => console.log('Image failed to load:', item.image)}
-                      />
+                                <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="absolute inset-0 w-full h-full object-cover"
+                                    onError={(e) => {
+                                        const target = e.currentTarget;
+                                        if (target.src !== bosfoto) {
+                                            target.onerror = null; // sonsuz döngü önlemek için
+                                            target.src = bosfoto;
+                                            console.log('Image load failed, fallback used:', item.image);
+                                        }
+                                    }}
+                                />
+
+
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center text-white/30">
                         <svg width="80" height="80" viewBox="0 0 24 24" fill="none">

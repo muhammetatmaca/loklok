@@ -1,4 +1,4 @@
-import type { Express } from "express";
+﻿import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertReservationSchema, insertContactMessageSchema, insertMenuItemSchema, insertSignatureCollectionSchema } from "@shared/schema";
@@ -67,22 +67,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Menu Items routes
-  app.get("/api/menu", async (req, res) => {
-    try {
-      const { category } = req.query;
-      let menuItems;
-      
-      if (category && typeof category === 'string') {
-        menuItems = await storage.getMenuItemsByCategory(category);
-      } else {
-        menuItems = await storage.getAllMenuItems();
-      }
-      
-      res.json(menuItems);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch menu items" });
-    }
-  });
+    app.get("/api/menu", async (req, res) => {
+        try {
+            const { category } = req.query;
+            let menuItems;
+
+            if (category && typeof category === "string") {
+                menuItems = await storage.getMenuItemsByCategory(category);
+            } else {
+                menuItems = await storage.getAllMenuItems();
+            }
+            console.log(menuItems)
+            res.json(menuItems);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("API /api/menu error:", error.message);
+                res.status(500).json({ error: "Failed to fetch menu items", details: error.message });
+            } else {
+                console.error("API /api/menu error (unknown):", error);
+                res.status(500).json({ error: "Failed to fetch menu items", details: "Unknown error" });
+            }
+        }
+    });
+
+
 
   app.get("/api/menu/:id", async (req, res) => {
     try {

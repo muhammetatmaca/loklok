@@ -43,12 +43,7 @@ export default function About() {
               >
                 Ana Sayfa
               </Button>
-              <Button 
-                onClick={() => setLocation("/menu")}
-                className="glass-effect text-zafer-text border border-white/20 hover:bg-white/10"
-              >
-                Menü
-              </Button>
+             
             </div>
           </div>
         </div>

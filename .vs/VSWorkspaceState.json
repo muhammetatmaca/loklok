@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\server"
+    "\\client",
+    "\\client\\src",
+    "\\client\\src\\pages",
+    "\\server",
+    "\\shared"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\server\\mongo-storage.ts",
   "PreviewInSolutionExplorer": false
 }

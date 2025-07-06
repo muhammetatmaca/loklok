@@ -3,6 +3,46 @@
   "WorkspaceRootPath": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\mongo-storage.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\replit.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:replit.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\testimonials.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\testimonials.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\menu.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\menu.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\index.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\gallery.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\gallery.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\contact.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\contact.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\about.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:client\\src\\pages\\about.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -11,20 +51,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\vite.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:vite.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\tsconfig.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tsconfig.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.env||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:server\\mongo-storage.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\storage.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
@@ -106,7 +134,7 @@
         },
         {
           "DockedHeight": 112,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -119,32 +147,149 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "tsconfig.json",
-              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\tsconfig.json",
-              "RelativeDocumentMoniker": "tsconfig.json",
-              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\tsconfig.json",
-              "RelativeToolTip": "tsconfig.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-05T14:49:36.584Z",
+              "Title": "testimonials.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\testimonials.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\testimonials.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\testimonials.tsx",
+              "RelativeToolTip": "client\\src\\pages\\testimonials.tsx",
+              "ViewState": "AgIAABIAAAAAAAAAAAAvwB4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T22:24:07.926Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "vite.config.ts",
-              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\vite.config.ts",
-              "RelativeDocumentMoniker": "vite.config.ts",
-              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\vite.config.ts",
-              "RelativeToolTip": "vite.config.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
+              "Title": "replit.md",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\replit.md",
+              "RelativeDocumentMoniker": "replit.md",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\replit.md",
+              "RelativeToolTip": "replit.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAQAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-07-05T22:23:54.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "menu.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\menu.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\menu.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\menu.tsx",
+              "RelativeToolTip": "client\\src\\pages\\menu.tsx",
+              "ViewState": "AgIAAAIBAAAAAAAAAAAvwA4BAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-07-05T14:44:29.61Z",
+              "WhenOpened": "2025-07-05T22:23:49.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\index.html",
+              "RelativeDocumentMoniker": "client\\index.html",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\index.html",
+              "RelativeToolTip": "client\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-07-05T22:23:42.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "index.css",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\index.css",
+              "RelativeDocumentMoniker": "client\\src\\index.css",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\index.css",
+              "RelativeToolTip": "client\\src\\index.css",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAcwHgAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-07-05T22:23:34.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "gallery.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\gallery.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\gallery.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\gallery.tsx",
+              "RelativeToolTip": "client\\src\\pages\\gallery.tsx",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAvwG4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T22:23:30.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "home.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\home.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\home.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\home.tsx",
+              "RelativeToolTip": "client\\src\\pages\\home.tsx",
+              "ViewState": "AgIAALIAAAAAAAAAAAAvwLsAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T22:22:31.539Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "mongo-storage.ts",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts",
+              "RelativeDocumentMoniker": "server\\mongo-storage.ts",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts",
+              "RelativeToolTip": "server\\mongo-storage.ts",
+              "ViewState": "AgIAAOUAAAAAAAAAAADwvw0AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T14:42:04.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "contact.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\contact.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\contact.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\contact.tsx",
+              "RelativeToolTip": "client\\src\\pages\\contact.tsx",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAAEEAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T22:23:26.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "about.tsx",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\about.tsx",
+              "RelativeDocumentMoniker": "client\\src\\pages\\about.tsx",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\client\\src\\pages\\about.tsx",
+              "RelativeToolTip": "client\\src\\pages\\about.tsx",
+              "ViewState": "AgIAALoAAAAAAAAAAAAvwMYAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-07-05T22:23:19.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "package.json",
+              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\package.json",
+              "RelativeDocumentMoniker": "package.json",
+              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\package.json",
+              "RelativeToolTip": "package.json",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAmwEsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-05T21:51:23.937Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "index.ts",
               "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\index.ts",
               "RelativeDocumentMoniker": "server\\index.ts",
@@ -157,20 +302,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "mongo-storage.ts",
-              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts",
-              "RelativeDocumentMoniker": "server\\mongo-storage.ts",
-              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\mongo-storage.ts",
-              "RelativeToolTip": "server\\mongo-storage.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-07-05T14:42:04.067Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "storage.ts",
               "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\server\\storage.ts",
               "RelativeDocumentMoniker": "server\\storage.ts",
@@ -178,12 +310,11 @@
               "RelativeToolTip": "server\\storage.ts",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-07-05T14:40:25.645Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T14:40:25.645Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\.env",
               "RelativeDocumentMoniker": ".env",
@@ -191,12 +322,11 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-05T14:39:33.906Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T14:39:33.906Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "NewFile",
               "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\NewFile",
               "RelativeDocumentMoniker": "NewFile",
@@ -204,25 +334,7 @@
               "RelativeToolTip": "NewFile",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-05T14:39:31.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "package.json",
-              "DocumentMoniker": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\package.json",
-              "RelativeDocumentMoniker": "package.json",
-              "ToolTip": "C:\\Users\\muham\\Desktop\\FamilyMysteryQuest\\package.json",
-              "RelativeToolTip": "package.json",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAuwG4AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-05T14:37:47.935Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "WhenOpened": "2025-07-05T14:39:31.849Z"
             }
           ]
         }
