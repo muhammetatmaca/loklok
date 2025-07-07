@@ -47,34 +47,44 @@ export default function ImageUpload({
 
     setIsUploading(true);
 
-    try {
-      // Dosyayı base64'e çevir
-      const base64 = await fileToBase64(file);
-      
-      // Cloudinary'ye upload et
-      const result = await apiRequest('POST', '/api/upload/image', {
-        base64,
-        type,
-        folder: `zafer-restaurant/${type}`
-      }) as any;
+      try {
+          // Dosyayı base64'e çevir
+          const base64 = await fileToBase64(file);
 
-      console.log('ImageUpload: Full result from API:', result);
-      const imageUrl = result.secure_url || result.url || result.optimized_url;
-      console.log('ImageUpload: Setting image URL:', imageUrl);
-      
-      if (!imageUrl) {
-        console.error('No valid image URL received from API');
-        return;
+          // API çağrısı yap, önce response al
+          const response = await apiRequest('POST', '/api/upload/image', {
+              base64,
+              type,
+              folder: `zafer-restaurant/${type}`,
+          });
+
+          // Response içeriğini JSON olarak aç
+          const result = await response.json() as {
+              public_id: string;
+              secure_url: string;
+              url: string;
+          };
+
+          console.log('ImageUpload: Full result from API:', result);
+
+          const imageUrl = result.secure_url || result.url;
+
+          console.log('ImageUpload: Setting image URL:', imageUrl);
+
+          if (!imageUrl) {
+              console.error('No valid image URL received from API');
+              return;
+          }
+
+          setPreview(imageUrl);
+          onChange(imageUrl, result.public_id);
+      } catch (error) {
+          console.error('Upload error:', error);
+          alert('Görsel yüklenirken hata oluştu.');
+      } finally {
+          setIsUploading(false);
       }
-      
-      setPreview(imageUrl);
-      onChange(imageUrl, result.public_id);
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert('Görsel yüklenirken hata oluştu.');
-    } finally {
-      setIsUploading(false);
-    }
+
   };
 
   const handleUrlUpload = async (url: string) => {
@@ -82,21 +92,31 @@ export default function ImageUpload({
 
     setIsUploading(true);
 
-    try {
-      const result = await apiRequest('POST', '/api/upload/url', {
-        url,
-        type,
-        folder: `zafer-restaurant/${type}`
-      }) as any;
+      try {
+          const response = await apiRequest('POST', '/api/upload/url', {
+              url,
+              type,
+              folder: `zafer-restaurant/${type}`,
+          });
 
-      setPreview(result.optimized_url || result.secure_url);
-      onChange(result.optimized_url || result.secure_url, result.public_id);
-    } catch (error) {
-      console.error('URL upload error:', error);
-      alert('URL\'den görsel yüklenirken hata oluştu.');
-    } finally {
-      setIsUploading(false);
-    }
+          // response büyük ihtimal Response tipinde, önce JSON olarak açıyoruz
+          const result = await response.json() as {
+              optimized_url?: string;
+              secure_url: string;
+              public_id: string;
+          };
+
+          const imageUrl = result.optimized_url || result.secure_url;
+
+          setPreview(imageUrl);
+          onChange(imageUrl, result.public_id);
+      } catch (error) {
+          console.error('URL upload error:', error);
+          alert("URL'den görsel yüklenirken hata oluştu.");
+      } finally {
+          setIsUploading(false);
+      }
+
   };
 
   const handleRemove = () => {

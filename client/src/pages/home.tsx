@@ -359,101 +359,7 @@ export default function Home() {
       </section>
 
       {/* Product Showcase Section (No Prices) */}
-      <section className="py-24 bg-gradient-to-br from-zafer-surface-light to-zafer-dark">
-        <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
-                 İmza <span className="text-zafer-primary">Lezzetlerimiz</span>
-            </h2>
-            <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto font-inter">
-                 Ustamızın yıllardır koruduğu tariflerle hazırlanan en özel tabaklar.
-            </p>
-          </motion.div>
-          
-          {menuLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="product-showcase p-8 animate-pulse">
-                  <div className="w-full h-64 bg-zafer-surface-light rounded-2xl mb-6"></div>
-                  <div className="h-8 bg-zafer-surface-light rounded mb-4"></div>
-                  <div className="h-20 bg-zafer-surface-light rounded"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card className="product-showcase group">
-                    <CardContent className="p-8">
-                      <div className="relative overflow-hidden rounded-2xl mb-6">
-                        <img 
-                          src={item.image} 
-                          alt={item.name}
-                          className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/30 transition-all duration-500"></div>
-                        
-                        <div className="absolute top-6 right-6 flex gap-2">
-                          {item.isSpicy && (
-                            <span className="bg-zafer-accent/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
-                              🌶️ Acılı
-                            </span>
-                          )}
-                          {item.isVegetarian && (
-                            <span className="bg-zafer-secondary/90 backdrop-blur-sm text-zafer-dark px-3 py-1 rounded-full text-sm font-medium">
-                              🌱 Vejetaryen
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <h3 className="text-2xl font-playfair font-bold text-zafer-text mb-4 group-hover:text-zafer-primary transition-colors">
-                        {item.name}
-                      </h3>
-                      <p className="text-zafer-text-muted font-inter leading-relaxed">
-                        {item.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          )}
-          
-          <motion.div 
-            className="text-center mt-16"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <Button 
-              onClick={() => setLocation("/menu")}
-              className="modern-button text-lg px-12 py-6"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mr-3">
-                <path d="M2 3h6l2 13h10l2-7H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="9" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
-                <circle cx="20" cy="19" r="1" stroke="currentColor" strokeWidth="2"/>
-              </svg>
-                 Menüye Göz Atın
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+    
 
       {/* Signature Collection Section */}
       {signatureCollection && signatureCollection.length > 0 && (
@@ -467,7 +373,7 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-5xl md:text-6xl font-playfair font-bold text-zafer-text mb-6">
-                <span className="text-zafer-primary">Signature</span> Collection
+                <span className="text-zafer-primary">imza</span> yemeklerimiz
               </h2>
               <p className="text-xl text-zafer-text-muted max-w-2xl mx-auto font-inter leading-relaxed">
                 Zafer Lokantası'nın gurur duyduğu özel koleksiyonu
@@ -490,31 +396,32 @@ export default function Home() {
                     transition={{ duration: 0.8, delay: index * 0.2 }}
                     viewport={{ once: true }}
                   >
-                    <Card className="modern-card group">
-                      <CardContent className="p-8">
-                        <div className="relative overflow-hidden rounded-2xl mb-6">
-                          <img 
-                            src={item.image} 
-                            alt={item.title}
-                            className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent group-hover:from-black/30 transition-all duration-500"></div>
-                          
-                          <div className="absolute top-6 right-6">
-                            <span className="bg-zafer-primary/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
-                              ⭐ Signature
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <h3 className="text-2xl font-playfair font-bold text-zafer-text mb-4 group-hover:text-zafer-primary transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-zafer-text-muted font-inter leading-relaxed">
-                          {item.description}
-                        </p>
-                      </CardContent>
-                    </Card>
+                        <Card className="bg-zafer-surface-light rounded-3xl overflow-hidden group transition-transform duration-500">
+                            <div className="relative h-64 w-full overflow-hidden">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                                <div className="absolute top-4 left-4">
+                                    <span className="bg-zafer-primary/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                                        ⭐
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="p-6">
+                                <h3 className="text-xl font-semibold text-zafer-primary  transition-all">
+                                    {item.title}
+                                </h3>
+                                <p className="text-zafer-text-muted mt-2 text-sm leading-relaxed">
+                                    {item.description}
+                                </p>
+                            </div>
+                        </Card>
+      
                   </motion.div>
                 ))}
               </div>
@@ -644,7 +551,7 @@ export default function Home() {
                           </svg>
                         </div>
                         <div>
-                          <h4 className="font-bold text-zafer-text text-lg">{testimonial.customerName}</h4>
+                                      <h4 className="font-bold text-black text-lg">{testimonial.customerName}</h4>
                           <div className="flex text-zafer-primary">
                             {[...Array(testimonial.rating)].map((_, i) => (
                               <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

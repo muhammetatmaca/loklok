@@ -109,70 +109,9 @@ function mongoToSignatureCollection(doc: any): DrizzleSignatureCollection {
 export class MongoStorage implements IStorage {
   constructor() {
     connectMongoDB().then(() => {
-      this.initializeDefaultData();
     }).catch(console.error);
   }
 
-  private async initializeDefaultData() {
-    try {
-      // Clear existing data and create fresh sample data
-      await MenuItem.deleteMany({});
-      console.log('Cleared existing menu items');
-
-      // Create sample menu items
-      const sampleMenuItems = [
-        {
-          name: "Döner Kebab",
-          description: "Tender lamb and chicken döner served with rice, salad, and fresh bread",
-          price: "₺85",
-          category: "Ana Yemekler",
-          image: "/api/placeholder/400/300",
-          isPopular: true
-        },
-        {
-          name: "Adana Kebab",
-          description: "Spicy minced meat kebab grilled on skewers, served with bulgur pilaf",
-          price: "₺95",
-          category: "Ana Yemekler",
-          image: "/api/placeholder/400/300",
-          isSpicy: true
-        },
-        {
-          name: "Lahmacun",
-          description: "Turkish pizza with minced meat, vegetables, and herbs",
-          price: "₺35",
-          category: "Başlangıçlar",
-          image: "/api/placeholder/400/300"
-        },
-        {
-          name: "Çorbalar",
-          description: "Daily fresh soup varieties",
-          price: "₺25",
-          category: "Çorbalar",
-          image: "/api/placeholder/400/300"
-        },
-        {
-          name: "Baklava",
-          description: "Traditional Turkish dessert with pistachios and honey",
-          price: "₺45",
-          category: "Tatlılar",
-          image: "/api/placeholder/400/300"
-        },
-        {
-          name: "Çay",
-          description: "Traditional Turkish tea",
-          price: "₺15",
-          category: "İçecekler",
-          image: "/api/placeholder/400/300"
-        }
-      ];
-
-      await MenuItem.insertMany(sampleMenuItems);
-      console.log('Sample menu items created successfully');
-    } catch (error) {
-      console.error('Error initializing default data:', error);
-    }
-  }
 
   // Menu Items
   async getAllMenuItems(): Promise<DrizzleMenuItem[]> {

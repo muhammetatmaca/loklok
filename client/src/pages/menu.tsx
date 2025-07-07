@@ -12,7 +12,7 @@ import bosfoto from "@assets/download.png";
 
 export default function Menu() {
   const [, setLocation] = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+    const [selectedCategory, setSelectedCategory] = useState<string>("Hepsi");
 
   const { data: menuItems, isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -26,10 +26,10 @@ export default function Menu() {
       }
       return cats;
     }, []) : [];
-  const categories = ["All", ...uniqueCategories];
+    const categories = ["Hepsi", ...uniqueCategories];
   
   // Filter items by category
-  const filteredItems = selectedCategory === "All" 
+    const filteredItems = selectedCategory === "Hepsi" 
     ? menuItems || []
     : menuItems?.filter(item => item.category === selectedCategory) || [];
 

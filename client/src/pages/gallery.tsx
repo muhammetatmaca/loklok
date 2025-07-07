@@ -10,7 +10,7 @@ import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export default function Gallery() {
   const [, setLocation] = useLocation();
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Hepsi");
 
   const { data: galleryItems, isLoading } = useQuery<GalleryImage[]>({
     queryKey: ["/api/gallery"],
@@ -24,7 +24,7 @@ export default function Gallery() {
       }
       return cats;
     }, []) : [];
-  const categories = ["All", ...uniqueCategories];
+    const categories = ["Hepsi", ...uniqueCategories];
 
 
 
@@ -46,7 +46,8 @@ export default function Gallery() {
       id: 1,
       title: "Döner Kebab",
       category: "Yemekler",
-      description: "Geleneksel döner kebabımızın enfes görünümü"
+      description: "Geleneksel döner kebabımızın enfes görünümü",
+      imageUrl:""
     },
     {
       id: 2,
@@ -102,7 +103,7 @@ export default function Gallery() {
   const displayItems = galleryItems && galleryItems.length > 0 ? galleryItems : placeholderItems;
   
   // Filter items by category
-  const filteredItems = selectedCategory === "All" 
+    const filteredItems = selectedCategory === "Hepsi" 
     ? displayItems 
     : displayItems.filter(item => item.category === selectedCategory);
 
@@ -139,18 +140,8 @@ export default function Gallery() {
               >
                 Ana Sayfa
               </Button>
-              <Button 
-                onClick={() => setLocation("/menu")}
-                className="glass-effect text-zafer-text border border-white/20 hover:bg-white/10"
-              >
-                Menü
-              </Button>
-              <Button 
-                onClick={() => setLocation("/about")}
-                className="glass-effect text-zafer-text border border-white/20 hover:bg-white/10"
-              >
-                Hakkımızda
-              </Button>
+             
+             
             </div>
           </div>
         </div>
@@ -265,7 +256,12 @@ export default function Gallery() {
               >
                 <Card className="overflow-hidden backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 hover:shadow-2xl hover:shadow-zafer-primary/10">
                   {/* Image placeholder */}
-                  <div className="relative h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 overflow-hidden">
+                        <div className="relative h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 overflow-hidden">
+                            <img
+                                src={item.imageUrl}
+                                alt={item.title}
+                                className="absolute inset-0 w-full h-full object-cover z-0"
+                            />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                     
                     {/* Category based icons */}
@@ -335,56 +331,7 @@ export default function Gallery() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-zafer-surface-light/50">
-        <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-playfair font-bold text-zafer-text mb-6">
-              Rakamlarla Zafer Lokantası
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { number: "35+", label: "Yıllık Deneyim" },
-              { number: "1000+", label: "Mutlu Müşteri" },
-              { number: "50+", label: "Lezzet Çeşidi" },
-              { number: "24/7", label: "Hizmet Kalitesi" }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <Card className="backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 p-8">
-                  <CardContent className="p-0">
-                    <motion.div
-                      className="text-4xl md:text-5xl font-bold text-zafer-primary mb-4"
-                      initial={{ scale: 0.5 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
-                      viewport={{ once: true }}
-                    >
-                      {stat.number}
-                    </motion.div>
-                    <p className="text-zafer-text font-semibold">
-                      {stat.label}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-zafer-dark to-zafer-surface-light">

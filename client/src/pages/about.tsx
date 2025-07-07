@@ -116,24 +116,25 @@ export default function About() {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-playfair font-bold text-zafer-text mb-8">
-                1987'den Bu Yana Lezzet Geleneği
+                Lezzet Geleneği
               </h2>
               
               <div className="space-y-6 text-lg text-zafer-text-muted leading-relaxed">
                 <p>
-                  Zafer Lokantası, üç nesil boyunca aynı tutku ve özenle hizmet veren bir aile işletmesidir. 
-                  1987 yılında küçük bir mahalle lokantası olarak başlayan yolculuğumuz, bugün modern 
-                  gastronomi anlayışıyla geleneksel Türk mutfağını buluşturan bir marka haline gelmiştir.
+                     Zafer Lokantası, 1969 yılında Mustafa Aydoğdu tarafından Bayburt’ta kuruldu.
+                     Üç kuşaktır aile işletmesi olarak devam eden mekan, geleneksel Türk mutfağının en lezzetli ve özgün tatlarını misafirleriyle buluşturuyor.
+                     Sıcacık atmosferi ve kaliteli hizmet anlayışıyla Bayburt’un en sevilen lokantalarından biri olmayı sürdürüyor.
                 </p>
                 
                 <p>
-                  Kurucumuz Zafer Usta'nın "En iyi malzeme, en temiz mutfak, en samimi hizmet" 
-                  felsefesi, bugün hala işletmemizin temel taşlarından birini oluşturmaktadır.
+                     Menümüzde, özellikle meşhur et dönerimiz ve mantılı döner gibi yöresel lezzetler ön plandadır.
+                     Ayrıca taptaze malzemelerle hazırlanan çorbalar ve sulu yemeklerimiz de büyük beğeni topluyor.
+                     Her tabakta ustalarımızın sevgi ve emeğini hissedeceğiniz bir deneyim sunmayı amaçlıyoruz.
                 </p>
                 
                 <p>
-                  Her döner kebabımız, geleneksel yöntemlerle hazırlanır ve modern tekniklerle mükemmelleştirilir. 
-                  Soframızda sadece yemek değil, kültürümüzün en güzel yanlarını da paylaşırız.
+                     Zafer Lokantası olarak sadece lezzet değil, aynı zamanda toplumumuzun bir parçası olmaktan gurur duyuyoruz.
+                     Ramazan aylarında ihtiyaç sahiplerine iftar yemekleri vermek gibi sosyal sorumluluk projelerine aktif destek veriyor, misafirlerimizin gönül rahatlığıyla keyifli vakit geçirmesini sağlıyoruz.
                 </p>
               </div>
             </motion.div>
@@ -180,18 +181,18 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Kalite",
-                description: "En taze malzemeler, geleneksel yöntemler ve titiz işçilik ile hazırlanan lezzetler.",
+                    title: "Kalite ve Doğallık",
+                    description: "Yemeklerimizde sadece en taze ve doğal malzemeleri kullanarak, gerçek lezzeti ve sağlığı misafirlerimize sunmayı taahhüt ediyoruz.",
                 icon: "🥇"
               },
               {
-                title: "Gelenek",
-                description: "Yüzyıllar boyu aktarılan tarifleri koruyarak, otantik Türk mutfağını yaşatıyoruz.",
+                  title: "Misafirperverlik ve Samimiyet",
+                  description: "Her misafirimiz bizim için özeldir; sıcak ve samimi bir ortamda, kendinizi evinizde hissetmenizi sağlamak en önemli önceliğimizdir.",
                 icon: "🏛️"
               },
               {
-                title: "Yenilik",
-                description: "Geleneksel lezzetleri modern sunum teknikleriyle harmanlayarak çağa uygun deneyimler sunuyoruz.",
+                  title: "Geleneksel Değerler ve Sürdürülebilirlik",
+                  description: "Bayburt’un ve Türk mutfağının geleneksel tatlarını yaşatırken, çevreye duyarlı ve sürdürülebilir bir işletme olarak topluma katkı sağlamayı hedefliyoruz.",
                 icon: "💡"
               }
             ].map((value, index) => (
@@ -220,76 +221,7 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-zafer-surface-light/50">
-        <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-playfair font-bold text-zafer-text mb-6">
-              Ekibimiz
-            </h2>
-            <p className="text-xl text-zafer-text-muted max-w-3xl mx-auto">
-              Lezzeti hayata geçiren usta eller
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Zafer Usta",
-                position: "Kurucu & Baş Aşçı",
-                experience: "45+ yıl deneyim"
-              },
-              {
-                name: "Mehmet Şef",
-                position: "Sous Şef",
-                experience: "20+ yıl deneyim"
-              },
-              {
-                name: "Ayşe Hanım",
-                position: "Pastry Şef",
-                experience: "15+ yıl deneyim"
-              }
-            ].map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <Card className="backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300 hover:shadow-2xl">
-                  <CardContent className="p-6">
-                    {/* Avatar placeholder */}
-                    <div className="w-24 h-24 bg-gradient-to-br from-zafer-primary/30 to-zafer-secondary/30 rounded-full mx-auto mb-6 flex items-center justify-center">
-                      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-white">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    
-                    <div className="text-center">
-                      <h3 className="text-xl font-playfair font-bold text-zafer-text mb-2">
-                        {member.name}
-                      </h3>
-                      <p className="text-zafer-primary font-semibold mb-2">
-                        {member.position}
-                      </p>
-                      <p className="text-zafer-text-muted text-sm">
-                        {member.experience}
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-zafer-dark to-zafer-surface-light">
