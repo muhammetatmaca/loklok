@@ -336,7 +336,7 @@ export class MongoStorage implements IStorage {
     const aboutInfos = await AboutInfo.find({ section, isActive: true }).sort({ displayOrder: 1 });
     return aboutInfos.map(mongoToAboutInfo);
   }
-
+   
   async createAboutInfo(insertInfo: InsertAboutInfo): Promise<DrizzleAboutInfo> {
     await connectMongoDB();
     const newInfo = new AboutInfo(insertInfo);
