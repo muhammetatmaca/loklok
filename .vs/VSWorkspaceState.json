@@ -1,12 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\attached_assets",
     "\\client",
     "\\client\\src",
+    "\\client\\src\\components",
     "\\client\\src\\pages",
     "\\server",
     "\\shared"
   ],
-  "SelectedNode": "\\server\\mongo-storage.ts",
+  "SelectedNode": "\\server\\routes.ts",
   "PreviewInSolutionExplorer": false
 }

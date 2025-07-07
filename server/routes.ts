@@ -173,22 +173,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin Routes (Protected)
-  app.post('/api/admin/menu', authenticateAdmin, async (req, res) => {
-    try {
-      console.log('Received menu data:', req.body);
-      const data = insertMenuItemSchema.parse(req.body);
-      const menuItem = await storage.createMenuItem(data);
-      res.json(menuItem);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log('Validation error:', error.errors);
-        res.status(400).json({ error: error.errors });
-      } else {
-        console.log('Server error:', error);
-        res.status(500).json({ error: 'Internal server error' });
-      }
-    }
-  });
+    app.post('/api/admin/menu', authenticateAdmin, async (req, res) => {
+        try {
+            console.log('Received menu data:', req.body);
+            const data = insertMenuItemSchema.parse(req.body);
+            const menuItem = await storage.createMenuItem(data);
+            res.json(menuItem);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                console.log('Validation error:', error.errors);
+                res.status(400).json({ error: error.errors });
+            } else {
+                console.log('Server error:', error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
+        }
+    });
 
   app.put('/api/admin/menu/:id', authenticateAdmin, async (req, res) => {
     try {
@@ -341,88 +341,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Cloudinary Upload Endpoints
-  app.post("/api/upload/image", async (req, res) => {
-    try {
-      const { base64, folder, type } = req.body;
-      console.log("Upload request received - type:", type, "folder:", folder);
-      
-      if (!base64) {
-        return res.status(400).json({ error: "Base64 image data required" });
-      }
+    app.post("/api/upload/image", async (req, res) => {
+        try {
+            const { base64, folder } = req.body;
+            console.log("Upload request received", folder);
 
-      let transformation = {};
-      switch (type) {
-        case 'menu':
-          transformation = { width: 400, height: 300, crop: 'fill' };
-          break;
-        case 'gallery':
-          transformation = { width: 800, height: 600, crop: 'fill' };
-          break;
-        case 'avatar':
-          transformation = { width: 100, height: 100, crop: 'fill', gravity: 'face' };
-          break;
-      }
+            if (!base64) {
+                return res.status(400).json({ error: "Base64 image data required" });
+            }
 
-      const result = await CloudinaryService.uploadFromBase64(
-        base64,
-        folder || 'zafer-restaurant',
-        transformation
-      );
+            const result = await CloudinaryService.uploadFromBase64(
+                base64,
+                folder || "zafer-restaurant"
+            );
 
-      console.log("Cloudinary upload result:", result);
+            const response = {
+                public_id: result.public_id,
+                secure_url: result.secure_url,
+                url: result.secure_url // sadece orijinal link
+            };
 
-      const response = {
-        public_id: result.public_id,
-        secure_url: result.secure_url,
-        url: result.secure_url, // Add url field as fallback
-        optimized_url: CloudinaryService.getTransformedUrl(result.public_id, transformation)
-      };
+            console.log("API response:", response);
+            res.json(response);
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            res.status(500).json({ error: "Failed to upload image" });
+        }
+    });
 
-      console.log("API response:", response);
-      res.json(response);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      res.status(500).json({ error: "Failed to upload image" });
-    }
-  });
+    app.post("/api/upload/url", async (req, res) => {
+        try {
+            const { url, folder } = req.body;
 
-  app.post("/api/upload/url", async (req, res) => {
-    try {
-      const { url, folder, type } = req.body;
-      
-      if (!url) {
-        return res.status(400).json({ error: "Image URL required" });
-      }
+            if (!url) {
+                return res.status(400).json({ error: "Image URL required" });
+            }
 
-      let transformation = {};
-      switch (type) {
-        case 'menu':
-          transformation = { width: 400, height: 300, crop: 'fill' };
-          break;
-        case 'gallery':
-          transformation = { width: 800, height: 600, crop: 'fill' };
-          break;
-        case 'avatar':
-          transformation = { width: 100, height: 100, crop: 'fill', gravity: 'face' };
-          break;
-      }
+            const result = await CloudinaryService.uploadFromUrl(
+                url,
+                folder || "zafer-restaurant"
+            );
 
-      const result = await CloudinaryService.uploadFromUrl(
-        url,
-        folder || 'zafer-restaurant',
-        transformation
-      );
-
-      res.json({
-        public_id: result.public_id,
-        secure_url: result.secure_url,
-        optimized_url: CloudinaryService.getTransformedUrl(result.public_id, transformation)
-      });
-    } catch (error) {
-      console.error("Error uploading image from URL:", error);
-      res.status(500).json({ error: "Failed to upload image from URL" });
-    }
-  });
+            res.json({
+                public_id: result.public_id,
+                secure_url: result.secure_url,
+                url: result.secure_url
+            });
+        } catch (error) {
+            console.error("Error uploading image from URL:", error);
+            res.status(500).json({ error: "Failed to upload image from URL" });
+        }
+    });
 
   app.delete("/api/upload/:publicId", async (req, res) => {
     try {
