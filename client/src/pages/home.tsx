@@ -8,8 +8,11 @@ import DonerSliceEffect from "@/components/doner-slice-effect";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 import type { MenuItem, Testimonial, SignatureCollection } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
+import { Link } from "wouter";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
+
   const [, setLocation] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -27,8 +30,77 @@ export default function Home() {
 
   const featuredItems = menuItems?.filter(item => item.isPopular) || [];
 
-  return (
-    <div className="min-h-screen bg-zafer-surface text-zafer-text">
+    return (
+
+        <div className="min-h-screen bg-zafer-surface text-zafer-text">
+            <Helmet>
+                <link rel="icon" href="/favicon.ico" />
+                <title>Zafer Lokantası</title>
+                <meta
+                    name="description"
+                    content="Zafer Lokantası'nın tarihçesi, misyonu ve üç kuşaktır süregelen lezzet yolculuğu hakkında detaylı bilgi alın."
+                />
+                <meta
+                    name="keywords"
+                    content="Zafer Lokantası, Hakkımızda, Bayburt restoran, geleneksel yemekler, aile lokantası, Türk mutfağı"
+                />
+                <meta property="og:title" content="Zafer Lokantası" />
+                <meta
+                    property="og:description"
+                    content="1969’ten bu yana Bayburt’ta hizmet veren Zafer Lokantası'nın hikayesini keşfedin."
+                />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://zaferlokantasi.com.tr/hakkimizda" />
+                <meta property="og:image" content="https://zaferlokantasi.com.tr/seo/og-hakkimizda.jpg" />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Restaurant",
+                        name: "Zafer Lokantası",
+                        image: "https://zaferlokantasi.com.tr/attached_assets/download.png",
+                        url: "https://zaferlokantasi.com.tr",
+                        telephone: "+90 456 212 34 56",
+                        address: {
+                            "@type": "PostalAddress",
+                            streetAddress: "Kadızade, Unutulmaz Cd. No:2",
+                            addressLocality: "Bayburt Merkez",
+                            postalCode: "69000",
+                            addressRegion: "Bayburt",
+                            addressCountry: "TR"
+                        },
+                        geo: {
+                            "@type": "GeoCoordinates",
+                            latitude: 40.2552,
+                            longitude: 40.2249
+                        },
+                        servesCuisine: ["Türk Mutfağı", "Ev Yemekleri", "Izgara", "döner", "karadeniz yemek"],
+                        priceRange: "₺₺",
+                        openingHoursSpecification: [
+                            {
+                                "@type": "OpeningHoursSpecification",
+                                dayOfWeek: [
+                                    "Monday",
+                                    "Tuesday",
+                                    "Wednesday",
+                                    "Thursday",
+                                    "Friday",
+                                    "Saturday"
+                                ],
+                                opens: "08:00",
+                                closes: "22:00"
+                            },
+                            {
+                                "@type": "OpeningHoursSpecification",
+                                dayOfWeek: "Sunday",
+                                opens: "10:00",
+                                closes: "20:00"
+                            }
+                        ],
+                        acceptsReservations: "True",
+                        menu: "https://zaferlokantasi.com.tr/menu"
+                    })}
+                </script>
+            </Helmet>
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">
@@ -745,21 +817,37 @@ export default function Home() {
               </p>
             </motion.div>
             
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-xl font-playfair font-bold text-zafer-text mb-6">Hızlı Menü</h4>
-              <ul className="space-y-3 text-zafer-text-muted font-inter">
-                {['Ana Sayfa', 'Menü', 'Hakkımızda', 'Yorumlar', 'İletişim'].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-zafer-primary transition-colors">{item}</a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+
+
+                      <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: 0.1 }}
+                          viewport={{ once: true }}
+                      >
+                          <h4 className="text-xl font-playfair font-bold text-zafer-text mb-6">Hızlı Menü</h4>
+                          <ul className="space-y-3 text-zafer-text-muted font-inter">
+                              {[
+                                  { name: "Ana Sayfa", path: "/" },
+                                  { name: "Menü", path: "/menu" },
+                                  { name: "Hakkımızda", path: "/about" },
+                                  { name: "Yorumlar", path: "/reviews" },
+                                  { name: "İletişim", path: "/contact" },
+                              ].map((item) => (
+                                  <li key={item.name}>
+                                      <Link
+                                          href={item.path}
+                                          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                                          className="hover:text-zafer-primary transition-colors"
+                                      >
+                                          {item.name}
+                                      </Link>
+                                  </li>
+                              ))}
+                          </ul>
+                      </motion.div>
+
+
             
             <motion.div
               initial={{ opacity: 0, y: 20 }}

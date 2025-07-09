@@ -10,6 +10,6 @@
     "\\server",
     "\\shared"
   ],
-  "SelectedNode": "\\client\\src\\main.tsx",
+  "SelectedNode": "\\client\\src\\components\\webgl-doner.tsx",
   "PreviewInSolutionExplorer": false
 }

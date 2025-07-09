@@ -6,6 +6,7 @@ import { useLocation } from "wouter";
 import type { Testimonial } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
+import { Helmet } from "react-helmet";
 
 export default function Testimonials() {
   const [, setLocation] = useLocation();
@@ -27,7 +28,27 @@ export default function Testimonials() {
   }
 
   return (
-    <div className="min-h-screen bg-zafer-surface text-zafer-text">
+      <div className="min-h-screen bg-zafer-surface text-zafer-text">
+          <Helmet>
+              <title>Yorumlar | Zafer Lokantası</title>
+              <meta
+                  name="description"
+                  content="Zafer Lokantası hakkında yapılan müşteri yorumlarını ve değerlendirmeleri okuyun. Misafirlerimizin gerçek deneyimlerine göz atın."
+              />
+              <meta
+                  name="keywords"
+                  content="Zafer Lokantası yorumlar, müşteri değerlendirmeleri, Bayburt lokanta tavsiye, restoran geri bildirim"
+              />
+              <meta property="og:title" content="Yorumlar | Zafer Lokantası" />
+              <meta
+                  property="og:description"
+                  content="Gerçek ziyaretçilerin Zafer Lokantası hakkındaki yorumlarını keşfedin. Kalitemizi konuklarımızdan dinleyin."
+              />
+              <meta property="og:type" content="website" />
+              <meta property="og:url" content="https://zaferlokantasi.com.tr/yorumlar" />
+              <meta property="og:image" content="https://zaferlokantasi.com.tr/seo/og-yorumlar.jpg" />
+          </Helmet>
+
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">

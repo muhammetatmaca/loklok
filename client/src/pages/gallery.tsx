@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { GalleryImage } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
+import { Helmet } from "react-helmet";
 
 export default function Gallery() {
   const [, setLocation] = useLocation();
@@ -108,7 +109,27 @@ export default function Gallery() {
     : displayItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-zafer-surface text-zafer-text">
+      <div className="min-h-screen bg-zafer-surface text-zafer-text">
+          <Helmet>
+              <title>Galeri | Zafer Lokantası</title>
+              <meta
+                  name="description"
+                  content="Zafer Lokantası'nın eşsiz sunumlarını ve samimi atmosferini yansıtan görselleri keşfedin."
+              />
+              <meta
+                  name="keywords"
+                  content="Zafer Lokantası galeri, yemek fotoğrafları, restoran görselleri, Bayburt lokanta fotoğrafları"
+              />
+              <meta property="og:title" content="Galeri | Zafer Lokantası" />
+              <meta
+                  property="og:description"
+                  content="Menülerimizden kareler, restoran içi fotoğraflar ve daha fazlası için galerimize göz atın."
+              />
+              <meta property="og:type" content="website" />
+              <meta property="og:url" content="https://zaferlokantasi.com.tr/galeri" />
+              <meta property="og:image" content="https://zaferlokantasi.com.tr/seo/og-galeri.jpg" />
+          </Helmet>
+
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">

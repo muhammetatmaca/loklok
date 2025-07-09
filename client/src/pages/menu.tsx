@@ -9,6 +9,7 @@ import type { MenuItem } from "@shared/schema";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 import bosfoto from "@assets/download.png";
+import { Helmet } from "react-helmet";
 
 export default function Menu() {
   const [, setLocation] = useLocation();
@@ -44,9 +45,58 @@ export default function Menu() {
       </div>
     );
   }
-
+    const menuStructuredData = {
+        "@context": "https://schema.org",
+        "@type": "Menu",
+        name: "Zafer Lokantası Menü",
+        hasMenuSection: [
+            {
+                "@type": "MenuSection",
+                name: selectedCategory === "Hepsi" ? "Tüm Ürünler" : selectedCategory,
+                hasMenuItem: filteredItems.map((item) => ({
+                    "@type": "MenuItem",
+                    name: item.name,
+                    description: item.description || "",
+                    image: item.image || "https://zaferlokantasi.com.tr/attached_assets/download.png",
+                    offers: {
+                        "@type": "Offer",
+                        priceCurrency: "TRY",
+                        price: item.price.replace(/[^\d.,]/g, ""), // sadece rakam ve nokta/virgül
+                        availability: "https://schema.org/InStock",
+                    },
+                    suitableForDiet: item.isVegetarian ? "https://schema.org/VegetarianDiet" : undefined,
+                    // Daha fazla özellik eklenebilir
+                })),
+            },
+        ],
+    };
   return (
-    <div className="min-h-screen bg-zafer-surface text-zafer-text">
+      <div className="min-h-screen bg-zafer-surface text-zafer-text">
+          <Helmet>
+              <title>Menü | Zafer Lokantası</title>
+              <meta
+                  name="description"
+                  content="Zafer Lokantası'nın özenle hazırladığı zengin menüsünü keşfedin. Et yemekleri, çorbalar, tatlılar ve daha fazlası sizi bekliyor."
+              />
+              <meta
+                  name="keywords"
+                  content="Zafer Lokantası menü,döner,karadeniz döner, Bayburt yemek menüsü, et yemekleri, çorba çeşitleri, tatlılar"
+              />
+              <meta property="og:title" content="Menü | Zafer Lokantası" />
+              <meta
+                  property="og:description"
+                  content="Bayburt’un en sevilen lokantasının eşsiz yemek menüsünü inceleyin. Lezzet dolu bir deneyim sizi bekliyor."
+              />
+              <meta property="og:type" content="website" />
+              <meta property="og:url" content="https://zaferlokantasi.com.tr/menu" />
+              <meta property="og:image" content="https://zaferlokantasi.com.tr/seo/og-menu.jpg" />
+
+              {/* JSON-LD yapılandırılmış veri */}
+              <script type="application/ld+json">
+                  {JSON.stringify(menuStructuredData)}
+              </script>
+          </Helmet>
+
       {/* Modern Navigation */}
       <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-zafer-surface/80 border-b border-white/10">
         <div className="container mx-auto px-6 py-4">
