@@ -14,6 +14,7 @@ import Leaderboard from "@/pages/leaderboard";
 import Admin from "@/pages/admin";
 import AdminLogin from "@/pages/admin-login";
 import NotFound from "@/pages/not-found";
+import React from 'react';
 
 function Router() {
   return (
@@ -35,14 +36,19 @@ function Router() {
 }
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
+    React.useEffect(() => {
+        document.body.style.overflowX = "hidden";
+    }, []);
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+                <Toaster />
+                <Router />
+            </TooltipProvider>
+        </QueryClientProvider>
+    );
 }
+
 
 export default App;

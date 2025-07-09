@@ -18,6 +18,7 @@ import { Plus, Edit3, Trash2, Save, X, Image, FileText, Star, LogOut } from "luc
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 import ImageUpload from "@/components/image-upload";
 import type { MenuItem, InsertMenuItem, GalleryImage, InsertGalleryImage, AboutInfo, InsertAboutInfo, Testimonial, InsertTestimonial, SignatureCollection, InsertSignatureCollection } from "@shared/schema";
+import bosfoto from "@assets/download.png";
 
 export default function Admin() {
   const [, setLocation] = useLocation();
@@ -28,7 +29,7 @@ export default function Admin() {
     description: "",
     price: "",
     category: "",
-    image: "",
+    image: "", // ✅ varsayılan boş görsel buraya
     isSpicy: false,
     isVegetarian: false,
     isPopular: false,
@@ -124,27 +125,35 @@ export default function Admin() {
     queryKey: ["/api/signature-collection"],
   });
 
-  const createMutation = useMutation({
-    mutationFn: async (data: InsertMenuItem) => {
-      return await apiRequest("POST", "/api/admin/menu", data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
-      setIsAddDialogOpen(false);
-      resetForm();
-      toast({
-        title: "Başarılı",
-        description: "Menü öğesi eklendi",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Hata",
-        description: "Menü öğesi eklenirken hata oluştu",
-        variant: "destructive",
-      });
-    },
-  });
+
+    const createMutation = useMutation({
+        mutationFn: async (data: InsertMenuItem) => {
+            // image alanı boşsa varsayılanı koy
+            const dataWithImage = {
+                ...data,
+                image: data.image?.trim() ? data.image : bosfoto,
+            };
+
+            return await apiRequest("POST", "/api/admin/menu", dataWithImage);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
+            setIsAddDialogOpen(false);
+            resetForm();
+            toast({
+                title: "Başarılı",
+                description: "Menü öğesi eklendi",
+            });
+        },
+        onError: () => {
+            toast({
+                title: "Hata",
+                description: "Menü öğesi eklenirken hata oluştu",
+                variant: "destructive",
+            });
+        },
+    });
+
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<InsertMenuItem> }) => {
@@ -552,7 +561,7 @@ export default function Admin() {
     }
   };
 
-  const categories = ["Ana Yemekler", "Başlangıçlar", "Çorbalar", "Tatlılar", "İçecekler", "Salatalar", "Pideler"];
+    const categories = ["Yemekler", "Döner", "Çorbalar", "Tatlılar", "İçecekler", "Salatalar", "Pilavlı Döner", "Mantı Döner", "Izgara", "Kasap Reyonu", "Paket"];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zafer-surface via-zafer-surface/95 to-zafer-surface">
@@ -617,14 +626,17 @@ export default function Admin() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="description" className="text-zafer-text font-medium">Açıklama</Label>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      className="bg-gray-800 border-zafer-primary/40 text-white min-h-[120px] text-lg focus:bg-gray-700 placeholder:text-gray-400"
-                      placeholder="Yemeğin detaylı açıklamasını yazın..."
-                      rows={5}
-                    />
+                                          <Textarea
+                                              id="description"
+                                              value={formData.description ?? ""} // null veya undefined ise boş string
+                                              onChange={(e) =>
+                                                  setFormData({ ...formData, description: e.target.value || "" }) // boşsa yine "" olarak ayarla
+                                              }
+                                              className="bg-gray-800 border-zafer-primary/40 text-white min-h-[120px] text-lg focus:bg-gray-700 placeholder:text-gray-400"
+                                              placeholder="Yemeğin detaylı açıklamasını yazın..."
+                                              rows={5}
+                                          />
+
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -653,24 +665,7 @@ export default function Admin() {
                   <div className="space-y-2">
                     <Label className="text-zafer-text font-medium">Özellikler</Label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
-                        <Checkbox
-                          id="isSpicy"
-                          checked={formData.isSpicy || false}
-                          onCheckedChange={(checked) => setFormData({ ...formData, isSpicy: checked as boolean })}
-                          className="w-5 h-5"
-                        />
-                        <Label htmlFor="isSpicy" className="text-zafer-text font-medium cursor-pointer">🌶️ Acı</Label>
-                      </div>
-                      <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
-                        <Checkbox
-                          id="isVegetarian"
-                          checked={formData.isVegetarian || false}
-                          onCheckedChange={(checked) => setFormData({ ...formData, isVegetarian: checked as boolean })}
-                          className="w-5 h-5"
-                        />
-                        <Label htmlFor="isVegetarian" className="text-zafer-text font-medium cursor-pointer">🥬 Vejetaryen</Label>
-                      </div>
+               
                       <div className="flex items-center space-x-3 p-3 border border-zafer-primary/20 rounded-lg bg-zafer-surface/30">
                         <Checkbox
                           id="isPopular"

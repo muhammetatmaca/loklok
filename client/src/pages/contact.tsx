@@ -282,7 +282,7 @@ export default function Contact() {
                   {[
                     {
                       title: "Adres",
-                      content: "Atatürk Bulvarı No: 123/A\nbayburt, bayburt",
+                          content: "Zafer Lokantası, Kadızade, Unutulmaz Cd. No:2, 69000 Bayburt Merkez/Bayburt",
                       icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2"/>
@@ -292,7 +292,7 @@ export default function Contact() {
                     },
                     {
                       title: "Telefon",
-                      content: "+90 312 123 45 67\n+90 555 123 45 67",
+                        content: "(0458) 211 73 35",
                       icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="2"/>
@@ -301,7 +301,7 @@ export default function Contact() {
                     },
                     {
                       title: "E-posta",
-                      content: "info@zaferlokantasi.com\nrezervasyon@zaferlokantasi.com",
+                      content: "info@zaferlokantasi.com",
                       icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2"/>
@@ -311,7 +311,7 @@ export default function Contact() {
                     },
                     {
                       title: "Çalışma Saatleri",
-                      content: "Pazartesi - Pazar\n10:00 - 24:00",
+                      content: "Pazartesi - Pazar\n05:00 - 20:30",
                       icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
@@ -349,27 +349,37 @@ export default function Contact() {
               </div>
 
               {/* Map Placeholder */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                <Card className="backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300">
-                  <CardContent className="p-0">
-                    <div className="h-64 bg-gradient-to-br from-zafer-primary/20 to-zafer-secondary/20 rounded-lg flex items-center justify-center relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                      <div className="text-white/60 text-center z-10">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" className="mx-auto mb-4">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.3"/>
-                          <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" fill="white"/>
-                        </svg>
-                        <p className="text-lg font-semibold">Harita</p>
-                        <p className="text-sm">Konum bilgisi</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                          <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.6, delay: 0.8 }}
+                          >
+                              <Card className="backdrop-blur-sm bg-white/5 border border-white/10 hover:border-zafer-primary/30 transition-all duration-300">
+                                  <CardContent className="p-0 rounded-lg overflow-hidden">
+                                      <a
+                                          href="https://www.google.com/maps/place/Zafer+Lokantası,+Kadızade,+Unutulmaz+Cd.+No:2,+69000+Bayburt+Merkez/Bayburt"
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="block w-full h-64 relative"
+                                      >
+                                          <iframe
+                                              title="Zafer Lokantası Konumu"
+                                              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.392944529187!2d40.2211532!3d40.2582111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406eaaf5a3539d9f%3A0x805a61d403b195ae!2sZafer+Lokantası!5e0!3m2!1str!2str!4v1720420000000"
+                                              width="100%"
+                                              height="100%"
+                                              style={{ border: 0 }}
+                                              allowFullScreen=""
+                                              loading="lazy"
+                                              referrerPolicy="no-referrer-when-downgrade"
+                                              className="rounded-lg"
+                                          ></iframe>
+
+                                          {/* Kartın üzerine gelen gradient ve yazıyı kaldırdım, çünkü fotoğrafın üstüne yazı istenmiyordu */}
+                                      </a>
+                                  </CardContent>
+                              </Card>
+                          </motion.div>
+
             </motion.div>
           </div>
         </div>

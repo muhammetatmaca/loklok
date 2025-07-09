@@ -47,9 +47,10 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h1 className="text-3xl font-playfair font-bold text-zafer-text">
-                Zafer Lokantası
-              </h1>
+                    <h1 className="text-3xl font-playfair font-bold text-zafer-text leading-tight">
+                              Zafer<span className="sm:hidden"><br /></span> Lokantası
+                    </h1>
+
             </motion.div>
             
             {/* Desktop Navigation */}
@@ -71,19 +72,29 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   onClick={(e) => {
                     if (item === 'Menü') {
-                      e.preventDefault();
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setLocation('/menu');
                     } else if (item === 'Hakkımızda') {
-                      e.preventDefault();
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setLocation('/about');
                     } else if (item === 'Galeri') {
-                      e.preventDefault();
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setLocation('/gallery');
                     } else if (item === 'Yorumlar') {
-                      e.preventDefault();
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setLocation('/testimonials');
                     } else if (item === 'İletişim') {
-                      e.preventDefault();
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setLocation('/contact');
                     }
                   }}
@@ -174,17 +185,29 @@ export default function Home() {
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => {
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+
                       setIsMobileMenuOpen(false);
-                      if (item === 'Menü') {
+                            if (item === 'Menü') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                         setLocation('/menu');
-                      } else if (item === 'Hakkımızda') {
+                            } else if (item === 'Hakkımızda') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                         setLocation('/about');
-                      } else if (item === 'Yorumlar') {
+                            } else if (item === 'Yorumlar') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                         setLocation('/testimonials');
-                      } else if (item === 'İletişim') {
+                            } else if (item === 'İletişim') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                         setLocation('/contact');
-                      } else if (item === 'Ana Sayfa') {
+                            } else if (item === 'Ana Sayfa') {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                         setLocation('/');
                       }
                     }}
@@ -376,7 +399,7 @@ export default function Home() {
                 <span className="text-zafer-primary">imza</span> yemeklerimiz
               </h2>
               <p className="text-xl text-zafer-text-muted max-w-2xl mx-auto font-inter leading-relaxed">
-                Zafer Lokantası'nın gurur duyduğu özel koleksiyonu
+                     sadece bizde bulabileceğiniz özel tarifler.
               </p>
             </motion.div>
 
@@ -387,44 +410,44 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {signatureCollection.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.2 }}
-                    viewport={{ once: true }}
-                  >
-                        <Card className="bg-zafer-surface-light rounded-3xl overflow-hidden group transition-transform duration-500">
-                            <div className="relative h-64 w-full overflow-hidden">
-                                <img
-                                    src={item.image}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                              
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                  {signatureCollection.map((item, index) => (
+                                      <motion.div
+                                          key={item.id}
+                                          initial={{ opacity: 0, y: 50 }}
+                                          whileInView={{ opacity: 1, y: 0 }}
+                                          transition={{ duration: 0.8, delay: index * 0.2 }}
+                                          viewport={{ once: true }}
+                                      >
+                                          {/* Blur dış çerçeve */}
+                                          <div className="p-1 rounded-3xl bg-white/10 backdrop-blur-md shadow-xl ring-1 ring-white/10 transition-all duration-300">
+                                              {/* Kart içeriği */}
+                                              <div className="overflow-hidden rounded-3xl">
+                                                  <div className="relative h-64 w-full">
+                                                      <img
+                                                          src={item.image}
+                                                          alt={item.title}
+                                                          className="w-full h-full object-cover"
+                                                      />
+                                                  </div>
 
-                                <div className="absolute top-4 left-4">
-                                    <span className="bg-zafer-primary/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                                        ⭐
-                                    </span>
-                                </div>
-                            </div>
+                                                  {/* Şeffaf yazı alanı */}
+                                                  <div className="p-6 bg-gradient-to-t from-black/60 via-black/30 to-transparent text-white">
+                                                      <h3 className="text-xl font-semibold text-zafer-primary">
+                                                          {item.title}
+                                                      </h3>
+                                                      <p className="mt-2 text-sm leading-relaxed">
+                                                          {item.description}
+                                                      </p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </motion.div>
+                                  ))}
+                              </div>
 
-                            <div className="p-6">
-                                <h3 className="text-xl font-semibold text-zafer-primary  transition-all">
-                                    {item.title}
-                                </h3>
-                                <p className="text-zafer-text-muted mt-2 text-sm leading-relaxed">
-                                    {item.description}
-                                </p>
-                            </div>
-                        </Card>
-      
-                  </motion.div>
-                ))}
-              </div>
+
             )}
           </div>
         </section>
@@ -544,12 +567,7 @@ export default function Home() {
                   <Card className="modern-card">
                     <CardContent className="p-8">
                       <div className="flex items-center mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-zafer-primary to-zafer-secondary rounded-full flex items-center justify-center mr-4">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" strokeWidth="2"/>
-                            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
-                          </svg>
-                        </div>
+                      
                         <div>
                                       <h4 className="font-bold text-black text-lg">{testimonial.customerName}</h4>
                           <div className="flex text-zafer-primary">
@@ -597,7 +615,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div 
               className="modern-card p-10"
-              initial={{ opacity: 0, x: -50 }}
+               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
@@ -613,28 +631,28 @@ export default function Home() {
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2"/>
                     ),
                     title: "Adres",
-                    content: "Sultanahmet Mah. Lokanta Sok. No:48 Fatih/İstanbul"
+                        content: "Kadızade, Unutulmaz Cd. No:2, 69000 Bayburt Merkez/Bayburt"
                   },
                   {
                     icon: (
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/>
                     ),
                     title: "Telefon",
-                    content: "+90 212 555 0148"
+                      content: "(0458) 211 73 35"
                   },
                   {
                     icon: (
                       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2"/>
                     ),
                     title: "Çalışma Saatleri",
-                    content: "Her gün 11:00 - 24:00"
+                    content: "Her gün 05:30 - 20:00"
                   },
                   {
                     icon: (
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2"/>
                     ),
                     title: "E-posta",
-                    content: "hello@zaferlokantasi.com"
+                    content: "zaferlokantasi.com"
                   }
                 ].map((item, index) => (
                   <div key={index} className="flex items-center space-x-4">
@@ -664,27 +682,36 @@ export default function Home() {
               </div>
             </motion.div>
             
-            <motion.div 
-              className="modern-card p-10"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-3xl font-playfair font-bold text-zafer-text mb-8">
-                Konumumuz
-              </h3>
-              <div className="w-full h-80 bg-gradient-to-br from-zafer-surface to-zafer-surface-light rounded-2xl flex items-center justify-center border border-white/10">
-                <div className="text-center text-zafer-text-muted">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" className="mx-auto mb-4 text-zafer-primary">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                  <p className="font-inter">Google Maps Entegrasyonu</p>
-                  <p className="text-sm mt-2">Sultanahmet, İstanbul</p>
-                </div>
-              </div>
-            </motion.div>
+                      <motion.div
+                          className="modern-card p-10"
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.8 }}
+                          viewport={{ once: true }}
+                      >
+                          <h3 className="text-3xl font-playfair font-bold text-zafer-text mb-8">
+                              Konumumuz tıklayarak rota oluşturabilirsiniz.
+                          </h3>
+
+                          <a
+                              href="https://www.google.com/maps/place/Kadızade,+Unutulmaz+Cd.+No:2,+69000+Bayburt+Merkez%2FBayburt"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block w-full h-80 rounded-2xl overflow-hidden border border-white/10 shadow-lg hover:scale-[1.01] transition-transform duration-300"
+                          >
+                              <iframe
+                                  title="Google Maps Konum"
+                                  width="100%"
+                                  height="100%"
+                                  style={{ border: 0 }}
+                                  loading="lazy"
+                                  allowFullScreen
+                                  referrerPolicy="no-referrer-when-downgrade"
+                                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.392944529187!2d40.2211532!3d40.2582111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406eaaf5a3539d9f%3A0x805a61d403b195ae!2sKad%C4%B1zade%2C%20Unutulmaz%20Cd.%20No%3A2%2C%2069000%20Bayburt%20Merkez%2FBayburt!5e0!3m2!1str!2str!4v1720420000000"
+                              ></iframe>
+                          </a>
+                      </motion.div>
+
           </div>
         </div>
       </section>

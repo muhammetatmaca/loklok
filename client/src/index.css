@@ -341,3 +341,7 @@
     100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
   }
 }
+
+body {
+    overflow-x: hidden;
+}

@@ -5,10 +5,11 @@
     "\\client",
     "\\client\\src",
     "\\client\\src\\components",
+    "\\client\\src\\hooks",
     "\\client\\src\\pages",
     "\\server",
     "\\shared"
   ],
-  "SelectedNode": "\\server\\routes.ts",
+  "SelectedNode": "\\client\\src\\main.tsx",
   "PreviewInSolutionExplorer": false
 }
