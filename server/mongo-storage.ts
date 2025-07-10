@@ -2,7 +2,7 @@ import 'dotenv/config'; // En üst satırlarda olmalı!
 import mongoose from 'mongoose';
 import { MenuItem, Reservation, Testimonial, ContactMessage, GalleryImage, AboutInfo, SignatureCollection, type IMenuItem, type IReservation, type ITestimonial, type IContactMessage, type IGalleryImage, type IAboutInfo, type ISignatureCollection } from './models';
 import type { IStorage } from './storage';
-import type { MenuItem as DrizzleMenuItem, InsertMenuItem, Reservation as DrizzleReservation, InsertReservation, Testimonial as DrizzleTestimonial, InsertTestimonial, ContactMessage as DrizzleContactMessage, InsertContactMessage, GalleryImage as DrizzleGalleryImage, InsertGalleryImage, AboutInfo as DrizzleAboutInfo, InsertAboutInfo, SignatureCollection as DrizzleSignatureCollection, InsertSignatureCollection } from '@shared/schema';
+import { type MenuItem as DrizzleMenuItem, type InsertMenuItem, type Reservation as DrizzleReservation, type InsertReservation, type Testimonial as DrizzleTestimonial, type InsertTestimonial, type ContactMessage as DrizzleContactMessage, type InsertContactMessage, type GalleryImage as DrizzleGalleryImage, type InsertGalleryImage, type AboutInfo as DrizzleAboutInfo, type InsertAboutInfo, type SignatureCollection as DrizzleSignatureCollection, type InsertSignatureCollection, signatureCollection } from '@shared/schema';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('MONGODB_URI environment variable is not defined');
@@ -379,27 +379,43 @@ export class MongoStorage implements IStorage {
   }
 
   // Missing Testimonial methods
-  async updateTestimonial(id: number, updateData: Partial<InsertTestimonial>): Promise<DrizzleTestimonial> {
-    const testimonial = await Testimonial.findOne({ id });
+    async updateTestimonial(id: number, updateData: Partial<InsertTestimonial>): Promise<DrizzleTestimonial> {
+        await connectMongoDB();
+        // Find by converted id approach
+        const items = await Testimonial.find({});
+        const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
+
+
+
+        const updatedItem = await Testimonial.findByIdAndUpdate(
+            item._id,
+            updateData,
+            { new: true }
+        );
+
     
-    if (!testimonial) {
+        if (!updatedItem) {
       throw new Error(`Testimonial with id ${id} not found`);
     }
 
-    Object.assign(testimonial, updateData, { updatedAt: new Date() });
-    await testimonial.save();
+        Object.assign(updatedItem, updateData, { updatedAt: new Date() });
+        await updatedItem.save();
 
-    return mongoToTestimonial(testimonial);
+        return mongoToTestimonial(updatedItem);
   }
 
   async deleteTestimonial(id: number): Promise<void> {
-    const testimonial = await Testimonial.findOne({ id });
+
+      await connectMongoDB();
+      // Find by converted id approach
+      const items = await Testimonial.find({});
+      const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
     
-    if (!testimonial) {
+      if (!item) {
       throw new Error(`Testimonial with id ${id} not found`);
     }
 
-    await Testimonial.findByIdAndDelete(testimonial._id);
+      await Testimonial.findByIdAndDelete(item._id);
   }
 
   // Signature Collection operations
@@ -413,7 +429,8 @@ export class MongoStorage implements IStorage {
     return item ? mongoToSignatureCollection(item) : undefined;
   }
 
-  async createSignatureCollection(insertItem: InsertSignatureCollection): Promise<DrizzleSignatureCollection> {
+    async createSignatureCollection(insertItem: InsertSignatureCollection): Promise<DrizzleSignatureCollection> {
+
     const id = Math.floor(Math.random() * 1000000); // Generate random ID
     const item = new SignatureCollection({
       id,
@@ -423,22 +440,37 @@ export class MongoStorage implements IStorage {
     return mongoToSignatureCollection(item);
   }
 
-  async updateSignatureCollection(id: number, updateData: Partial<InsertSignatureCollection>): Promise<DrizzleSignatureCollection> {
-    const item = await SignatureCollection.findOneAndUpdate(
-      { id },
-      { ...updateData, updatedAt: new Date() },
-      { new: true }
-    );
+    async updateSignatureCollection(id: number, updateData: Partial<InsertSignatureCollection>): Promise<DrizzleSignatureCollection> {
+
+
+        await connectMongoDB();
+        // Find by converted id approach
+        const items = await SignatureCollection.find({});
+        const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
+
+      
+
+        const updatedItem = await SignatureCollection.findByIdAndUpdate(
+            item._id,
+            updateData,
+            { new: true }
+        );
+
+      
+
+
+        if (!item) {
+            throw new Error(`MenuItem with id ${id} not found`);
+        }
     
-    if (!item) {
-      throw new Error(`Signature collection with id ${id} not found`);
-    }
-    
-    return mongoToSignatureCollection(item);
+        return mongoToSignatureCollection(updatedItem);
   }
 
-  async deleteSignatureCollection(id: number): Promise<void> {
-    const item = await SignatureCollection.findOne({ id });
+    async deleteSignatureCollection(id: number): Promise<void> {
+        await connectMongoDB();
+        // Find by converted id approach
+        const items = await SignatureCollection.find({});
+      const item = items.find(item => parseInt(item._id.toString().slice(-6), 16) === id);
     
     if (!item) {
       throw new Error(`Signature collection with id ${id} not found`);

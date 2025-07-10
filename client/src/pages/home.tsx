@@ -10,11 +10,14 @@ import type { MenuItem, Testimonial, SignatureCollection } from "@shared/schema"
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet";
+import RezervasyonModal from "@/components/RezervasyonModal";
 
 export default function Home() {
 
   const [, setLocation] = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); // ← BURAYA EKLE
+
 
   const { data: menuItems, isLoading: menuLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -414,29 +417,31 @@ export default function Home() {
               </motion.button>
 
               {/* Modern Reservation Button */}
-              <motion.button
-                onClick={() => setLocation("/reservations")}
-                className="group relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/10 
-                          px-12 py-5 text-lg font-semibold text-zafer-text border border-white/20
-                          transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-zafer-primary/50
-                          shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-zafer-primary/10 to-zafer-secondary/10 
-                               opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                <div className="relative flex items-center justify-center space-x-3">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:scale-110">
-                    <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" fill="none"/>
-                    <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M3 10h18" stroke="currentColor" strokeWidth="2"/>
-                    <circle cx="8" cy="16" r="1" fill="currentColor"/>
-                    <circle cx="12" cy="16" r="1" fill="currentColor"/>
-                    <circle cx="16" cy="16" r="1" fill="currentColor"/>
-                  </svg>
-                  <span>Rezervasyon Yap</span>
-                </div>
-              </motion.button>
+                            <motion.button
+                                onClick={() => setIsModalOpen(true)}
+                                className="group relative overflow-hidden rounded-2xl backdrop-blur-xl bg-white/10 
+    px-12 py-5 text-lg font-semibold text-zafer-text border border-white/20
+    transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-zafer-primary/50
+    shadow-lg hover:shadow-xl"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-zafer-primary/10 to-zafer-secondary/10 
+    opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <div className="relative flex items-center justify-center space-x-3">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:scale-110">
+                                        <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" fill="none" />
+                                        <path d="M8 2v4M16 2v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                        <path d="M3 10h18" stroke="currentColor" strokeWidth="2" />
+                                        <circle cx="8" cy="16" r="1" fill="currentColor" />
+                                        <circle cx="12" cy="16" r="1" fill="currentColor" />
+                                        <circle cx="16" cy="16" r="1" fill="currentColor" />
+                                    </svg>
+                                    <span>Rezervasyon Yap</span>
+                                </div>
+                            </motion.button>
+
+
             </motion.div>
           </div>
         </div>
@@ -523,7 +528,17 @@ export default function Home() {
             )}
           </div>
         </section>
-      )}
+            )}
+
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <RezervasyonModal isOpen={true} onClose={() => setIsModalOpen(false)} />
+
+                </div>
+            )}
+
+
+
 
       {/* About Section */}
       <section className="py-24 relative overflow-hidden">
@@ -742,15 +757,7 @@ export default function Home() {
               </div>
               
               <div className="mt-10 pt-8 border-t border-white/10">
-                <Button className="modern-button w-full text-lg py-6">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mr-3">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2"/>
-                    <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2"/>
-                    <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2"/>
-                  </svg>
-                  Online Rezervasyon 
-                </Button>
+                
               </div>
             </motion.div>
             
@@ -813,7 +820,7 @@ export default function Home() {
                 <h3 className="text-3xl font-playfair font-bold text-zafer-text">Zafer Lokantası</h3>
               </div>
               <p className="text-zafer-text-muted font-inter leading-relaxed">
-                Geleneksel Türk mutfağının modern yorumu. 1975'ten beri kalite ve lezzet garantisiyle.
+               . 1969'ten beri kalite ve lezzet garantisiyle.
               </p>
             </motion.div>
             
@@ -873,7 +880,7 @@ export default function Home() {
           </div>
           
           <div className="border-t border-white/10 mt-16 pt-8 text-center text-zafer-text-muted font-inter">
-            <p>&copy; 2024 Zafer Lokantası. Tüm hakları saklıdır.</p>
+            <p>&copy; 2025 Zafer Lokantası. Tüm hakları saklıdır. tmc yazılım</p>
           </div>
         </div>
       </footer>

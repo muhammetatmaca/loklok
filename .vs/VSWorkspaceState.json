@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\attached_assets",
     "\\client",
     "\\client\\src",
     "\\client\\src\\components",
     "\\client\\src\\hooks",
+    "\\client\\src\\lib",
     "\\client\\src\\pages",
+    "\\public",
     "\\server",
     "\\shared"
   ],
-  "SelectedNode": "\\client\\src\\components\\webgl-doner.tsx",
+  "SelectedNode": "\\client\\src\\pages\\admin.tsx",
   "PreviewInSolutionExplorer": false
 }

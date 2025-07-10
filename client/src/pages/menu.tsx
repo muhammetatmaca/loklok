@@ -181,7 +181,7 @@ export default function Menu() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              Geleneksel Türk mutfağının en seçkin lezzetleri. Her tabağımız, ustalarımızın tutkusu ile hazırlanır.
+                          Menüde her damak tadına uygun seçenekler bulunur. Günlük taze malzemelerle hazırlanır.
             </motion.p>
           </div>
         </div>

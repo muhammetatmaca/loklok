@@ -30,38 +30,18 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Mesajınız gönderildi!",
-        description: "En kısa sürede size dönüş yapacağız.",
-      });
+        const { name, email, phone, subject, message } = formData;
 
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
-    } catch (error) {
-      toast({
-        title: "Hata!",
-        description: "Mesaj gönderilemedi. Lütfen tekrar deneyin.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+        const emailSubject = encodeURIComponent(subject || "Yeni Mesaj");
+        const emailBody = encodeURIComponent(
+            `Ad Soyad: ${name}\nE-posta: ${email}\nTelefon: ${phone || "-"}\n\nMesaj:\n${message}`
+        );
 
+        window.location.href = `mailto:muhammetatmaca79@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+    };
   return (
       <div className="min-h-screen bg-zafer-surface text-zafer-text">
           <Helmet>

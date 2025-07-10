@@ -571,7 +571,7 @@ export default function Admin() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-zafer-primary">Admin Panel</h1>
-              <p className="text-zafer-text-muted mt-2">Restoran yönetim sistemi</p>
+              <p className="text-zafer-text-muted mt-2"></p>
             </div>
             <div className="flex items-center gap-4">
               <Button
@@ -1386,12 +1386,12 @@ export default function Admin() {
 
           <TabsContent value="signature" className="mt-6">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl text-zafer-primary">Signature Collection Yönetimi</h3>
+              <h3 className="text-xl text-zafer-primary">imza Yönetimi</h3>
               <Dialog open={isSignatureDialogOpen} onOpenChange={setIsSignatureDialogOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-zafer-primary hover:bg-zafer-primary/90 text-white">
                     <Plus className="w-4 h-4 mr-2" />
-                    Signature Öğesi Ekle
+                    imza Öğesi Ekle
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-zafer-surface border-zafer-primary/20">
@@ -1429,7 +1429,7 @@ export default function Admin() {
                         label="Signature Görseli"
                       />
                     </div>
-                    <div>
+                    <div className="hidden">
                       <Label htmlFor="signature-displayOrder" className="text-white">Görüntüleme Sırası</Label>
                       <Input
                         id="signature-displayOrder"
@@ -1514,8 +1514,8 @@ export default function Admin() {
                             </Button>
                             <Button
                               size="sm"
-                              variant="outline"
-                              onClick={() => handleSignatureDelete(item.id)}
+                                            variant="outline"
+                                            onClick={() => handleSignatureDelete(item.id)}
                               className="border-red-500/20 text-red-500 hover:bg-red-500/10"
                             >
                               <Trash2 className="w-4 h-4" />

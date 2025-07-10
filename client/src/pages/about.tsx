@@ -6,10 +6,34 @@ import { useState } from "react";
 import zaferLogo from "@assets/ChatGPT Image 4 Tem 2025 03_51_43_1751590317642.png";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
 import { Helmet } from "react-helmet";
+import { useQuery } from "@tanstack/react-query";
 
 export default function About() {
   const [, setLocation] = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    interface AboutInfo {
+        _id?: string;         // MongoDB id varsa
+        title: string;
+        content: string;
+        imageUrl?: string;
+        section: string;
+        displayOrder?: number;
+        isActive?: boolean;
+        updatedAt?: string;
+        createdAt?: string;
+    }
+
+   
+
+    const { data: aboutInfo, isLoading, error } = useQuery<AboutInfo[]>({
+        queryKey: ["aboutInfo"],
+        queryFn: () => fetch("/api/about").then(res => res.json()),
+    });
+
+        if (isLoading) return <p className="text-zafer-text">Yükleniyor...</p>;
+        if (error) return <p className="text-red-500">Bir hata oluştu</p>;
+        if (!aboutInfo) return null;
 
   return (
       <div className="min-h-screen bg-zafer-surface text-zafer-text">
@@ -158,7 +182,7 @@ export default function About() {
                 </p>
               </div>
             </motion.div>
-            
+                     
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -236,16 +260,48 @@ export default function About() {
                 </Card>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
 
+
+                      {aboutInfo.map((info) => (
+                          <motion.div
+                              key={info._id}
+                              initial={{ opacity: 0, x: -50 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.8 }}
+                              viewport={{ once: true }}
+                              className="mb-12"
+                          >
+                              <h2 className="text-4xl md:text-5xl font-playfair font-bold text-zafer-text mb-8">
+                                  {info.title}
+                              </h2>
+                              <div className="space-y-6 text-lg text-zafer-text-muted leading-relaxed">
+                                  {info.content.split("\n\n").map((para, idx) => (
+                                      <p key={idx}>{para}</p>
+                                  ))}
+                              </div>
+                              {/* İstersen imageUrl varsa göster */}
+                              {info.imageUrl && (
+                                  <img
+                                      src={info.imageUrl}
+                                      alt={info.title}
+                                      className="mt-6 rounded-lg shadow-lg max-w-full h-auto"
+                                  />
+                              )}
+                          </motion.div>
+                      ))}
+                  </div>
+                 
+              </div>
+             
+      </section>
+          
       {/* Team Section */}
     
 
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-zafer-dark to-zafer-surface-light">
-        <div className="container mx-auto px-6 text-center">
+              <div className="container mx-auto px-6 text-center">
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

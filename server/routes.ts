@@ -24,21 +24,22 @@ declare global {
 
 // Authentication middleware
 const authenticateAdmin = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ error: "Access token required" });
-  }
+    if (!token) {
+        return res.redirect("/admin/login"); // Token yoksa login sayfasına yönlendir
+    }
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(403).json({ error: "Invalid token" });
-  }
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.redirect("/admin/login"); // Geçersiz token varsa yine login'e at
+    }
 };
+
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Admin Login
@@ -415,7 +416,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Signature Collection endpoints
   app.get("/api/signature-collection", async (req, res) => {
     try {
-      const items = await storage.getAllSignatureCollection();
+        const items = await storage.getAllSignatureCollection();
+
       res.json(items);
     } catch (error) {
       console.error("Error fetching signature collection:", error);
@@ -456,7 +458,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // Güncelleme (Update)
     app.put("/api/signature-collection/:id", async (req, res) => {
         try {
-            const id = parseInt(req.params.id);
+            const id = parseInt(req.params.id); // 🔧 doğru değişken adı
             const parsed = insertSignatureCollectionSchema.partial().safeParse(req.body);
             if (!parsed.success) {
                 return res.status(400).json({ error: "Invalid data", details: parsed.error.issues });
