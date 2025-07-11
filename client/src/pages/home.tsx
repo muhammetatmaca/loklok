@@ -339,25 +339,7 @@ export default function Home() {
         <DonerSliceEffect />
         
         {/* Animated background particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-zafer-primary/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-10, 10, -10],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+       
         
         <div className="container mx-auto px-6 py-20 relative z-30">
           <div className="max-w-4xl mx-auto text-center">
