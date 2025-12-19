@@ -58,8 +58,7 @@ app.use((req, res, next) => {
     const port = 5000;
     server.listen({
         port,
-        host: "::",       // IPv4 ve IPv6 bağlantıları kabul eder
-        reusePort: true,
+        host: "0.0.0.0",
     }, () => {
         log(`serving on port ${port}`);
     });
